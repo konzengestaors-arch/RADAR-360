@@ -1,0 +1,13 @@
+{
+  "name": "radar-360",
+  "private": true,
+  "version": "0.0.0-dev",
+  "description": "RADAR 360 — integração controlada e testes",
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "check": "node --check api/noticias.js && node --test tests/*.test.cjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
