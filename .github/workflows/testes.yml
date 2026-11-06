@@ -1,0 +1,19 @@
+name: RADAR 360 — Testes Node
+on:
+  push:
+    branches: [main, codex/desenvolvimento]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Sintaxe e testes de regressão
+        run: npm run check
