@@ -65,3 +65,39 @@ test('restauração cancelada não modifica o armazenamento', async ({ page }) =
   await expect.poll(async()=>page.evaluate(()=>document.querySelector('#fileInput').value)).toBe('');
   expect(await page.evaluate(k=>localStorage.getItem(k),KEY)).toBe(before);
 });
+
+
+test('esquema comercial na chave da demo não é lido ou sobrescrito', async ({ page }) => {
+  const foreign = JSON.stringify({schema:'radar-comercial/1.5',movimentos:[],indicadores:[]});
+  await page.addInitScript(({key,data}) => localStorage.setItem(key,data), {key:KEY,data:foreign});
+  await page.goto(route);
+  await expect(page.locator('body')).toContainText('modo somente leitura ativado');
+  const v = await page.evaluate(key => ({
+    local:localStorage.getItem(key),
+    accepted:window.__RADAR_TEST__.commit(window.__RADAR_TEST__.getState())
+  }),KEY);
+  expect(v.local).toBe(foreign);
+  expect(v.accepted).toBe(false);
+});
+
+test('base inválida pode ser restaurada por backup válido sem alterar outra chave', async ({ page }) => {
+  const foreign = '{"schema":"radar-comercial/1.5","movimentos":[],"indicadores":[]}';
+  const historical = '{"dado":"histórico que deve permanecer"}';
+  await page.addInitScript(({key,old,data,historical}) => {
+    localStorage.setItem(key,data);
+    localStorage.setItem(old,historical);
+  }, {key:KEY,old:OLD,data:foreign,historical});
+  await page.goto(route);
+  await expect(page.locator('body')).toContainText('modo somente leitura ativado');
+  const valid = await page.evaluate(() => window.__RADAR_TEST__.getState());
+  await page.locator('#openTools').click();
+  page.once('dialog', dialog => dialog.accept());
+  await page.locator('#fileInput').setInputFiles({
+    name:'recuperacao-sintetica.json',mimeType:'application/json',
+    buffer:Buffer.from(JSON.stringify(valid))
+  });
+  await expect.poll(async () => page.evaluate(key => {
+    try { return JSON.parse(localStorage.getItem(key)).schema } catch {return null;}
+  },KEY)).toBe('radar-observatorio-unico/1.7');
+  expect(await page.evaluate(old=>localStorage.getItem(old),OLD)).toBe(historical);
+});
