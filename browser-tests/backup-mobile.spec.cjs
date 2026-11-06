@@ -66,3 +66,40 @@ for (const width of [320, 390, 430, 768, 1440]) {
     await context.close();
   });
 }
+
+
+test('rejeita JSON sem esquema e conserva indicador existente', async ({ page }) => {
+  await page.goto(route);
+  const before = await page.evaluate(k => localStorage.getItem(k), key);
+  await page.locator('#openTools').click();
+  await page.locator('#fileInput').setInputFiles({
+    name:'arquivo-sem-esquema.json', mimeType:'application/json',
+    buffer: Buffer.from(JSON.stringify({movimentos:[], indicadores:[], notas:'Sem origem comprovada'}))
+  });
+  await expect(page.locator('body')).toContainText('Esquema não reconhecido');
+  const after = await page.evaluate(k => localStorage.getItem(k), key);
+  expect(after).toBe(before);
+});
+
+test('rejeita esquema comercial e mantém os dados locais intactos', async ({ page }) => {
+  await page.goto(route);
+  const before = await page.evaluate(k => localStorage.getItem(k), key);
+  await page.locator('#openTools').click();
+  await page.locator('#fileInput').setInputFiles({
+    name:'backup-comercial.json', mimeType:'application/json',
+    buffer: Buffer.from(JSON.stringify({schema:'radar-comercial/1.5',movimentos:[],indicadores:[]}))
+  });
+  await expect(page.locator('body')).toContainText('Esquema não reconhecido');
+  expect(await page.evaluate(k => localStorage.getItem(k), key)).toBe(before);
+});
+
+test('rejeita backup JSON sintaticamente inválido sem alterar a base', async ({ page }) => {
+  await page.goto(route);
+  const before = await page.evaluate(k => localStorage.getItem(k), key);
+  await page.locator('#openTools').click();
+  await page.locator('#fileInput').setInputFiles({
+    name:'corrompido.json', mimeType:'application/json', buffer: Buffer.from('{"schema":')
+  });
+  await expect(page.locator('body')).toContainText('Importação cancelada');
+  expect(await page.evaluate(k => localStorage.getItem(k), key)).toBe(before);
+});
