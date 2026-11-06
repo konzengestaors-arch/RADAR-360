@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 
 const html = fs.readFileSync('demo/observatorio.html', 'utf8');
-const scripts = [...html.matchAll(/<script(?:\\s[^>]*)?>([\\s\\S]*?)<\\/script>/gi)].map(m=>m[1]);
+const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(m=>m[1]);
 
 test('HTML mantém scripts sintaticamente válidos', () => {
   assert.ok(scripts.length >= 2);
@@ -12,7 +12,7 @@ test('HTML mantém scripts sintaticamente válidos', () => {
 });
 
 test('demonstração começa sem registros documentais', () => {
-  const match = html.match(/window\\.__RADAR_SEED__=(\\{[\\s\\S]*?\\});<\\/script>/);
+  const match = html.match(/window\.__RADAR_SEED__=(\{[\s\S]*?\});<\/script>/);
   assert.ok(match, 'seed deve existir');
   const seed = JSON.parse(match[1]);
   assert.deepEqual(seed.movimentos, []);
@@ -36,6 +36,6 @@ test('demonstração adverte sobre dados confidenciais', () => {
 });
 
 test('HTML não contém registros MOV e IND embutidos', () => {
-  assert.doesNotMatch(html, /"id":"MOV-\\d{3}"/);
-  assert.doesNotMatch(html, /"id":"IND-\\d{3}"/);
+  assert.doesNotMatch(html, /"id":"MOV-\d{3}"/);
+  assert.doesNotMatch(html, /"id":"IND-\d{3}"/);
 });
