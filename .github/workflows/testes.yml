@@ -19,6 +19,8 @@ jobs:
         run: npm run check
   navegador:
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.1-noble
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +29,5 @@ jobs:
           node-version: '22'
       - name: Instalar dependências
         run: npm install --no-audit --no-fund
-      - name: Instalar Chromium para testes
-        run: npx playwright install --with-deps chromium
       - name: Testes funcionais
         run: npm run test:browser
