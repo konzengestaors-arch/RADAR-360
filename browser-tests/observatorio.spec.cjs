@@ -7,7 +7,7 @@ test('abre a demonstração sem registros de origem e com aviso', async ({ page 
  page.on('pageerror', e => errors.push(e.message));
  await page.goto(route);
  await expect(page.locator('#pageName')).toHaveText('Panorama Regional');
- await expect(page.locator('[role="status"]').first()).toContainText('DEMONSTRAÇÃO DE DESENVOLVIMENTO');
+ await expect(page.locator('[role="status"]').first()).toContainText('HOMOLOGAÇÃO PRIVADA');
  const data = await page.evaluate(k => JSON.parse(localStorage.getItem(k)), key);
  expect(data.movimentos).toEqual([]);
  expect(data.indicadores).toEqual([]);
