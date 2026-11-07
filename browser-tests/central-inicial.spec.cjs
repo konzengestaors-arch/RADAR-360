@@ -9,9 +9,10 @@ for (const width of [320,390,768,1440]) {
    page.on('pageerror',e=>errors.push(e.message));
    await page.goto(HOME);
    await expect(page).toHaveTitle(/RADAR 360/);
-   await expect(page.getByRole('link',{name:'Abrir Comercial'})).toBeVisible();
+   await expect(page.getByRole('link',{name:'Abrir Comercial'})).toHaveCount(0);
    await expect(page.getByRole('link',{name:'Abrir Observatório'})).toBeVisible();
-   await expect(page.locator('.notice')).toContainText('somente dados fictícios');
+   await expect(page.locator('.card')).toHaveCount(1);
+   await expect(page.locator('.notice')).toContainText('importado apenas neste dispositivo');
    const geometry=await page.evaluate(()=>{
       const links=[...document.querySelectorAll('.card a')].map(x=>{
        const r=x.getBoundingClientRect();
