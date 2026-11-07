@@ -11,7 +11,7 @@ for(const module of ['comercial','observatorio'])test('acessibilidade automatiza
  if(module==='observatorio'){
   await expect(page.locator('#tvIndicesMount')).toHaveAttribute('data-unavailable','true');
   await page.locator('#openTools').click();
-  await expect(page.getByRole('dialog',{name:'Fontes, histórico e backup'})).toBeVisible();
+  await expect(page.getByRole('dialog',{name:'Dados e backup'})).toBeVisible();
   const overflow=await page.locator('#dialogBody').evaluate(e=>e.scrollWidth>e.clientWidth+1);
   expect(overflow).toBe(false);
  }
