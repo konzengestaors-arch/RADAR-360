@@ -101,6 +101,20 @@ function matchesFor(items){
  }
  return result;
 }
+function directoryList(){
+ const q=normalize(directoryQuery);
+ const matching=entries.filter(x=>!q||normalize(x.nome).includes(q)||x.cnpj.includes(q.replace(/\D/g,'')));
+ const subset=matching.slice(0,24);
+ return '<p class="radar-directory-meta">'+matching.length+' empresa(s) encontradas. '+(matching.length>24?'Exibindo as primeiras 24.':'')+'</p>'+
+ (subset.length?'<ul class="radar-directory-list">'+subset.map(x=>
+ '<li><strong>'+escape(x.nome)+'</strong><small>'+(x.cnpj?'CNPJ: '+escape(x.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,'$1.$2.$3/$4-$5')):'CNPJ não informado')+'</small></li>').join('')+'</ul>':
+ '<p class="radar-company-empty">Nenhuma empresa corresponde à busca.</p>');
+}
+let directoryQuery='';
+function updateDirectory(){
+ const node=document.getElementById('radarCompanyDirectoryList');
+ if(node)node.innerHTML=directoryList();
+}
 function panel(){
  const filled=entries.filter(x=>x.cnpj).length;
  return '<section class="radar-company-panel" aria-label="Empresas monitoradas">'+
@@ -109,6 +123,7 @@ function panel(){
  '<input type="file" id="radarCompanyFile" accept=".html,.json,text/html,application/json" aria-label="Selecionar arquivo de empresas">'+
  '<span class="radar-company-meta">'+(entries.length?filled+' registros com CNPJ informado.':'Nenhuma lista importada neste navegador.')+'</span></div>'+
  '<p class="radar-company-warning">Importações manuais são locais. O catálogo inicial, quando disponível, contém apenas nomes/CNPJs e é servido pelo ambiente privado; carteira, prioridades, ações e outros campos são excluídos. Correspondências exigem conferência.</p>'+
+ '<details class="radar-company-directory"><summary>Consultar empresas do catálogo</summary><div class="radar-directory-inside"><label for="radarCompanySearch">Pesquisar nome ou CNPJ</label><input id="radarCompanySearch" type="search" autocomplete="off" placeholder="Digite o nome da empresa..." value="'+escape(directoryQuery)+'"><div id="radarCompanyDirectoryList">'+directoryList()+'</div></div></details>'+
  '<p id="radarCompanyMessage" class="radar-company-message" role="status">'+escape(stateMessage)+'</p>'+
  '<div id="radarCompanyMatches" aria-live="polite"></div></section>';
 }
@@ -125,6 +140,7 @@ function showMatches(items){
 }
 load();
 loadPrivateStagingCatalog();
+document.addEventListener('input',e=>{if(e.target?.id==='radarCompanySearch'){directoryQuery=e.target.value;updateDirectory();}});
 document.addEventListener('change',e=>{if(e.target?.id==='radarCompanyFile'){const file=e.target.files?.[0];importFile(file);e.target.value='';}});
 window.RadarCompanies={panel,showMatches,matchesFor,importFile,read:()=>entries.map(x=>({...x})),setOnUpdate:fn=>{onUpdate=fn}};
 })();
