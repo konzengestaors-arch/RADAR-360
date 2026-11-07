@@ -8,7 +8,12 @@
    const raw=localStorage.getItem(STORAGE_KEY);
    expectedStored=raw;
    if(raw){const candidate=JSON.parse(raw);validate(candidate);state=candidate;}
-   else {localStorage.setItem(STORAGE_KEY,JSON.stringify(state));expectedStored=JSON.stringify(state);}
+   else {
+     const seed=JSON.stringify(state);
+     localStorage.setItem(STORAGE_KEY,seed);
+     if(localStorage.getItem(STORAGE_KEY)!==seed)throw Error('Gravação inicial não confirmada');
+     expectedStored=seed;
+   }
  }catch(e){
    readonly=true;
    document.querySelector('.notice').textContent='Armazenamento local indisponível ou inválido. Modo somente leitura: nenhum registro será salvo. Não limpe os dados originais.';
@@ -91,8 +96,17 @@
    validate(candidate);
    const serialized=JSON.stringify(candidate);
    if(localStorage.getItem(STORAGE_KEY)!==expectedStored)throw Error('Base alterada em outra aba. Recarregue antes de salvar ou restaurar.');
-   localStorage.setItem(STORAGE_KEY,serialized);
-   if(localStorage.getItem(STORAGE_KEY)!==serialized)throw Error('Leitura divergente após gravação');
+   // Falha após setItem pode ter deixado bytes diferentes dos esperados.
+   // Não afirmar que o conteúdo anterior foi preservado; bloquear operações
+   // até que uma recuperação validada seja confirmada.
+   try{
+     localStorage.setItem(STORAGE_KEY,serialized);
+     if(localStorage.getItem(STORAGE_KEY)!==serialized)throw Error('Leitura divergente após gravação');
+   }catch(error){
+     readonly=true;
+     render();
+     throw Error('Persistência não confirmada; edição e exportação bloqueadas. Verifique a base local antes de restaurar: '+error.message);
+   }
    expectedStored=serialized;
    state=clone(candidate);
    readonly=false;
