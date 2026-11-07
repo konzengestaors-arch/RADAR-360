@@ -25,3 +25,14 @@ test('erro de catálogo remoto não impede observatório nem notícias',async({p
  await expect(page.locator('.radar-company-count')).toHaveText('0');
  await expect(page.locator('.news-live-card')).toHaveCount(1);
 });
+
+test('catálogo privado compactado de 222 empresas carrega sem persistir a lista',async({page})=>{
+ const {gzipSync}=require('node:zlib');
+ const gz=gzipSync(Buffer.from(JSON.stringify(rows),'utf8'));
+ await page.route('**/empresas-catalogo-222.json.gz',r=>r.fulfill({status:200,contentType:'application/gzip',body:gz}));
+ await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(FEED)}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.radar-company-count')).toHaveText('222');
+ await expect(page.locator('.radar-company-hit')).toHaveCount(1);
+ expect(await page.evaluate(()=>localStorage.getItem('radar_empresas_publicas_nome_cnpj_v1'))).toBeNull();
+});
