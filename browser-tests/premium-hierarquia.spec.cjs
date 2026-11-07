@@ -19,8 +19,9 @@ for(const width of [320,390,768,1440]){
    await expect(page.locator('.radar-command-metric')).toHaveCount(3);
    await expect(page.locator('#radarTopNews')).toHaveText('2');
    const pos=await page.evaluate(()=>{const rect=s=>document.querySelector(s).getBoundingClientRect().top+window.scrollY;return {news:rect('.news-live-section'),companies:rect('.radar-company-panel'),market:rect('#marketSnapshot'),width:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}});
+   if(width<=980){expect(pos.market).toBeLessThan(pos.news)}else{expect(Math.abs(pos.market-pos.news)).toBeLessThanOrEqual(4)}
    expect(pos.news).toBeLessThan(pos.companies);
-   expect(pos.companies).toBeLessThan(pos.market);
+   await expect(page.locator('[data-quick-target]')).toHaveCount(3);
    expect(pos.scroll).toBeLessThanOrEqual(pos.width+2);
    expect(errors).toEqual([]);
   }finally{await context.close()}
