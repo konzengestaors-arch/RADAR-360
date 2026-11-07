@@ -44,3 +44,42 @@ test('câmbio permite nova tentativa após erro de rede',async({page})=>{
  await expect.poll(()=>attempts).toBe(2);
  await expect(page.locator('#refreshFx')).toBeEnabled();
 });
+
+
+test('Comercial não exporta fallback se armazenamento local estiver inválido',async({page})=>{
+ const key='radar_comercial_demo_publica_20261106';
+ const invalid='{"schema":"radar-comercial-v1.5","empresas":[]}';
+ await page.addInitScript(({k,v})=>localStorage.setItem(k,v),{k:key,v:invalid});
+ await page.goto('/demo/comercial.html');
+ await expect(page.locator('#export')).toBeDisabled();
+ await expect(page.locator('.notice')).toContainText('Modo somente leitura');
+ expect(await page.evaluate(k=>localStorage.getItem(k),key)).toBe(invalid);
+});
+test('Comercial reabilita exportação somente após recuperação válida',async({page})=>{
+ const key='radar_comercial_demo_publica_20261106';
+ await page.goto('/demo/comercial.html');
+ const valid=await page.evaluate(k=>localStorage.getItem(k),key);
+ await page.evaluate(k=>localStorage.setItem(k,'{corrompido'),key);
+ await page.reload();
+ await expect(page.locator('#export')).toBeDisabled();
+ page.once('dialog',d=>d.accept());
+ await page.locator('#backupFile').setInputFiles({
+  name:'backup-sintetico.json',mimeType:'application/json',buffer:Buffer.from(valid)
+ });
+ await expect(page.locator('#export')).toBeEnabled();
+ const dl=page.waitForEvent('download');
+ await page.locator('#export').click();
+ expect((await dl).suggestedFilename()).toBe('RADAR_COMERCIAL_DEMO_SINTETICO.json');
+});
+test('Comercial bloqueia exportação de aba desatualizada sem sobrescrever backup',async({context,page})=>{
+ const key='radar_comercial_demo_publica_20261106';
+ await page.goto('/demo/comercial.html');
+ const other=await context.newPage();await other.goto('/demo/comercial.html');
+ await page.locator('#descricao').fill('Ação fictícia validada');
+ await page.locator('#data').fill('2026-11-06');
+ await page.locator('#acaoForm button').click();
+ const prior=await page.evaluate(k=>localStorage.getItem(k),key);
+ await other.locator('#export').click();
+ await expect(other.locator('.notice')).toContainText('Exportação bloqueada');
+ expect(await other.evaluate(k=>localStorage.getItem(k),key)).toBe(prior);
+});
