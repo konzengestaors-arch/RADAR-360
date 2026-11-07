@@ -1,9 +1,9 @@
 name: RADAR 360 — Testes Node
 on:
   push:
-    branches: [main, codex/desenvolvimento]
+    branches: [main, codex/desenvolvimento, codex/portal-editorial-20261107]
   pull_request:
-    branches: [main, codex/desenvolvimento]
+    branches: [main, codex/desenvolvimento, codex/portal-editorial-20261107]
 permissions:
   contents: read
 jobs:
