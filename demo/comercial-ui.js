@@ -59,6 +59,37 @@
      document.querySelector('.notice').textContent='Salvamento NÃO confirmado: '+error.message;
    }
  });
+ function saveVerified(candidate){
+   validate(candidate);
+   const serialized=JSON.stringify(candidate);
+   localStorage.setItem(STORAGE_KEY,serialized);
+   if(localStorage.getItem(STORAGE_KEY)!==serialized)throw Error('Leitura divergente após gravação');
+   state=clone(candidate);
+   readonly=false;
+   $('busca').value='';
+   $('regiao').value='';
+   render();
+ }
+ $('import').addEventListener('click',()=>$('backupFile').click());
+ $('backupFile').addEventListener('change',async event=>{
+   const file=event.target.files?.[0];
+   if(!file)return;
+   const notice=document.querySelector('.notice');
+   try{
+     if(file.size>1024*1024)throw Error('Backup excede o limite de 1 MB');
+     const parsed=JSON.parse(await file.text());
+     validate(parsed);
+     if(parsed.origem!=='dados 100% sintéticos'||parsed.empresas.some(x=>!x.nome.startsWith('Empresa Exemplo ')))
+       throw Error('Apenas a base sintética do laboratório pode ser restaurada');
+     if(!confirm('Restaurar '+parsed.empresas.length+' empresas fictícias e '+parsed.acoes.length+' ações? Os dados atuais serão substituídos. Exporte um backup primeiro.'))return;
+     saveVerified(parsed);
+     notice.textContent='Backup sintético restaurado e gravação confirmada neste navegador. Não utilize dados confidenciais.';
+   }catch(error){
+     notice.textContent='Restauração rejeitada: '+error.message+'. A base atual não foi substituída.';
+   }finally{
+     event.target.value='';
+   }
+ });
  $('export').addEventListener('click',()=>{
    const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
    const url=URL.createObjectURL(blob),a=document.createElement('a');
