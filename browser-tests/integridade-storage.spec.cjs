@@ -83,11 +83,14 @@ test('esquema comercial na chave da demo não é lido ou sobrescrito', async ({ 
 test('base inválida pode ser restaurada por backup válido sem alterar outra chave', async ({ page }) => {
   const foreign = '{"schema":"radar-comercial/1.5","movimentos":[],"indicadores":[]}';
   const historical = '{"dado":"histórico que deve permanecer"}';
-  await page.addInitScript(({key,old,data,historical}) => {
+  // Preparação determinística: gravar uma vez na origem e reabrir.
+  // addInitScript reinjetaria a chave inválida caso houvesse novo documento.
+  await page.goto(route);
+  await page.evaluate(({key,old,data,historical}) => {
     localStorage.setItem(key,data);
     localStorage.setItem(old,historical);
   }, {key:KEY,old:OLD,data:foreign,historical});
-  await page.goto(route);
+  await page.reload();
   await expect(page.locator('body')).toContainText('modo somente leitura ativado');
   const valid = await page.evaluate(() => window.__RADAR_TEST__.getState());
   await page.locator('#openTools').click();
