@@ -25,3 +25,46 @@
 .module-switcher a:hover{background:#e3f5f1}
 .module-switcher a:focus-visible{outline:3px solid #11695f;outline-offset:3px}
 @media(max-width:390px){.module-switcher{display:grid;grid-template-columns:1fr 1fr}.module-switcher span,.module-switcher a{border-radius:12px;padding:9px;text-align:center;justify-content:center}}
+
+/* RADAR 360 — identidade visual modernizada; apresentação somente. */
+:root{font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;background:#f2f6f9;color:#163448;--radar-navy:#0a2236;--radar-teal:#087d70;--radar-line:#dce6ec}
+body{background:radial-gradient(circle at top right,#e7f6f0 0,transparent 390px),#f2f6f9;min-height:100vh}
+header{position:relative;overflow:hidden;background:linear-gradient(110deg,#091f34 5%,#103d50 60%,#0f6c63);padding-top:37px;padding-bottom:39px}
+header:after{content:"";position:absolute;right:-65px;top:-135px;width:300px;height:300px;border-radius:50%;border:1px solid #9fe6d32f;box-shadow:0 0 0 47px #9fe6d309,0 0 0 94px #9fe6d308;pointer-events:none}
+header>div,header .tag{position:relative;z-index:1}
+header h1{letter-spacing:-.06em;font-size:clamp(29px,4.2vw,43px);font-weight:830;line-height:1.12;margin:10px 0}
+header small{color:#aaf3d4;letter-spacing:.16em}
+header p{font-size:13px;color:#d4eeea}
+.tag{background:#ffffff10;backdrop-filter:blur(4px);letter-spacing:.12em;color:#d5ffea;border-color:#8edfc595}
+main{max-width:1180px;padding-top:24px}
+.module-switcher{margin:0 0 18px}
+.module-switcher span,.module-switcher a{border-radius:11px;font-size:12px;letter-spacing:.02em;min-height:44px}
+.module-switcher span{background:#0b4152;border-color:#0b4152;box-shadow:0 4px 12px #0e48551c}
+.module-switcher a{border-color:#cbdfe4;background:white;color:#0a655e}
+.notice{background:#fffaf0;border-color:#ecdcb8;color:#775b32;font-size:12px}
+.kpis{gap:13px;margin-bottom:17px}
+.kpis article,.panel{border-radius:16px;border-color:var(--radar-line);box-shadow:0 10px 30px #143b5010}
+.kpis article{position:relative;overflow:hidden;padding:19px 21px}
+.kpis article:before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#0a8779,#79d8ab)}
+.kpis article:nth-child(2):before{background:linear-gradient(90deg,#174b8b,#71a9e6)}
+.kpis article:nth-child(3):before{background:linear-gradient(90deg,#876ba3,#b0a0df)}
+.kpis span{font-size:11px;font-weight:700;letter-spacing:.02em}
+.kpis strong{color:#0e3046;font-weight:850;letter-spacing:-.055em;font-size:clamp(27px,3vw,38px)}
+.panel{padding:23px;margin-bottom:18px}
+.panel h2{font-size:clamp(19px,2vw,23px);letter-spacing:-.035em;color:#112f44}
+.panel>small,.heading small{color:#087b71;letter-spacing:.12em}
+label{color:#476778;font-weight:750}
+input,select,textarea{border-color:#cbdde3;background:#fbfdfd;min-height:44px;border-radius:10px;color:#13364a}
+input:focus,select:focus,textarea:focus{border-color:#087d70}
+button{background:#08786f;border-color:#08786f;border-radius:10px;min-height:44px;transition:background .16s,transform .16s}
+button:hover{background:#075e58;border-color:#075e58}
+button:active{transform:translateY(1px)}
+td button{min-height:38px}
+tr:hover td{background:#f6faf9}
+th{background:#f5f9fa;color:#4d6877;letter-spacing:.05em}
+.opp-card{background:linear-gradient(145deg,#ffffff,#f5faf9);border-color:#d9e9e7;border-radius:14px}
+.opp-card h3{color:#11394c}
+:focus-visible{outline:3px solid #64cfb5!important;outline-offset:3px}
+@media(max-width:750px){header{padding:25px 19px 28px}.kpis{gap:8px}.kpis article{padding:14px 12px}.kpis strong{font-size:clamp(22px,6vw,29px)}.panel{padding:17px}main{padding:17px 13px 48px}.backup-actions{grid-template-columns:1fr 1fr;gap:8px}.backup-actions button{font-size:12px;padding:9px 6px;white-space:normal}.tag{font-size:10px}}
+@media(max-width:360px){.backup-actions{grid-template-columns:1fr}.kpis span{font-size:10px}}
+@media(prefers-reduced-motion:reduce){button{transition:none}}
