@@ -42,7 +42,7 @@ test('não consulta chaves operacionais antigas mesmo quando existem', async ({ 
 test('registra indicador sintético e mantém após reload', async ({ page }) => {
  await page.goto(route);
  await page.locator('.nav [data-nav="indicadores"]').click();
- await page.locator('.editorial-tools summary').click();
+ await page.locator('.editorial-tools > summary').click();
  await page.locator('[data-create="indicador"]').click();
  await expect(page.locator('#editor')).toBeVisible();
  await page.locator('#m-titulo').fill('Indicador sintético');
