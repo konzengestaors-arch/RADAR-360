@@ -1,49 +1,21 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b3445"><meta name="description" content="RADAR 360 — escolha seu ambiente demonstrativo">
-<title>RADAR 360 | Central de navegação</title>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#092b3b">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="refresh" content="0; url=observatorio.html">
+<title>RADAR 360 | Abrindo Observatório</title>
 <style>
-:root{color-scheme:light;font:16px/1.5 Inter,"Segoe UI",system-ui,-apple-system,sans-serif;color:#163344;background:#f1f5f9;--navy:#091d32;--navy2:#12364b;--teal:#087f73;--lime:#a6f0b5;--line:#dce6ec}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(circle at 100% 0%,#e0f4ee 0%,transparent 42%),#f1f5f9}
-header{position:relative;overflow:hidden;padding:35px max(22px,calc((100vw - 1120px)/2)) 78px;min-height:335px;background:linear-gradient(120deg,#07182a 0%,#0e3042 58%,#116b60 100%);color:#fff}
-header:before,header:after{content:"";position:absolute;pointer-events:none;border:1px solid #96e6d33d;border-radius:50%;width:410px;height:410px;right:-110px;top:-185px;box-shadow:0 0 0 64px #91e5d00b,0 0 0 128px #91e5d008}
-header:after{width:5px;height:5px;top:118px;right:210px;background:#a6f0b5;box-shadow:0 0 0 12px #a6f0b524,0 0 36px 12px #9de9bb5c}
-.brandline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:54px;position:relative;z-index:1}
-.brandline .brand{font-size:15px;letter-spacing:.15em;font-weight:900;color:#f5fffd}
-.brandline .brand:before{content:"◉";font-size:19px;color:#9ef4cc;margin-right:12px;vertical-align:-1px}
-.brandline .pill{border:1px solid #a0edce68;border-radius:999px;padding:7px 11px;color:#bcefe1;font-size:11px;font-weight:750;letter-spacing:.06em}
-header small{letter-spacing:.15em;font-weight:800;color:#a6edcc;font-size:11px}
-h1{font-size:clamp(38px,5.8vw,68px);letter-spacing:-.065em;font-weight:820;line-height:1.04;max-width:680px;margin:12px 0 18px}
-header p{max-width:560px;color:#d1e7e6;line-height:1.7;margin:0;font-size:15px}
-main{max-width:1155px;margin:-45px auto 0;padding:0 22px 65px;position:relative;z-index:2}
-.sectionlabel{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.12em;font-weight:850;color:#436779;margin:23px 0 15px}
-.sectionlabel:before{content:"";width:20px;height:2px;background:#0c8b7a}
-.grid{display:grid;grid-template-columns:minmax(0,1fr);max-width:610px;gap:17px}
-.card{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;min-height:322px;border:1px solid #d6e4e8;border-radius:20px;background:#fff;padding:28px;box-shadow:0 14px 48px #0e344010;transition:transform .2s,box-shadow .2s}
-.card:hover{transform:translateY(-3px);box-shadow:0 20px 48px #0e344024}
-.card:before{content:"";height:5px;position:absolute;inset:0 0 auto 0;background:linear-gradient(90deg,#0b7c75,#6fd0ad)}
-.card:nth-child(2):before{background:linear-gradient(90deg,#174e8e,#60abc8)}
-.icon{display:grid;place-items:center;width:54px;height:54px;border-radius:15px;background:#e1f5ec;color:#0d6559;font-size:27px;font-weight:800}
-.card:nth-child(2) .icon{background:#e5effa;color:#204b81}
-.card small{font-size:10px;color:#087e73;font-weight:850;letter-spacing:.14em;margin-top:21px}
-.card:nth-child(2) small{color:#235d9b}
-h2{margin:4px 0 7px;font-size:clamp(25px,3vw,31px);letter-spacing:-.045em;font-weight:820;color:#122d40}
-.card p{color:#5a7280;line-height:1.6;flex:1;font-size:14px;max-width:390px}
-.card a{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:48px;min-width:205px;border-radius:11px;background:#0b675d;padding:12px 16px;color:#fff;font-weight:800;text-decoration:none;font-size:13px;transition:background .2s}
-.card a:after{content:"↗";font-size:17px;font-weight:500}
-.card:nth-child(2) a{background:#174776}
-.card a:hover{background:#074c45}.card:nth-child(2) a:hover{background:#103756}
-.card a:focus-visible{outline:3px solid #5bceb8;outline-offset:4px}
-.notice{display:flex;gap:10px;align-items:flex-start;background:#fffaf0;border:1px solid #eedeb6;border-radius:13px;padding:13px 16px;margin:20px 0 0;font-size:12px;color:#6b542e;line-height:1.6}
-.notice:before{content:"ⓘ";font-size:19px;line-height:1;color:#a47121}
-footer{margin-top:27px;color:#6b8390;font-size:12px;border-top:1px solid #dbe5e8;padding-top:20px}
-@media(max-width:650px){header{min-height:300px;padding:20px 20px 75px}.brandline{margin-bottom:36px}.brandline .pill{font-size:9px}h1{font-size:clamp(36px,10vw,49px)}header p{font-size:13px;max-width:340px}header:before{right:-240px}main{padding:0 15px 44px}.grid{grid-template-columns:1fr;gap:13px}.card{min-height:0;padding:21px;border-radius:16px}.card p{margin:7px 0 18px}.card a{width:100%;min-width:0}.sectionlabel{margin:21px 0 12px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;scroll-behavior:auto!important}}
-</style></head><body>
-<header><div class="brandline"><div class="brand">RADAR 360</div><span class="pill">HOMOLOGAÇÃO PRIVADA</span></div><small>NOTÍCIAS · EMPRESAS · MOVIMENTOS</small><h1>O que está acontecendo com as empresas?</h1><p>Notícias em destaque, sinais de mercado e empresas monitoradas — tudo em uma única visão.</p></header>
-<main>
-<div class="notice" role="status"><strong>Ambiente de teste:</strong> notícias de fontes públicas e catálogo de empresas importado apenas neste dispositivo. Não inclua informações de carteira, clientes ou relacionamentos; os demais registros continuam demonstrativos, sem sincronização.</div>
-<div class="sectionlabel">ACESSO PRINCIPAL</div><section class="grid" aria-label="Acesso ao RADAR 360">
-<article class="card"><span class="icon" aria-hidden="true">◉</span><small>INTELIGÊNCIA REGIONAL</small><h2>Observatório</h2><p>Leia as notícias mais recentes, acompanhe movimentos e relacione menções às empresas cadastradas localmente.</p><a href="observatorio.html">Abrir Observatório</a></article>
-</section><footer>RADAR 360 · Prévia protegida de homologação. Acesso ao projeto não equivale a isolamento multiusuário.</footer>
-</main></body></html>
+:root{font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:#e7fbf5;background:#092b3b;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh;display:grid;place-items:center;padding:24px}
+main{width:min(100%,360px);text-align:center}
+strong{font-size:23px;letter-spacing:.06em;display:block}p{color:#b4d4d7;margin:12px 0 22px}
+a{display:block;padding:14px 20px;border-radius:12px;background:#b4f6d7;color:#082e33;font-weight:800;text-decoration:none;min-height:48px}
+a:focus-visible{outline:3px solid white;outline-offset:4px}
+</style>
+<script>window.location.replace(new URL('observatorio.html',window.location.href).href);</script>
+</head>
+<body><main><strong>RADAR 360</strong><p>Abrindo o Observatório…</p><a href="observatorio.html">Entrar no Observatório</a></main></body>
+</html>
