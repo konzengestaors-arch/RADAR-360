@@ -34,7 +34,7 @@ function validate(state) {
   oppIds.add(o.id);
   for(const h of o.historico){
    if(!h||!['Identificada','Qualificação','Proposta','Concluída','Descartada'].includes(h.status)||
-      typeof h.data!=='string'||!/^\\d{4}-\\d{2}-\\d{2}$/.test(h.data)||
+      typeof h.data!=='string'||!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(h.data)||
       typeof h.motivo!=='string'||h.motivo.length>250)throw Error('Histórico inválido');
   }
   if(o.historico.at(-1).status!==o.status)throw Error('Status sem histórico consistente');
