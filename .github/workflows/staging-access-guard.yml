@@ -1,7 +1,7 @@
 name: RADAR 360 — Gate acesso anonimo staging
 on:
   push:
-    branches: ['codex/auditoria-homologacao', 'codex/capa-inteligencia-20261107']
+    branches: ['codex/auditoria-homologacao', 'codex/capa-inteligencia-20261107', 'codex/investimentos-fontes-oficiais-20261107']
   pull_request:
     branches: ['codex/desenvolvimento']
   workflow_dispatch:
@@ -22,5 +22,5 @@ jobs:
         run: |
           echo "REPO=$GITHUB_REPOSITORY REF=$GITHUB_REF"
           git rev-parse HEAD
-      - name: Provar negação de quatro rotas HTTPS sem cookie ou token
+      - name: Provar negação de cinco rotas HTTPS sem cookie ou token
         run: node scripts/check-staging-anonymous.cjs
