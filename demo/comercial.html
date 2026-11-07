@@ -12,5 +12,8 @@
 <div class="tablewrap"><table><thead><tr><th>Empresa</th><th>Segmento</th><th>Região</th><th>Etapa</th><th>Próxima ação</th><th></th></tr></thead><tbody id="empresas"></tbody></table></div>
 </section>
 <section class="panel"><small>CADÊNCIA E HISTÓRICO</small><h2>Ações demonstrativas</h2><form id="acaoForm"><label>Empresa<select id="empresaId" required></select></label><label>Ação<textarea id="descricao" maxlength="400" placeholder="Ex.: revisar proposta simulada" required></textarea></label><label>Data<input id="data" type="date" required></label><button type="submit">Registrar ação</button></form><ul id="acoes"></ul></section>
+<section class="panel" aria-labelledby="oppHeading"><small>PIPELINE SINTÉTICO</small><h2 id="oppHeading">Oportunidades e histórico</h2><p>Registre oportunidades fictícias e acompanhe mudanças de etapa com data e justificativa.</p>
+<form id="oppForm" class="opp-form"><label>Empresa<select id="oppEmpresa" required></select></label><label>Oportunidade<input id="oppTitulo" maxlength="120" placeholder="Ex.: projeto demonstrativo" required></label><label>Data<input id="oppData" type="date" required></label><button type="submit">Criar oportunidade</button></form>
+<p id="oppCount" aria-live="polite"></p><div id="oppList" class="opportunities"></div></section>
 <footer>RADAR Comercial — estudo de interface e fluxo. Não é a versão operacional v1.5.</footer>
 </main><script src="comercial-core.js"></script><script src="comercial-ui.js"></script></body></html>
