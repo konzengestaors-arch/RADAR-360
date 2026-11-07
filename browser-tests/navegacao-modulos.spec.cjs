@@ -11,7 +11,7 @@ for(const width of [320,390,768]){
       await page.locator('.module-switcher a').click();
       await expect(page).toHaveURL(/\/demo\/observatorio\.html$/);
       const link=page.locator('.radar-module-link');
-      await expect(link).toBeVisible();
+      await expect(link).toHaveCount(0);
       const status=await page.evaluate(k=>({
         local:localStorage.getItem(k),
         width:document.documentElement.clientWidth,
