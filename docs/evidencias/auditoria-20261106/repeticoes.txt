@@ -1,0 +1,40 @@
+
+Running 18 tests using 1 worker
+
+(node:14321) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14321) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 browser-tests/comercial-demo.spec.cjs:58:1 › restauração de backup sintético recupera ações após limpeza da chave (690ms)
+  ✓   2 browser-tests/comercial-demo.spec.cjs:75:1 › backup comercial de esquema diferente é rejeitado e chave preservada (393ms)
+  ✓   3 browser-tests/comercial-demo.spec.cjs:100:1 › restauração aceita backup válido após armazenamento local incompatível (351ms)
+  ✓   4 browser-tests/comercial-demo.spec.cjs:117:1 › oportunidade sintética mantém histórico após reload e backup (693ms)
+  ✓   5 browser-tests/integridade-storage.spec.cjs:56:1 › restauração cancelada não modifica o armazenamento (569ms)
+  ✓   6 browser-tests/integridade-storage.spec.cjs:83:1 › base inválida pode ser restaurada por backup válido sem alterar outra chave (514ms)
+(node:14826) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14826) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 browser-tests/comercial-demo.spec.cjs:58:1 › restauração de backup sintético recupera ações após limpeza da chave (678ms)
+  ✓   8 browser-tests/comercial-demo.spec.cjs:75:1 › backup comercial de esquema diferente é rejeitado e chave preservada (346ms)
+  ✓   9 browser-tests/comercial-demo.spec.cjs:100:1 › restauração aceita backup válido após armazenamento local incompatível (356ms)
+  ✓  10 browser-tests/comercial-demo.spec.cjs:117:1 › oportunidade sintética mantém histórico após reload e backup (594ms)
+  ✓  11 browser-tests/integridade-storage.spec.cjs:56:1 › restauração cancelada não modifica o armazenamento (542ms)
+  ✓  12 browser-tests/integridade-storage.spec.cjs:83:1 › base inválida pode ser restaurada por backup válido sem alterar outra chave (556ms)
+(node:15188) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:15188) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 browser-tests/comercial-demo.spec.cjs:58:1 › restauração de backup sintético recupera ações após limpeza da chave (776ms)
+  ✓  14 browser-tests/comercial-demo.spec.cjs:75:1 › backup comercial de esquema diferente é rejeitado e chave preservada (342ms)
+  ✓  15 browser-tests/comercial-demo.spec.cjs:100:1 › restauração aceita backup válido após armazenamento local incompatível (351ms)
+  ✓  16 browser-tests/comercial-demo.spec.cjs:117:1 › oportunidade sintética mantém histórico após reload e backup (660ms)
+  ✓  17 browser-tests/integridade-storage.spec.cjs:56:1 › restauração cancelada não modifica o armazenamento (567ms)
+  ✓  18 browser-tests/integridade-storage.spec.cjs:83:1 › base inválida pode ser restaurada por backup válido sem alterar outra chave (600ms)
+
+  18 passed (13.8s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

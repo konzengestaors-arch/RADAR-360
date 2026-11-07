@@ -1,0 +1,41 @@
+
+> radar-360@0.0.0-dev check
+> node --check api/noticias.js && node --test tests/*.test.cjs
+
+✔ pacote registra checkout real e hashes conferem com bytes produzidos (97.74121ms)
+✔ base sintética não contém dependência operacional e usa chave exclusiva (2.849126ms)
+✔ filtra empresas por região e busca sem mutar base (0.621626ms)
+✔ cadência sintética não altera a versão anterior (0.550434ms)
+✔ backup alheio e identificador desconhecido são rejeitados (0.689439ms)
+✔ impede duplicidade de empresas e ações inválidas (0.372003ms)
+✔ oportunidade sintética mantém trilha e não altera estado original (2.098036ms)
+✔ bloqueia empresa inexistente e histórico inconsistente (0.942725ms)
+✔ backup legado sintético sem oportunidades continua aceito (0.383302ms)
+✔ mudanças de oportunidade exigem motivo e data não retroativa (0.564774ms)
+✔ backup sintético com histórico contraditório é rejeitado (0.895272ms)
+✔ rejeita datas impossíveis em ações, empresas e histórico sem mutação (1.724929ms)
+✔ feeds configurados usam HTTPS e não são URLs fornecidas pelo cliente (1.432128ms)
+✔ safeUrl rejeita esquemas perigosos e credenciais (0.312711ms)
+✔ safeUrl retira parâmetros de rastreamento (0.327555ms)
+✔ classificação descarta assuntos não econômicos (0.54964ms)
+✔ RSS sintético é convertido em candidato, não em movimento aprovado (8.673101ms)
+✔ RSS malformado não é aceito como feed (1.421209ms)
+✔ coletor não transforma falha de RSS em sucesso (1.501405ms)
+✔ HTML mantém scripts sintaticamente válidos (2.639764ms)
+✔ demonstração começa sem registros documentais (0.887916ms)
+✔ chaves isoladas não acessam os dados operacionais conhecidos (0.305549ms)
+✔ demonstração adverte sobre dados confidenciais (0.135541ms)
+✔ HTML não contém registros MOV e IND embutidos (0.3735ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 183.576333
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
