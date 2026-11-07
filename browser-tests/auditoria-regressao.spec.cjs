@@ -83,3 +83,41 @@ test('Comercial bloqueia exportação de aba desatualizada sem sobrescrever back
  await expect(other.locator('.notice')).toContainText('Exportação bloqueada');
  expect(await other.evaluate(k=>localStorage.getItem(k),key)).toBe(prior);
 });
+
+
+test('gravação inicial silenciosamente rejeitada bloqueia edição e exportação',async({page})=>{
+ const key='radar_comercial_demo_publica_20261106';
+ await page.addInitScript(k=>{
+   const original=Storage.prototype.setItem;
+   Storage.prototype.setItem=function(name,value){
+     if(name===k)return; // simula armazenamento que ignora escrita sem lançar
+     return original.call(this,name,value);
+   };
+ },key);
+ await page.goto('/demo/comercial.html');
+ await expect(page.locator('.notice')).toContainText('Modo somente leitura');
+ await expect(page.locator('#export')).toBeDisabled();
+ await expect(page.locator('#acaoForm button')).toBeDisabled();
+ expect(await page.evaluate(k=>localStorage.getItem(k),key)).toBeNull();
+});
+test('gravação posterior divergente bloqueia novas edições e exportação',async({page})=>{
+ const key='radar_comercial_demo_publica_20261106';
+ await page.goto('/demo/comercial.html');
+ const original=await page.evaluate(k=>localStorage.getItem(k),key);
+ await page.evaluate(k=>{
+   const base=Storage.prototype.setItem;
+   Storage.prototype.setItem=function(name,value){
+     if(name===k)return base.call(this,name,'{"schema":"outro-projeto"}');
+     return base.call(this,name,value);
+   };
+ },key);
+ await page.locator('#descricao').fill('Tentativa fictícia');
+ await page.locator('#data').fill('2026-11-07');
+ await page.locator('#acaoForm button').click();
+ await expect(page.locator('.notice')).toContainText('Persistência não confirmada');
+ await expect(page.locator('#export')).toBeDisabled();
+ await expect(page.locator('#acaoForm button')).toBeDisabled();
+ expect(await page.evaluate(k=>localStorage.getItem(k),key)).not.toBe(original);
+ await page.reload();
+ await expect(page.locator('.notice')).toContainText('Modo somente leitura');
+});
