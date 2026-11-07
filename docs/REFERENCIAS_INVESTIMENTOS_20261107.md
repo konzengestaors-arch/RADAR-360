@@ -26,3 +26,10 @@ A tela distingue três naturezas de informação:
 - Ainda **não existe atualização agendada** dessas quatro publicações. Para atualização contínua de fontes oficiais, é necessário confirmar feeds RSS ativos ou implementar coleta autorizada e auditável com logs, controles de carga e gestão de mudanças.
 - Links de referência não representam registro empresarial nem prova de correspondência com as 222 empresas.
 - Não fez merge em `main`; a adoção depende de revisão e suíte de testes aprovada em commit identificado.
+
+
+## Candidata RSS regional BRDE (em verificação)
+- A fonte [BRDE — notícias](https://brde.com.br/) publica financiamento e projetos do Sul do Brasil. O endpoint RSS público `https://brde.com.br/feed/` foi identificado; a integração da branch de teste ainda depende de uma chamada real e da suíte de regressão.
+- Para evitar rotular notícias do Paraná como RS/SC, o coletor `brde-regional` exige que a própria manchete cite explicitamente uma localidade reconhecida do RS ou do Oeste/Litoral sul de SC. Publicações sem localização no título são descartadas, mesmo quando relevantes: **cobertura incompleta é preferível a atribuição incorreta**.
+- O feed do BRDE é fonte automatizada distinta da seleção estática de quatro referências oficiais. Se falhar, os demais feeds continuam funcionando e a falha aparece no diagnóstico por fonte.
+- Não há captura de páginas HTML, publicação de bases corporativas, agendamento em background ou inclusão automática no cadastro de projetos.
