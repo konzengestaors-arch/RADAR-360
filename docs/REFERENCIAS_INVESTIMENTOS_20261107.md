@@ -5,7 +5,7 @@ Complementar a leitura da aba `Investimentos` sem publicar dados empresariais pr
 
 A tela distingue três naturezas de informação:
 1. **Sinais RSS:** títulos classificados por palavras e padrões de financiamento/obra, não verificados individualmente.
-2. **Referências oficiais:** quatro publicações consultadas em 07/11/2026, incorporadas estaticamente em `demo/fontes-investimentos.js`, com datas, links e estágios próprios. **Não atualizam automaticamente**.
+2. **Referências oficiais:** seis publicações consultadas em 07/11/2026, incorporadas estaticamente em `demo/fontes-investimentos.js`, com datas, links e estágios próprios. **Não atualizam automaticamente**.
 3. **Projetos documentados:** registros existentes na base local com evidências e eventual revisão humana, preservados sem conversão automática de notícias.
 
 ## Fontes e estados documentais
@@ -16,6 +16,9 @@ A tela distingue três naturezas de informação:
 | [Invest RS — projetos de transição energética na China](https://www.estado.rs.gov.br/invest-rs-apresenta-projetos-de-transicao-energetica-do-rio-grande-do-sul-em-evento-para-investidores-na-china) | 03/11/2026 | Prospecção de investimentos, não aportes contratados |
 | [Sedec RS — Avançar Deep Tech](https://desenvolvimento.rs.gov.br/governo-do-estado-institui-programa-avancar-deep-tech-para-impulsionar-inovacao-e-desenvolvimento-economico) | 28/10/2026 | Programa instituído; fundo em estruturação, não capital integralmente aplicado |
 
+| [BRDE — inovação na Mercopar, Serra e Vale do Taquari](https://www.brde.com.br/noticia/brde-celebra-r-124-milhoes-em-novos-financiamentos-para-apoiar-a-inovacao-durante-a-mercopar/) | 21/10/2026 | Novas operações de crédito anunciadas, sem comprovação de execução final dos investimentos |
+| [BRDE — prospecção de energia no Oeste SC](https://www.brde.com.br/noticia/brde-apresenta-oportunidades-de-financiamento-e-prospecta-r250-milhoes-em-projetos-para-o-setor-de-energia-na-faex-energy/) | 16/10/2026 | Aproximadamente R$ 250 milhões prospectados; não são financiamento contratado ou obra executada |
+
 ## Integração técnica
 - `demo/fontes-investimentos.js`: catálogo estático revisado e função reutilizável de classificação conservadora.
 - `demo/observatorio.html`: seção editorial adicional sob Investimentos, sem interferência no cadastro de 222 empresas e no estado local.
@@ -23,7 +26,7 @@ A tela distingue três naturezas de informação:
 - `browser-tests/investimentos-fontes.spec.cjs`: renderização em 320, 390 e 1440 px; comportamento com RSS ativo e indisponível.
 
 ## Pendências e cautelas
-- Ainda **não existe atualização agendada** dessas quatro publicações. Para atualização contínua de fontes oficiais, é necessário confirmar feeds RSS ativos ou implementar coleta autorizada e auditável com logs, controles de carga e gestão de mudanças.
+- Ainda **não existe atualização agendada** dessas seis publicações. Para atualização contínua de fontes oficiais, é necessário confirmar feeds RSS ativos ou implementar coleta autorizada e auditável com logs, controles de carga e gestão de mudanças.
 - Links de referência não representam registro empresarial nem prova de correspondência com as 222 empresas.
 - Não fez merge em `main`; a adoção depende de revisão e suíte de testes aprovada em commit identificado.
 
