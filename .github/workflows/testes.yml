@@ -1,9 +1,9 @@
 name: RADAR 360 — Testes Node
 on:
   push:
-    branches: [main, codex/desenvolvimento, codex/portal-editorial-20261107, codex/capa-inteligencia-20261107]
+    branches: [main, codex/desenvolvimento, codex/portal-editorial-20261107, codex/capa-inteligencia-20261107, codex/fontes-investimentos-20261107]
   pull_request:
-    branches: [main, codex/desenvolvimento, codex/portal-editorial-20261107, codex/capa-inteligencia-20261107]
+    branches: [main, codex/desenvolvimento, codex/portal-editorial-20261107, codex/capa-inteligencia-20261107, codex/fontes-investimentos-20261107]
 permissions:
   contents: read
 jobs:
