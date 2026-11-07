@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const { _test: rss } = require('../api/noticias.js');
 
 test('feeds configurados usam HTTPS e não são URLs fornecidas pelo cliente', () => {
-  assert.equal(rss.FEEDS.length, 4);
+  assert.equal(rss.FEEDS.length, 5);
   for (const feed of rss.FEEDS) assert.match(feed.url, /^https:\/\//);
 });
 
@@ -72,9 +72,38 @@ test('falha na fonte BNDES não derruba feeds RSS independentes', async () => {
     if(url.includes('bndes.gov.br'))throw new Error('JSON indisponível');
     return fakeResponse;
   });
-  assert.equal(batch.totais.fontes,4);
-  assert.equal(batch.totais.funcionando,3);
+  assert.equal(batch.totais.fontes,5);
+  assert.equal(batch.totais.funcionando,4);
   assert.equal(batch.totais.comFalha,1);
   assert.equal(batch.fontes.find(x=>x.id==='bndes-investimentos').status,'erro');
   assert.ok(batch.items.length>=1);
+});
+
+
+test('BRDE regional só incorpora manchetes com menção ao RS, Oeste ou Litoral sul SC', () => {
+ const feed=rss.FEEDS.find(x=>x.id==='brde-regional');
+ assert.equal(feed.url,'https://brde.com.br/feed/');
+ assert.equal(feed.area,'Sul');
+ const rssXml='<rss><channel>'
+ +'<item><title>BRDE financia expansão industrial em Porto Alegre</title><link>https://brde.com.br/noticias/porto-alegre/</link></item>'
+ +'<item><title>BRDE apoia nova fábrica em Chapecó</title><link>https://brde.com.br/noticias/chapeco/</link></item>'
+ +'<item><title>BRDE financia indústria no Paraná</title><link>https://brde.com.br/noticias/parana/</link></item>'
+ +'</channel></rss>';
+ const entries=rss.parseFeed(feed,rssXml);
+ assert.equal(entries.length,2);
+ assert.deepEqual(entries.map(x=>x.territorio),['RS','Oeste SC']);
+ assert.ok(entries.every(x=>x.fonte===feed.nome));
+});
+test('RSS BRDE indisponível não impede outras quatro fontes',async()=>{
+ const rssXml='<rss><channel><item><title>Investimento industrial em Porto Alegre</title><link>https://example.org/noticia</link></item></channel></rss>';
+ const response={status:200,ok:true,headers:{get:()=> 'application/rss+xml'},text:async()=>rssXml};
+ const result=await rss.collect(async(url)=>{
+  if(url==='https://brde.com.br/feed/')throw Error('BRDE fora do ar');
+  if(url.includes('bndes.gov.br'))return {status:200,ok:true,headers:{get:()=> 'application/json'},text:async()=>JSON.stringify([])};
+  return response;
+ });
+ assert.equal(result.totais.fontes,5);
+ assert.equal(result.totais.funcionando,4);
+ assert.equal(result.totais.comFalha,1);
+ assert.equal(result.fontes.find(x=>x.id==='brde-regional').status,'erro');
 });
