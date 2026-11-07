@@ -59,7 +59,9 @@ test('U01-U05: percurso sintético funcional em viewport Android',async({browser
   await page.locator('[data-movement="MOV-001"] [data-open="MOV-001"]').click();
   await expect(page.locator('#overlay')).toHaveClass(/open/);
   await expect(page.locator('#detailBody')).toContainText('Projeto fictício Porto Alegre U04');
-  // U05 — localizar controles de backup sem executar importação
+  // U05 — retornar ao Panorama antes de procurar o backup, sem importar.
+  await page.locator('#detailClose').click();
+  await expect(page.locator('#overlay')).not.toHaveClass(/open/);
   await page.locator('#openTools').click();
   await expect(page.locator('#toolExport')).toBeVisible();
   await expect(page.locator('#toolImport')).toBeVisible();
