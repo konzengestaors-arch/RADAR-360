@@ -399,6 +399,57 @@ body{background:radial-gradient(circle at 88% 0%,#dcefe8 0%,transparent 38%),#f3
  .news-live-refresh{width:100%}
 }
 @media(prefers-reduced-motion:reduce){.news-live-card{transition:none}.news-live-card:hover{transform:none}}
+</style><style>
+/* RADAR 360 — leitura executiva nas abas, controles secundários sob demanda */
+.editorial-lead{border:1px solid #d3e4e4;border-radius:17px;padding:22px 24px;background:linear-gradient(115deg,#fff,#f4faf8);margin-bottom:15px}
+.editorial-lead h2{margin:5px 0 6px;font-size:25px;line-height:1.2;letter-spacing:-.045em;color:#123645}
+.editorial-lead p{font-size:13px;line-height:1.55;color:#526f7c;margin:0;max-width:750px}
+.editorial-lead-meta{color:#087b6c;font-weight:800;margin-top:15px;font-size:12px}
+.editorial-empty{padding:20px 22px;border:1px solid #d6e6e6;border-radius:15px;background:#fff}
+.editorial-empty strong{font-size:15px;line-height:1.45;color:#173f4b}
+.editorial-empty p{color:#627c87;font-size:12px;line-height:1.65;margin:7px 0 0;max-width:580px}
+.editorial-tools{margin:15px 0;border:1px solid #d4e4e5;background:#fff;border-radius:13px;overflow:hidden}
+.editorial-tools>summary,.secondary-filters>summary{cursor:pointer;list-style:none;min-height:50px;display:flex;gap:10px;align-items:center;justify-content:space-between;padding:12px 17px;font-weight:780;color:#315a63;font-size:13px}
+.editorial-tools>summary::-webkit-details-marker,.secondary-filters>summary::-webkit-details-marker{display:none}
+.editorial-tools>summary:after,.secondary-filters>summary:after{content:"⌄";font-size:19px;color:#0a8676}
+.editorial-tools[open]>summary,.secondary-filters[open]>summary{border-bottom:1px solid #e0ebec}
+.editorial-tools-body,.secondary-filters-inner{padding:15px 17px}
+.editorial-tools-body>.btn{margin-bottom:10px}
+.secondary-filters{border:1px solid #e0e9e9;background:#f9fbfb;border-radius:11px;margin:11px 0}
+.secondary-filters>summary{min-height:46px;font-size:12px;padding:9px 13px}
+.secondary-filters>summary span{font-size:11px;font-weight:450;color:#6a808a;margin-left:auto}
+.secondary-filters-inner{padding:10px}
+.secondary-filters .filterbar{display:grid;margin:0;padding:0;border:0;background:transparent;box-shadow:none}
+.secondary-footnote{font-size:12px;color:#58717c;line-height:1.5;margin:10px 0}
+.editorial-linked-news{padding:12px 0;border-top:1px solid #e5eeee}
+.editorial-linked-news strong{display:block;font-size:13px;color:#17424f}
+.editorial-linked-news p{font-size:11px;color:#5f7c86;margin:4px 0}
+.editorial-linked-news a{margin-right:10px}
+.editorial-indicator-section{margin-top:23px}
+.editorial-indicator-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.editorial-indicator-card{padding:18px;background:#fff;border:1px solid #d9e7e7;border-radius:15px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.editorial-indicator-card>span{font-size:10px;color:#087b70;font-weight:750}
+.editorial-indicator-card h3{font-size:15px;color:#153d4a;margin:0;line-height:1.35}
+.editorial-indicator-card>strong{font-size:23px;letter-spacing:-.05em;color:#163e4b;overflow-wrap:anywhere}
+.editorial-indicator-card strong small{font-size:11px;color:#607a84;letter-spacing:0;font-weight:550}
+.editorial-indicator-card p{margin:0;color:#5e7883;font-size:11px}
+.editorial-indicator-card a{font-size:12px;font-weight:750}
+@media(max-width:720px){
+ .editorial-lead{padding:15px 16px;margin-bottom:11px;border-radius:13px}
+ .editorial-lead h2{font-size:21px}
+ .editorial-lead p{font-size:12px}
+ .editorial-lead-meta{font-size:11px;margin-top:9px}
+ .editorial-empty{padding:18px 16px}
+ .editorial-tools>summary{min-height:47px;padding:10px 13px}
+ .editorial-tools-body{padding:12px}
+ .secondary-filters>summary span{display:none}
+ .secondary-filters .filterbar{grid-template-columns:1fr;gap:8px}
+ .editorial-indicator-grid{grid-template-columns:1fr;gap:8px}
+ .editorial-indicator-card{padding:14px}
+ body[data-current-tab="investimentos"] #openUpdates,body[data-current-tab="noticias"] #openUpdates,body[data-current-tab="indicadores"] #openUpdates{display:none}
+ body[data-current-tab="investimentos"] .top-actions,body[data-current-tab="noticias"] .top-actions,body[data-current-tab="indicadores"] .top-actions{margin-left:auto}
+}
+@media(min-width:721px) and (max-width:1100px){.editorial-indicator-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style></head><body><p id="environmentNotice" class="sr-only">HOMOLOGAÇÃO PRIVADA — CATÁLOGO EMPRESARIAL SEPARADO DOS DADOS COMERCIAIS. Cadastros ainda não validados individualmente. Não utilize informações confidenciais.</p>
 <div class="shell"><aside class="sidebar"><div class="brand"><span class="mark" aria-hidden="true"></span><div><strong>RADAR</strong><small>OBSERVATÓRIO</small></div></div><div><div class="side-section">Inteligência regional</div><nav class="nav" aria-label="Navegação principal"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg> Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/><path d="M7 16h2m3 0h2m3 0h2"/></svg> Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9m-9 4h6"/></svg> Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg> Indicadores</button></nav></div><div class="sidefoot"><b>RS • OESTE SC • LITORAL SUL SC</b><span>Painel regional e financeiro. Novos documentos passam por revisão humana.</span><p>v1.9 · Prévia de desenvolvimento sem homologação</p></div></aside><div class="workspace"><header class="topbar"><div><span class="mobile-brand">◉ RADAR OBSERVATÓRIO</span><span class="kicker">Observatório econômico</span><h1 id="pageName">Panorama Regional</h1></div><div class="top-actions"><button type="button" id="openUpdates" class="btn" aria-label="Abrir notícias e atualizações para revisão">↻ Notícias &amp; atualizações</button><button type="button" id="openTools" class="btn" aria-label="Abrir fontes, histórico e backup">Dados &amp; backup</button><button type="button" id="exportTop" class="btn primary" aria-label="Exportar backup JSON">Exportar backup</button></div></header><main class="content" id="body" aria-live="polite"></main></div></div>
 <nav class="tabs-mobile" aria-label="Navegação principal móvel"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg>Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/></svg>Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9"/></svg>Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg>Indicadores</button></nav>
