@@ -25,7 +25,7 @@ test('pacote Observatório mantém navegação e aviso de demonstração',async(
  await page.goto(pathToFileURL(file).href);
  await expect(page.locator('#pageName')).toBeVisible();
  await expect(page.locator('#openTools')).toBeVisible();
- await expect(page.locator('body')).toContainText('DEMONSTRAÇÃO DE DESENVOLVIMENTO');
+ await expect(page.locator('body')).toContainText('HOMOLOGAÇÃO PRIVADA');
  expect(errors).toEqual([]);
 });
 
