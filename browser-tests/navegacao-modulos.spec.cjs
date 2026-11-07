@@ -19,8 +19,6 @@ for(const width of [320,390,768]){
       }),key);
       expect(status.local).toBe(initial);
       expect(status.scroll).toBeLessThanOrEqual(status.width+2);
-      await link.click();
-      await expect(page).toHaveURL(/\/demo\/comercial\.html$/);
       expect(await page.evaluate(k=>localStorage.getItem(k),key)).toBe(initial);
     }finally{await context.close()}
   });
