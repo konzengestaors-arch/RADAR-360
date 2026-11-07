@@ -1,0 +1,54 @@
+name: RADAR 360 — Pacote Android local
+on:
+  push:
+    branches: [codex/desenvolvimento]
+    paths:
+      - 'demo/**'
+      - 'scripts/build-android.cjs'
+      - '.github/workflows/pacote-android.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pacote-local:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar sintaxe do empacotador
+        run: node --check scripts/build-android.cjs
+      - name: Gerar arquivos HTML locais e manifesto de integridade
+        run: node scripts/build-android.cjs
+      - name: Conferir arquivos e integridade declarada
+        run: |
+          node - <<'NODE'
+          const fs=require('node:fs'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+          const m=JSON.parse(fs.readFileSync('dist/android/MANIFESTO.json','utf8'));
+          assert.equal(m.commit,process.env.GITHUB_SHA);
+          assert.equal(m.arquivos.length,2);
+          for(const f of m.arquivos){
+            const bytes=fs.readFileSync('dist/android/'+f.nome);
+            assert.equal(bytes.length,f.bytes);
+            assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),f.sha256);
+          }
+          const commercial=fs.readFileSync('dist/android/RADAR_COMERCIAL_DEMO_LOCAL.html','utf8');
+          assert(commercial.includes('script-src &#39;')===false);
+          assert(commercial.includes('sha256-'));
+          assert(!commercial.includes('src="comercial-core.js"'));
+          console.log('Arquivos e hashes conferidos no commit:',m.commit);
+          NODE
+      - name: Compactar pacote
+        run: |
+          cd dist/android
+          zip -q ../RADAR_360_ANDROID_TESTE.zip RADAR_COMERCIAL_DEMO_LOCAL.html RADAR_OBSERVATORIO_DEMO_LOCAL.html MANIFESTO.json LEIA_PRIMEIRO.txt
+          unzip -t ../RADAR_360_ANDROID_TESTE.zip
+      - name: Disponibilizar pacote como artefato do GitHub Actions
+        uses: actions/upload-artifact@v4
+        with:
+          name: RADAR_360_ANDROID_TESTE
+          path: dist/RADAR_360_ANDROID_TESTE.zip
+          if-no-files-found: error
+          retention-days: 14
