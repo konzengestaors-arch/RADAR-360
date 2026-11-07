@@ -13,7 +13,7 @@ for(const width of [320,390,768,1440]){
    await expect(page.locator('#environmentNotice')).toHaveClass(/sr-only/);
    await expect(page.locator('.news-live-card')).toHaveCount(2);
    await expect(page.locator('#marketSnapshot')).toBeVisible();
-   const nav=width<=390?'.tabs-mobile':'.nav';
+   const nav=width<=390?'.nav':'.nav';
    await page.locator(nav+' [data-nav="noticias"]').click();
    await expect(page.locator('.news-live-card')).toHaveCount(2);
    await expect(page.locator('.secondary-filters')).not.toBeVisible();
