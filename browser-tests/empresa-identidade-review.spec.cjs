@@ -20,7 +20,7 @@ test('exclui identidades inconsistentes de sugestoes mas preserva pesquisa local
  await expect(page.locator('.radar-company-hit')).toContainText('Empresa Sem Risco');
  await page.locator('#radarCompanySearch').fill('Empresa Identidade Ruim');
  await expect(page.locator('.radar-directory-list li')).toHaveCount(1);
- await expect(page.locator('.radar-directory-list')).toContainText('00000000000000'.replace(/^(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})$/,'$1.$2.$3/$4-$5'));
+ await expect(page.locator('.radar-directory-list')).toContainText('00.000.000/0000-00');
  const source=await page.evaluate(()=>window.RadarCompanies.read());
  expect(source).toHaveLength(6);
 });
