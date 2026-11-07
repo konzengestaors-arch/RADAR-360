@@ -70,6 +70,8 @@
    }
    $('acaoForm').querySelector('button[type=submit]').disabled=readonly;
    $('oppForm').querySelector('button[type=submit]').disabled=readonly;
+   $('export').disabled=readonly;
+   $('export').title=readonly?'Exportação indisponível: a base local não foi recuperada. Restaure um backup sintético válido.':'Exportar a base sintética confirmada';
  }
  $('busca').addEventListener('input',render);
  $('regiao').addEventListener('change',render);
@@ -124,6 +126,17 @@
    }catch(error){document.querySelector('.notice').textContent='Cadastro rejeitado: '+error.message}
  });
  $('export').addEventListener('click',()=>{
+   if(readonly){
+     document.querySelector('.notice').textContent='Exportação bloqueada: base local indisponível ou inválida. Restaure um backup sintético antes de exportar.';
+     return;
+   }
+   try{
+     if(localStorage.getItem(STORAGE_KEY)!==expectedStored)throw Error('Base alterada em outra aba. Recarregue antes de exportar.');
+     validate(state);
+   }catch(error){
+     document.querySelector('.notice').textContent='Exportação bloqueada: '+error.message;
+     return;
+   }
    const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
    const url=URL.createObjectURL(blob),a=document.createElement('a');
    a.href=url;a.download='RADAR_COMERCIAL_DEMO_SINTETICO.json';a.click();
