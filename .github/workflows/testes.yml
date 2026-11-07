@@ -29,6 +29,8 @@ jobs:
           node-version: '22'
       - name: Instalar dependências
         run: npm ci --no-audit --no-fund
+      - name: Autorizar checkout verificado no contêiner GitHub Actions
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Construir pacote Android para ensaio Chromium
         run: node scripts/build-android.cjs
       - name: Testes funcionais
