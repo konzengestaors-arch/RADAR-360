@@ -36,3 +36,14 @@ Para cada cenário: identificador (C01... / O01...), PASSOU/FALHOU/BLOQUEADO, co
 
 ## Limites de escopo
 Não verifica isolamento entre organizações, autenticação ou sincronização de nuvem. Nenhum deploy, acesso a ambientes corporativos ou teste com dados reais está autorizado neste ciclo.
+
+## Atualização de auditoria automatizada — ciclo de 06/11/2026
+
+- Commit auditado: `5c9ea4f1ead0e0492db34526f62a0a0a8453baa0`.
+- Evidência CI: https://github.com/konzengestaors-arch/RADAR-360/actions/runs/42319543401
+- Resultado: 22 testes Node, 47 Chromium e 18 repetições críticas aprovados.
+- Emulação Chromium em cinco larguras verificou foco, botões visíveis, ausência de overflow global e altura de controles essenciais de pelo menos 40 px.
+- Teste de rede confirmou ausência de requisições a outras origens durante o fluxo comercial simulado.
+- **Não foi realizado teste no Android físico.** Não existe aqui URL de homologação independente autorizada e verificada. Os links para `demo/*.html` no GitHub mostram arquivos-fonte, não uma aplicação hospedada.
+- **Portão bloqueado:** para iniciar C01–C09 e O01–O04 em dispositivo real, é necessário um ambiente de testes separado e acessível ao Android, com autorização de disponibilização e nenhuma base real. O GitHub CI não supre essa evidência.
+- **Proibição mantida:** não alterar `main`, produção ou conectar bases corporativas; não transformar evidência de emulação em homologação física.
