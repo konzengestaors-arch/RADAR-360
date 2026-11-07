@@ -14,8 +14,8 @@ for(const width of [320,390,1440])test('referências oficiais e sinais são cate
   await page.locator('.nav [data-nav="investimentos"]').click();
   await expect(page.locator('#radarInvestmentSignals .radar-invest-list li')).toHaveCount(2);
   await expect(page.locator('.radar-official-reference-list li')).toHaveCount(4);
-  await expect(page.locator('.radar-official-reference-list')).toContainText('Seleção manual'.replace('Seleção manual','BNDES'));
-  await expect(page.locator('.radar-invest-editorial')).toContainText('Projetos documentados');
+  await expect(page.locator('.radar-official-reference-list')).toContainText('BNDES');
+  await expect(page.locator('.radar-invest-editorial[aria-label="Investimentos com documentos cadastrados"]')).toContainText('Projetos documentados');
   await expect(page.locator('#body')).toContainText('Nenhum projeto documentado');
   const links=await page.locator('.radar-official-reference-list a').evaluateAll(a=>a.map(x=>({href:x.href,rel:x.rel,target:x.target})));
   for(const link of links){expect(link.href).toMatch(/^https:/);expect(link.rel).toContain('noopener');expect(link.target).toBe('_blank')}
