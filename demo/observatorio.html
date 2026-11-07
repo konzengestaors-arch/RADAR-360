@@ -788,17 +788,18 @@ function jumpFromNumber(topic){
  closeDetail();
  const destination=topic==='fontes'?'noticias':topic==='indicadores'?'indicadores':'panorama';
  if(topic==='movimentos'||topic==='verificacoes')expandedPanoramaSections.add('registros');
- // Evitar recriar o próprio botão clicado e seus alvos: isso pode perder foco no touch.
  if(tab!==destination){tab=destination;render();}
  const id=({movimentos:'lista-movimentos',fontes:'lista-fontes',indicadores:'lista-indicadores',verificacoes:'lista-verificacoes'})[topic];
- const target=$(id);
- if(!target)return;
- const parent=target.closest('details[data-panorama-section]');
- if(parent){parent.open=true;expandedPanoramaSections.add(parent.dataset.panoramaSection);}
- if(!target.hasAttribute('tabindex'))target.setAttribute('tabindex','-1');
- target.focus({preventScroll:true});
- target.scrollIntoView({behavior:'auto',block:'start'});
- requestAnimationFrame(()=>{if(target.isConnected)target.focus({preventScroll:true});});
+ // Não rolar a página durante o evento do toque: o navegador pode ativar um summary sob o dedo.
+ requestAnimationFrame(()=>setTimeout(()=>{
+  const target=$(id);
+  if(!target)return;
+  const parent=target.closest('details[data-panorama-section]');
+  if(parent){parent.open=true;expandedPanoramaSections.add(parent.dataset.panoramaSection);}
+  if(!target.hasAttribute('tabindex'))target.setAttribute('tabindex','-1');
+  target.focus({preventScroll:true});
+  target.scrollIntoView({behavior:'auto',block:'start'});
+ },0));
 }
 function openQuickList(topic){
  if(topic==='movimentos'){jumpFromNumber('movimentos');return;}
