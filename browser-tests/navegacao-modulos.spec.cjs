@@ -4,11 +4,11 @@ for(const width of [320,390,768]){
     const context=await browser.newContext({viewport:{width,height:820},isMobile:width<=390,hasTouch:width<=390});
     try{
       const page=await context.newPage();
-      await page.goto('/demo/comercial.html');
+      await page.goto('/demo/comercial.html',{waitUntil:'domcontentloaded'});
       await expect(page.locator('.module-switcher a')).toBeVisible();
       const key='radar_comercial_demo_publica_20261106';
       const initial=await page.evaluate(k=>localStorage.getItem(k),key);
-      await page.locator('.module-switcher a').click();
+      await page.locator('.module-switcher a').click({noWaitAfter:true});
       await expect(page).toHaveURL(/\/demo\/observatorio\.html$/);
       const link=page.locator('.radar-module-link');
       await expect(link).toHaveCount(0);
