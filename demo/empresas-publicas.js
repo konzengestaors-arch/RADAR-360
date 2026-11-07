@@ -83,7 +83,7 @@ async function importFile(file){
 /* Qualidade de identidade: não confundir consistência do CNPJ com verificação oficial.
    Ambiguidades permanecem pesquisáveis, mas não entram em sugestões de correspondência. */
 function validCNPJ(cnpj){
- if(!/^\\d{14}$/.test(cnpj)||/^(\\d)\\1{13}$/.test(cnpj))return false;
+ if(!/^\d{14}$/.test(cnpj)||/^(\d)\1{13}$/.test(cnpj))return false;
  const digit=(len,weights)=>{
   let sum=0;
   for(let i=0;i<len;i++)sum+=Number(cnpj[i])*weights[i];
