@@ -3,21 +3,47 @@
 <meta name="theme-color" content="#0b3445"><meta name="description" content="RADAR 360 — escolha seu ambiente demonstrativo">
 <title>RADAR 360 | Central de navegação</title>
 <style>
-:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#14323c;background:#f2f7f6}
-*{box-sizing:border-box}body{margin:0}header{padding:45px max(20px,calc((100vw - 1000px)/2));background:linear-gradient(125deg,#0c2b42,#0b645c);color:#fff}
-header small{letter-spacing:.15em;font-weight:800;color:#91dacc}h1{font-size:clamp(32px,5vw,53px);line-height:1.1;margin:11px 0}header p{max-width:580px;color:#d7eee9;line-height:1.6}
-main{max-width:1020px;margin:auto;padding:24px 18px 60px}
-.notice{background:#fff6dd;border:1px solid #e6c978;border-radius:12px;padding:14px;margin:0 0 20px;font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:#fff;border:1px solid #d7e7e4;border-radius:18px;padding:25px;display:flex;flex-direction:column;align-items:flex-start;min-height:270px;box-shadow:0 6px 24px #122d3910}
-.icon{background:#e0f4ee;border-radius:13px;padding:12px;font-size:28px}.card small{font-size:12px;color:#0d7469;font-weight:800;letter-spacing:.07em;margin-top:19px}
-h2{margin:6px 0;font-size:24px}.card p{color:#526974;line-height:1.55;flex:1}.card a{display:inline-flex;align-items:center;min-height:48px;border-radius:10px;background:#0c665a;padding:12px 18px;color:white;font-weight:800;text-decoration:none}.card a:hover{background:#094c44}.card a:focus-visible{outline:3px solid #5bceb8;outline-offset:4px}
-footer{margin-top:22px;color:#546c72;font-size:13px}
-@media(max-width:650px){header{padding:30px 20px}.grid{grid-template-columns:1fr}.card{min-height:0;padding:22px}.card a{width:100%;justify-content:center}}
+:root{color-scheme:light;font:16px/1.5 Inter,"Segoe UI",system-ui,-apple-system,sans-serif;color:#163344;background:#f1f5f9;--navy:#091d32;--navy2:#12364b;--teal:#087f73;--lime:#a6f0b5;--line:#dce6ec}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(circle at 100% 0%,#e0f4ee 0%,transparent 42%),#f1f5f9}
+header{position:relative;overflow:hidden;padding:35px max(22px,calc((100vw - 1120px)/2)) 78px;min-height:335px;background:linear-gradient(120deg,#07182a 0%,#0e3042 58%,#116b60 100%);color:#fff}
+header:before,header:after{content:"";position:absolute;pointer-events:none;border:1px solid #96e6d33d;border-radius:50%;width:410px;height:410px;right:-110px;top:-185px;box-shadow:0 0 0 64px #91e5d00b,0 0 0 128px #91e5d008}
+header:after{width:5px;height:5px;top:118px;right:210px;background:#a6f0b5;box-shadow:0 0 0 12px #a6f0b524,0 0 36px 12px #9de9bb5c}
+.brandline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:54px;position:relative;z-index:1}
+.brandline .brand{font-size:15px;letter-spacing:.15em;font-weight:900;color:#f5fffd}
+.brandline .brand:before{content:"◉";font-size:19px;color:#9ef4cc;margin-right:12px;vertical-align:-1px}
+.brandline .pill{border:1px solid #a0edce68;border-radius:999px;padding:7px 11px;color:#bcefe1;font-size:11px;font-weight:750;letter-spacing:.06em}
+header small{letter-spacing:.15em;font-weight:800;color:#a6edcc;font-size:11px}
+h1{font-size:clamp(38px,5.8vw,68px);letter-spacing:-.065em;font-weight:820;line-height:1.04;max-width:680px;margin:12px 0 18px}
+header p{max-width:560px;color:#d1e7e6;line-height:1.7;margin:0;font-size:15px}
+main{max-width:1155px;margin:-45px auto 0;padding:0 22px 65px;position:relative;z-index:2}
+.sectionlabel{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.12em;font-weight:850;color:#436779;margin:23px 0 15px}
+.sectionlabel:before{content:"";width:20px;height:2px;background:#0c8b7a}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.card{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;min-height:322px;border:1px solid #d6e4e8;border-radius:20px;background:#fff;padding:28px;box-shadow:0 14px 48px #0e344010;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 20px 48px #0e344024}
+.card:before{content:"";height:5px;position:absolute;inset:0 0 auto 0;background:linear-gradient(90deg,#0b7c75,#6fd0ad)}
+.card:nth-child(2):before{background:linear-gradient(90deg,#174e8e,#60abc8)}
+.icon{display:grid;place-items:center;width:54px;height:54px;border-radius:15px;background:#e1f5ec;color:#0d6559;font-size:27px;font-weight:800}
+.card:nth-child(2) .icon{background:#e5effa;color:#204b81}
+.card small{font-size:10px;color:#087e73;font-weight:850;letter-spacing:.14em;margin-top:21px}
+.card:nth-child(2) small{color:#235d9b}
+h2{margin:4px 0 7px;font-size:clamp(25px,3vw,31px);letter-spacing:-.045em;font-weight:820;color:#122d40}
+.card p{color:#5a7280;line-height:1.6;flex:1;font-size:14px;max-width:390px}
+.card a{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:48px;min-width:205px;border-radius:11px;background:#0b675d;padding:12px 16px;color:#fff;font-weight:800;text-decoration:none;font-size:13px;transition:background .2s}
+.card a:after{content:"↗";font-size:17px;font-weight:500}
+.card:nth-child(2) a{background:#174776}
+.card a:hover{background:#074c45}.card:nth-child(2) a:hover{background:#103756}
+.card a:focus-visible{outline:3px solid #5bceb8;outline-offset:4px}
+.notice{display:flex;gap:10px;align-items:flex-start;background:#fffaf0;border:1px solid #eedeb6;border-radius:13px;padding:13px 16px;margin:20px 0 0;font-size:12px;color:#6b542e;line-height:1.6}
+.notice:before{content:"ⓘ";font-size:19px;line-height:1;color:#a47121}
+footer{margin-top:27px;color:#6b8390;font-size:12px;border-top:1px solid #dbe5e8;padding-top:20px}
+@media(max-width:650px){header{min-height:300px;padding:20px 20px 75px}.brandline{margin-bottom:36px}.brandline .pill{font-size:9px}h1{font-size:clamp(36px,10vw,49px)}header p{font-size:13px;max-width:340px}header:before{right:-240px}main{padding:0 15px 44px}.grid{grid-template-columns:1fr;gap:13px}.card{min-height:0;padding:21px;border-radius:16px}.card p{margin:7px 0 18px}.card a{width:100%;min-width:0}.sectionlabel{margin:21px 0 12px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;scroll-behavior:auto!important}}
 </style></head><body>
-<header><small>RADAR 360 · LABORATÓRIO</small><h1>Inteligência em um só lugar.</h1><p>Dois ambientes independentes, uma navegação objetiva. Escolha por onde começar.</p></header>
+<header><div class="brandline"><div class="brand">RADAR 360</div><span class="pill">LABORATÓRIO PRIVADO</span></div><small>INTELIGÊNCIA · VISÃO · DECISÃO</small><h1>Clareza para enxergar o próximo movimento.</h1><p>Uma central, dois ambientes de análise. Informações organizadas para explorar oportunidades e compreender cenários.</p></header>
 <main>
 <div class="notice" role="status"><strong>Uso demonstrativo:</strong> somente dados fictícios. Não insira dados de clientes, corporativos ou pessoais. Os registros ficam neste navegador, sem sincronização entre dispositivos.</div>
-<section class="grid" aria-label="Áreas do RADAR 360">
+<div class="sectionlabel">ESCOLHA SEU AMBIENTE</div><section class="grid" aria-label="Áreas do RADAR 360">
 <article class="card"><span class="icon" aria-hidden="true">◫</span><small>GESTÃO COMERCIAL</small><h2>Comercial</h2><p>Empresas fictícias, ações, oportunidades e histórico. Teste cadência comercial e backup local.</p><a href="comercial.html">Abrir Comercial</a></article>
 <article class="card"><span class="icon" aria-hidden="true">◉</span><small>INTELIGÊNCIA REGIONAL</small><h2>Observatório</h2><p>Panorama econômico regional, indicadores e notícias para revisão. Informação demonstrativa, não homologada para decisões.</p><a href="observatorio.html">Abrir Observatório</a></article>
 </section><footer>RADAR 360 · Prévia protegida de homologação. Acesso ao projeto não equivale a isolamento multiusuário.</footer>
