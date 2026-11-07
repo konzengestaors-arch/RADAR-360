@@ -57,3 +57,22 @@ test('backup legado sintético sem oportunidades continua aceito',()=>{
  const changed=radar.addOpportunity(state,'DEMO-001','Teste legado','2026-11-06');
  assert.equal(changed.oportunidades.length,1);
 });
+
+
+test('mudanças de oportunidade exigem motivo e data não retroativa',()=>{
+ const start=radar.addOpportunity(radar.initialState(),'DEMO-001','Oportunidade exemplo','2026-11-06');
+ assert.throws(()=>radar.changeOpportunity(start,'OP-DEMO-001','Proposta','2026-11-07',''),/Justificativa/);
+ assert.throws(()=>radar.changeOpportunity(start,'OP-DEMO-001','Proposta','2026-11-05','Motivo fictício'),/Data da transição/);
+ assert.equal(start.oportunidades[0].historico.length,1);
+});
+test('backup sintético com histórico contraditório é rejeitado',()=>{
+ const start=radar.addOpportunity(radar.initialState(),'DEMO-001','Oportunidade exemplo','2026-11-06');
+ const retro=structuredClone(start);
+ retro.oportunidades[0].historico.push({status:'Proposta',data:'2026-11-05',motivo:'Teste'});
+ retro.oportunidades[0].status='Proposta';
+ assert.throws(()=>radar.validate(retro),/retroativa/);
+ const noReason=structuredClone(start);
+ noReason.oportunidades[0].historico.push({status:'Proposta',data:'2026-11-07',motivo:' '});
+ noReason.oportunidades[0].status='Proposta';
+ assert.throws(()=>radar.validate(noReason),/Justificativa/);
+});
