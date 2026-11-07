@@ -7,7 +7,7 @@ test('importacao local armazena somente nome e CNPJ e vincula apenas noticia por
  await page.route('**/api/noticias',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(FEED)}));
  await page.goto('/demo/observatorio.html');
  const rows=[
- {nome:'Cooperativa Teste',cnpj:'12.345.678/0001-90',carteira:'CLIENTES CORP',prioridade:'P1',reuniao:'Confidencial',telefone:'555-1234'},
+ {nome:'Cooperativa Teste',cnpj:'81.616.807/0001-55',carteira:'CLIENTES CORP',prioridade:'P1',reuniao:'Confidencial',telefone:'555-1234'},
  {nome:'Empresa Sem Menção',cnpj:'',acao:'Não enviar ao servidor'}
  ];
  const html='<html><script>const RECORDS='+JSON.stringify(rows)+';\nconst ISSUES=[];</script></html>';
@@ -16,7 +16,7 @@ test('importacao local armazena somente nome e CNPJ e vincula apenas noticia por
  await expect(page.locator('.radar-company-hit')).toHaveCount(1);
  await expect(page.locator('.radar-company-hit')).toContainText('Cooperativa Teste');
  const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem('radar_empresas_publicas_nome_cnpj_v1')));
- expect(stored).toEqual([{nome:'Cooperativa Teste',cnpj:'12345678000190'},{nome:'Empresa Sem Menção',cnpj:''}]);
+ expect(stored).toEqual([{nome:'Cooperativa Teste',cnpj:'81616807000155'},{nome:'Empresa Sem Menção',cnpj:''}]);
  await expect(page.locator('.radar-company-panel')).not.toContainText('Confidencial');
  await page.reload();
  await expect(page.locator('.radar-company-count')).toHaveText('2');
