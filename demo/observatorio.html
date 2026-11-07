@@ -786,21 +786,19 @@ function headlineNumbers(moves){const totalSources=filteredNews().length;const c
 function jumpFromNumber(topic){
  if(!['movimentos','fontes','indicadores','verificacoes'].includes(topic))return;
  closeDetail();
- if(topic==='fontes')tab='noticias';else if(topic==='indicadores')tab='indicadores';else tab='panorama';
+ const destination=topic==='fontes'?'noticias':topic==='indicadores'?'indicadores':'panorama';
  if(topic==='movimentos'||topic==='verificacoes')expandedPanoramaSections.add('registros');
- render();
+ // Evitar recriar o próprio botão clicado e seus alvos: isso pode perder foco no touch.
+ if(tab!==destination){tab=destination;render();}
  const id=({movimentos:'lista-movimentos',fontes:'lista-fontes',indicadores:'lista-indicadores',verificacoes:'lista-verificacoes'})[topic];
  const target=$(id);
  if(!target)return;
  const parent=target.closest('details[data-panorama-section]');
  if(parent){parent.open=true;expandedPanoramaSections.add(parent.dataset.panoramaSection);}
- // Em toque móvel o foco nativo do botão pode ocorrer após o handler; aplicar no próximo frame.
- requestAnimationFrame(()=>{
-  if(!target.isConnected)return;
-  if(!target.hasAttribute('tabindex'))target.setAttribute('tabindex','-1');
-  target.focus({preventScroll:true});
-  target.scrollIntoView({behavior:'auto',block:'start'});
- });
+ if(!target.hasAttribute('tabindex'))target.setAttribute('tabindex','-1');
+ target.focus({preventScroll:true});
+ target.scrollIntoView({behavior:'auto',block:'start'});
+ requestAnimationFrame(()=>{if(target.isConnected)target.focus({preventScroll:true});});
 }
 function openQuickList(topic){
  if(topic==='movimentos'){jumpFromNumber('movimentos');return;}
