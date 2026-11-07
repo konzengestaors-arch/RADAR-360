@@ -37,3 +37,11 @@ jobs:
         run: npm run test:browser
       - name: Estabilidade — restauração e backup (3 repetições sem retry)
         run: npx playwright test browser-tests/integridade-storage.spec.cjs browser-tests/comercial-demo.spec.cjs --grep 'restauração|restaura|backup' --repeat-each=3 --workers=1
+
+      - name: Capturas da composição editorial
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: radar-editorial-${{ github.sha }}
+          path: test-results/editorial-*.png
+          if-no-files-found: ignore
