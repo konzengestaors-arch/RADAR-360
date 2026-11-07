@@ -451,129 +451,121 @@ body{background:radial-gradient(circle at 88% 0%,#dcefe8 0%,transparent 38%),#f3
 }
 @media(min-width:721px) and (max-width:1100px){.editorial-indicator-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
-<style id="radar-editorial-edition">
-/* Composição editorial: masthead, faixa econômica e manchetes; sem coluna de dashboard. */
-body{background:#f8f8f4;color:#172f36}
-.shell{display:block;max-width:1560px;margin:auto}
-.sidebar{position:relative;top:auto;width:100%;height:auto;min-height:0;padding:20px 4%;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:20px;background:#f8f8f4;color:#123740;border-bottom:1px solid #173f43}
-.brand{padding:0}.brand strong{font-size:25px;letter-spacing:.12em}.brand small{color:#49706e}
-.mark{background:#123e40}.side-section,.sidefoot{display:none}
-.nav{flex-direction:row;gap:8px}.nav button{color:#456168;background:transparent;border:0;border-radius:0;padding:12px 16px;font-size:13px}
-.nav button.active{background:transparent;color:#075f50;box-shadow:inset 0 -2px #087e69}
-.nav button svg{display:none}.workspace{min-width:0}
-.topbar{position:static;background:transparent;box-shadow:none;border:0;min-height:0;padding:10px 4%;align-items:center}
-.topbar .kicker,.mobile-brand{display:none}.topbar h1{display:block;margin:0;color:#56716e;font:600 11px/1.3 system-ui;letter-spacing:.03em}.top-actions{margin-left:auto;gap:12px}
-.top-actions .btn{border:0;background:transparent;box-shadow:none;color:#496367;padding:6px 4px;font-size:11px;font-weight:600;min-height:36px}
-.content{max-width:1320px;margin:auto;padding:14px 4% 70px}
-.hero.radar-premium-hero{background:none;color:#14383e;border:0;border-radius:0;box-shadow:none;padding:12px 0 24px;min-height:0;display:block;border-bottom:3px solid #173f43;margin:0}
-.hero.radar-premium-hero h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(34px,5vw,66px);line-height:1.07;font-weight:500;letter-spacing:-.045em;max-width:none;margin:10px 0}
-.hero.radar-premium-hero .eyebrow{color:#08745f;font-size:10px;letter-spacing:.17em}
-.hero.radar-premium-hero p{color:#526a70;font-size:15px;max-width:none;margin:12px 0 0}
-.hero-meta,.hero-scope{display:none}.hero-focus{background:none;color:#195850;border-color:#a3bbb0}
-.radar-editorial-top{display:flex;flex-direction:column;gap:0;margin:0}
-.panorama-main-market{width:100%;margin:0}.market-board{background:none;border:0;border-radius:0;box-shadow:none;margin:0;padding:0}
-.market-board-head{display:flex;align-items:center;padding:12px 0 0;gap:10px;border:0}
-.market-board-head h2{font:700 11px/1.4 system-ui;text-transform:uppercase;letter-spacing:.1em;margin:0}
-.market-board-head .eyebrow,.market-board-head p,.market-subhead:not(.index-title){display:none}
-.market-refresh{font-size:11px;min-height:32px;padding:4px 8px;background:none;border:0}
-.market-content{padding:0}.fx-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:8px 0}
-.fx-tile{border:0;border-right:1px solid #d8e0d8;border-radius:0;background:none;padding:6px 14px;box-shadow:none;min-height:0}
-.fx-tile:first-child{padding-left:0}.fx-tile:last-child{border-right:0}
-.tile-kind{font-size:10px}.tile-number{font-size:19px!important;line-height:1.3}.tile-date{font-size:9px}
-.radar-market-details{border-bottom:1px solid #c9d6cc;padding-bottom:8px;margin-bottom:28px}
-.radar-market-details>summary{font-size:11px;color:#44665f;cursor:pointer;padding:4px 0;min-height:30px}
-.radar-market-details[open]{padding-bottom:18px}.market-live{background:#fff}
-#marketRibbonError:empty{display:none}
-.news-live-section{border:0;border-radius:0;box-shadow:none;background:none;padding:0;margin:0 0 24px;overflow:visible}
-.news-live-heading{padding:0 0 15px;border-bottom:1px solid #cbd6ce;align-items:center}
-.news-live-heading h2{font-size:12px;text-transform:uppercase;letter-spacing:.14em;margin:0;color:#145a4d}
-.news-live-heading p,.news-live-heading .eyebrow{display:none}
-.news-live-heading .btn{background:none;border:0;font-size:11px;padding:6px 0;min-height:36px}
-.news-live-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:0 28px;padding:0}
-.news-live-card,.news-live-card.featured{border:0;border-bottom:1px solid #d4ddd5;border-radius:0;background:transparent;box-shadow:none;padding:24px 0;margin:0;min-height:0}
-.news-live-card.featured{grid-column:1;grid-row:1 / span 2;padding-right:26px;border-right:1px solid #d4ddd5}
-.news-live-card h3{font-family:Georgia,'Times New Roman',serif;font-size:22px;line-height:1.28;font-weight:500;letter-spacing:-.02em;margin:12px 0 16px}
-.news-live-card.featured h3{font-size:clamp(28px,3vw,43px);line-height:1.13}
-.news-live-card h3 a{color:#123840;text-decoration:none;display:block}
-.news-live-card h3 a:hover{color:#08745f;text-decoration:underline}
-.news-live-kicker{background:none;color:#08745f;padding:0;font-size:9px;letter-spacing:.12em;text-transform:uppercase}
-.news-live-meta{font-size:10px;color:#5d7273;gap:10px;flex-wrap:wrap}
-.news-live-open{font-size:11px;padding:8px 0;min-height:36px}
-.news-live-foot{font-size:10px;line-height:1.6;padding:12px 0;color:#657775}
-.radar-command-strip{display:flex!important;flex-wrap:wrap;gap:8px 28px;background:none;border:0;border-top:1px solid #bdcec4;border-bottom:1px solid #bdcec4;border-radius:0;box-shadow:none;padding:10px 0;margin:16px 0 28px}
-.radar-command-metric.radar-command-link{display:flex;flex-direction:row;align-items:baseline;gap:8px;border:0;background:none;border-radius:0;box-shadow:none;padding:6px 0;min-height:36px;text-align:left;flex:none}
-.radar-command-metric span{font-size:9px;letter-spacing:.04em}.radar-command-metric strong{font:600 16px system-ui}.radar-command-metric small{font-size:10px}
-.radar-company-panel{border-radius:0!important;box-shadow:none!important;background:transparent!important;border:0!important;border-bottom:1px solid #cbd6ce!important;padding:0 0 24px!important}
-.radar-company-directory{background:transparent!important;border-radius:0!important}
-.overview-section{margin-top:32px}.stats{gap:0!important;border-block:1px solid #d4ddd5}
-.stat{background:none!important;box-shadow:none!important;border:0!important;border-radius:0!important}
-.quick-updates{border:0;border-bottom:1px solid #cbd6ce;border-radius:0;box-shadow:none;background:none;padding:18px 0}
-.panel,.card,.editorial-projects .card{box-shadow:none;border-radius:2px}
-.tabs-mobile{display:none}
-@media(max-width:900px){
-.sidebar{display:flex!important;padding:16px 5% 0;flex-direction:column;align-items:flex-start;gap:14px}
-.sidebar>div:nth-child(2){width:100%}.nav{width:100%;justify-content:space-between;gap:0}.nav button{padding:12px 2px;font-size:11px;min-height:42px}
-.brand strong{font-size:22px}.brand small{font-size:8px}.mark{width:32px;height:32px;flex-basis:32px}
-.topbar{padding:6px 5%}.top-actions{width:100%;justify-content:space-between;gap:5px}
-.top-actions .btn{font-size:10px}.content{padding:4px 5% 40px}
-.hero.radar-premium-hero{padding:12px 0 20px}.hero.radar-premium-hero h2{font-size:38px}.hero.radar-premium-hero p{font-size:13px;line-height:1.5}
-.news-live-grid{grid-template-columns:1fr 1fr;gap:0 20px}
-.news-live-card.featured{grid-column:1 / -1;grid-row:auto;border-right:0;padding:24px 0}
-.news-live-card.featured h3{font-size:34px;max-width:680px}.news-live-card h3{font-size:21px}
-.fx-tile{padding:5px 8px}.tile-number{font-size:16px!important}.tile-kind{font-size:9px}.tile-kind b{display:block}
-.radar-command-strip{gap:4px 20px}.radar-command-metric small{display:none}
+
+<style id="radar-portal-editorial">
+/* RADAR 360 | Capa editorial. Uma regra de apresentação central substitui
+   as edições incrementais anteriores, sem modificar ações, armazenamento ou fontes. */
+:root{--portal-ink:#142e36;--portal-paper:#f8f7f2;--portal-rule:#ccd7d1;--portal-accent:#147668}
+body[data-current-tab="panorama"]{background:var(--portal-paper);color:var(--portal-ink)}
+body[data-current-tab="panorama"] .shell{display:block!important;min-height:100vh}
+body[data-current-tab="panorama"] .workspace{width:100%;min-width:0}
+body[data-current-tab="panorama"] .sidebar{height:auto!important;min-height:0!important;position:relative!important;top:auto;display:flex!important;flex-direction:row!important;align-items:center;justify-content:space-between;gap:22px;padding:16px clamp(18px,4.5vw,86px)!important;background:#0e3139;color:#eaf6f2}
+body[data-current-tab="panorama"] .sidebar .brand{padding:0;flex:none}
+body[data-current-tab="panorama"] .sidebar .brand strong{font-size:19px;letter-spacing:.16em}
+body[data-current-tab="panorama"] .sidebar .brand small{font-size:9px;letter-spacing:.2em}
+body[data-current-tab="panorama"] .sidebar>div:nth-child(2){width:auto}
+body[data-current-tab="panorama"] .side-section,body[data-current-tab="panorama"] .sidefoot{display:none}
+body[data-current-tab="panorama"] .nav{display:flex!important;flex-direction:row!important;gap:12px;align-items:center}
+body[data-current-tab="panorama"] .nav button{color:#c4ded7;background:none!important;box-shadow:none!important;font-size:12px;padding:10px 12px;border-radius:3px;white-space:nowrap;min-height:44px}
+body[data-current-tab="panorama"] .nav button svg{height:15px;width:15px}
+body[data-current-tab="panorama"] .nav button.active{color:white!important;border-bottom:2px solid #8fdfc2}
+body[data-current-tab="panorama"] .topbar{height:auto;min-height:54px;background:var(--portal-paper);border-bottom:1px solid var(--portal-rule);padding:8px clamp(18px,4.5vw,86px);gap:12px}
+body[data-current-tab="panorama"] .topbar h1{font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:500;letter-spacing:0;color:#173b43}
+body[data-current-tab="panorama"] .topbar .kicker{font-size:9px;color:#476a66;letter-spacing:.13em}
+body[data-current-tab="panorama"] .top-actions .btn{background:transparent;border:1px solid transparent;box-shadow:none;color:#43645f;padding:8px 11px;font-size:11px}
+body[data-current-tab="panorama"] .top-actions .btn.primary{background:transparent;border-color:#a9c9bd;color:#146b5c}
+body[data-current-tab="panorama"] .top-actions .btn:hover{border-color:#7ea99c;background:#edf5ee}
+body[data-current-tab="panorama"] .content{max-width:1220px;padding:0 clamp(18px,4.5vw,64px) 100px;margin:0 auto}
+body[data-current-tab="panorama"] .radar-issue-lead{padding:58px 0 37px;border-bottom:3px double #9eb6af}
+body[data-current-tab="panorama"] .radar-issue-meta{display:flex;align-items:center;gap:13px;font-size:10px;font-weight:850;letter-spacing:.16em;color:var(--portal-accent)}
+body[data-current-tab="panorama"] .radar-issue-line{height:1px;width:35px;background:#b5c8c1}
+body[data-current-tab="panorama"] .radar-issue-lead h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(41px,6.2vw,83px);line-height:1.035;letter-spacing:-.052em;font-weight:500;color:#153a42;max-width:990px;margin:25px 0 18px}
+body[data-current-tab="panorama"] .radar-issue-lead h2 em{font-weight:400;color:#087766}
+body[data-current-tab="panorama"] .radar-issue-lead>p{max-width:660px;font-size:16px;line-height:1.7;color:#4f6869;margin:0 0 25px}
+body[data-current-tab="panorama"] .radar-issue-scope{display:flex;flex-wrap:wrap;gap:9px 21px;color:#5b7470;font-size:9px;font-weight:800;letter-spacing:.12em}
+body[data-current-tab="panorama"] .radar-edition-cover{padding:30px 0 14px}
+body[data-current-tab="panorama"] .news-live-section{border:0!important;background:transparent!important;box-shadow:none!important;padding:0!important;margin:0!important;border-radius:0!important}
+body[data-current-tab="panorama"] .news-live-heading{border-bottom:1px solid #9eb6af;display:flex;align-items:end;gap:18px;padding:0 0 16px;margin:0}
+body[data-current-tab="panorama"] .news-live-heading .eyebrow{display:block;color:var(--portal-accent);font-size:10px;letter-spacing:.16em}
+body[data-current-tab="panorama"] .news-live-heading h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(27px,3vw,39px);font-weight:500;letter-spacing:-.04em;color:var(--portal-ink);text-transform:none;margin:5px 0}
+body[data-current-tab="panorama"] .news-live-heading p{display:block;font-size:12px;color:#55716d}
+body[data-current-tab="panorama"] .news-live-heading .news-live-refresh{background:transparent;border:1px solid #b6d0c5;color:#126b5f;font-size:11px;border-radius:2px;padding:8px 12px;min-height:44px}
+body[data-current-tab="panorama"] .news-live-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-auto-flow:row;gap:0 34px;padding:0}
+body[data-current-tab="panorama"] .news-live-card,body[data-current-tab="panorama"] .news-live-card.featured{background:transparent!important;border:0!important;border-bottom:1px solid var(--portal-rule)!important;border-radius:0!important;padding:17px 0!important;box-shadow:none!important;transform:none!important;margin:0!important}
+body[data-current-tab="panorama"] .news-live-card.featured{grid-column:1;grid-row:1 / span 5;align-self:start;border-bottom:0!important;padding:25px 28px 0 0!important;border-right:1px solid var(--portal-rule)!important}
+body[data-current-tab="panorama"] .news-live-card:not(.featured){grid-column:2}
+body[data-current-tab="panorama"] .news-live-card .news-live-kicker{color:#087568;font-size:10px;font-weight:800;letter-spacing:.12em}
+body[data-current-tab="panorama"] .news-live-card h3{font-family:Georgia,'Times New Roman',serif;font-size:clamp(19px,1.9vw,26px);font-weight:500;letter-spacing:-.018em;line-height:1.27;margin:7px 0 11px}
+body[data-current-tab="panorama"] .news-live-card.featured h3{font-size:clamp(30px,3.8vw,51px);line-height:1.12;letter-spacing:-.036em;margin:14px 0 25px}
+body[data-current-tab="panorama"] .news-live-card h3 a{color:var(--portal-ink);text-decoration:none}
+body[data-current-tab="panorama"] .news-live-card h3 a:hover{text-decoration:underline;text-decoration-color:#0c9175}
+body[data-current-tab="panorama"] .news-live-card .news-live-meta{font-size:11px;color:#58706e;gap:10px}
+body[data-current-tab="panorama"] .news-live-card .news-live-open{color:#096a59;font-size:12px;padding:8px 0}
+body[data-current-tab="panorama"] .news-live-foot{font-size:10px;color:#71837c;line-height:1.5;border:0;padding:15px 0 0}
+body[data-current-tab="panorama"] .radar-command-strip{display:flex!important;flex-wrap:wrap;gap:2px 20px;border:0;border-top:1px solid #a6bbb2;border-bottom:1px solid #a6bbb2;padding:10px 0;margin:16px 0 48px;background:transparent!important}
+body[data-current-tab="panorama"] .radar-command-metric.radar-command-link{flex:1 1 200px;display:flex;align-items:center;flex-direction:row;flex-wrap:wrap;justify-content:flex-start;gap:5px 9px;min-height:44px;max-width:none;border:0;border-radius:0;box-shadow:none;background:transparent;color:#164e4b;padding:8px 4px;text-align:left}
+body[data-current-tab="panorama"] .radar-command-metric span{font-size:10px;letter-spacing:.09em;font-weight:800;color:#315b55}
+body[data-current-tab="panorama"] .radar-command-metric strong{font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:500;color:#0d6959;margin:0;letter-spacing:0}
+body[data-current-tab="panorama"] .radar-command-metric small{display:inline;font-size:10px;color:#538172}
+body[data-current-tab="panorama"] .radar-section-intro{margin:30px 0 19px;padding:0 0 17px;border-bottom:1px solid #aabfb5}
+body[data-current-tab="panorama"] .radar-section-index{font-size:10px;color:#087568;font-weight:850;letter-spacing:.14em}
+body[data-current-tab="panorama"] .radar-section-intro h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(30px,3vw,45px);font-weight:500;letter-spacing:-.044em;margin:8px 0 6px;color:#153a42}
+body[data-current-tab="panorama"] .radar-section-intro p{font-size:13px;color:#5a7370;max-width:700px;margin:0;line-height:1.6}
+body[data-current-tab="panorama"] .radar-company-panel{border:0!important;background:transparent!important;box-shadow:none!important;padding:0 0 22px!important}
+body[data-current-tab="panorama"] .radar-company-heading h2{font-size:20px;letter-spacing:-.02em}
+body[data-current-tab="panorama"] .radar-company-directory{border:1px solid #c8d8d1!important;border-radius:3px!important;background:#fffdfa!important}
+body[data-current-tab="panorama"] .radar-directory-list{max-height:350px;overflow-y:auto;scrollbar-gutter:stable}
+body[data-current-tab="panorama"] .radar-directory-list li{border-bottom:1px solid #e3e9e4;background:transparent!important;border-radius:0!important}
+body[data-current-tab="panorama"] .radar-analytical-appendix{border-top:3px double #9eb6af;margin-top:28px;padding-top:4px}
+body[data-current-tab="panorama"] .panorama-main-market{padding:0 0 14px}
+body[data-current-tab="panorama"] .market-board{background:transparent;border:0;box-shadow:none;padding:0}
+body[data-current-tab="panorama"] .market-board-head h2{font-size:13px;color:#164d43}
+body[data-current-tab="panorama"] .fx-grid{border-block:1px solid #d8e1db}
+body[data-current-tab="panorama"] .fx-tile{background:transparent;border-radius:0;border:0;border-right:1px solid #d6e1da;box-shadow:none;padding:11px 12px}
+body[data-current-tab="panorama"] .fx-tile:last-child{border-right:0}
+body[data-current-tab="panorama"] .overview-section{margin-top:24px}
+body[data-current-tab="panorama"] .overview-section .stat{border-radius:0;box-shadow:none;background:none}
+body[data-current-tab="panorama"] .radar-disclosure{border-radius:3px;box-shadow:none}
+body[data-current-tab="panorama"] .quick-updates{border-radius:0;box-shadow:none;background:none;border:0;border-bottom:1px solid #cbd8d0}
+body[data-current-tab="panorama"] .tabs-mobile{display:none!important}
+@media(max-width:840px){
+ body[data-current-tab="panorama"] .sidebar{flex-direction:column!important;align-items:stretch;gap:9px;padding:13px 5% 4px!important}
+ body[data-current-tab="panorama"] .sidebar .brand{padding:3px 0}
+ body[data-current-tab="panorama"] .sidebar .brand strong{font-size:17px}
+ body[data-current-tab="panorama"] .nav{justify-content:space-between;gap:0}
+ body[data-current-tab="panorama"] .nav button{font-size:11px;padding:9px 5px;gap:6px}
+ body[data-current-tab="panorama"] .nav button svg{display:none}
+ body[data-current-tab="panorama"] .topbar{padding:8px 5%}
+ body[data-current-tab="panorama"] .topbar h1{font-size:15px}
+ body[data-current-tab="panorama"] .top-actions{width:auto}
+ body[data-current-tab="panorama"] .top-actions .btn{min-height:40px;font-size:10px}
+ body[data-current-tab="panorama"] .content{padding:0 5% 80px}
+ body[data-current-tab="panorama"] .radar-issue-lead{padding:32px 0 29px}
+ body[data-current-tab="panorama"] .radar-issue-lead h2{font-size:clamp(38px,9vw,59px)}
+ body[data-current-tab="panorama"] .radar-issue-lead>p{font-size:14px}
+ body[data-current-tab="panorama"] .radar-edition-cover{padding-top:24px}
+ body[data-current-tab="panorama"] .news-live-grid{grid-template-columns:1fr;gap:0}
+ body[data-current-tab="panorama"] .news-live-card.featured{grid-column:1;grid-row:auto;border:0!important;border-bottom:2px solid #a5bfb4!important;padding:21px 0!important}
+ body[data-current-tab="panorama"] .news-live-card:not(.featured){grid-column:1}
+ body[data-current-tab="panorama"] .news-live-card.featured h3{font-size:clamp(31px,7.5vw,42px)}
+ body[data-current-tab="panorama"] .news-live-card h3{font-size:22px}
+ body[data-current-tab="panorama"] .radar-command-strip{margin:12px 0 29px;gap:0 14px}
+ body[data-current-tab="panorama"] .radar-command-metric.radar-command-link{flex:1 1 45%;gap:4px}
+ body[data-current-tab="panorama"] .radar-section-intro h2{font-size:34px}
 }
-@media(max-width:480px){
-.news-live-grid{display:block}.news-live-card{padding:19px 0}.news-live-card.featured h3{font-size:32px}
-.news-live-card:not(.featured) h3{font-size:24px}.news-live-meta{font-size:10px}
-.fx-grid{gap:0}.tile-number{font-size:14px!important}.tile-date{font-size:8px}.fx-tile{padding:5px 5px}
-.radar-command-strip{justify-content:space-between;gap:6px}.radar-command-metric.radar-command-link{flex-direction:column;gap:0}.radar-command-metric span{font-size:8px}.radar-command-metric strong{font-size:16px}
-}
-</style><style id="radar-editorial-reading">
-/* Leitura editorial: manchetes e listas, mantendo os controles existentes. */
-body[data-current-tab="panorama"] .radar-premium-hero{background:transparent;border:0;box-shadow:none;color:#153846;padding:12px 0 18px;border-radius:0}
-body[data-current-tab="panorama"] .radar-premium-hero:after{display:none}
-body[data-current-tab="panorama"] .radar-premium-hero h2{color:#123344;font-size:clamp(28px,4vw,44px);letter-spacing:-.055em}
-body[data-current-tab="panorama"] .radar-premium-hero p{color:#526b77}
-body[data-current-tab="panorama"] .radar-premium-hero .eyebrow{color:#0b6c61}
-body[data-current-tab="panorama"] .hero-meta{display:none}
-body[data-current-tab="panorama"] .radar-editorial-top{display:flex;flex-direction:column;gap:20px}
-body[data-current-tab="panorama"] .panorama-main-market{width:100%;margin:0}
-body[data-current-tab="panorama"] .news-live-section{width:100%;border:0;border-radius:0;box-shadow:none;background:transparent;padding:4px 0 18px}
-.news-live-heading{border-bottom:2px solid #163b45;padding-bottom:15px}
-.news-live-heading h2{font-size:clamp(25px,3vw,35px);letter-spacing:-.05em}
-.news-live-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 26px}
-.news-live-card,.news-live-card:hover{background:transparent;border:0;border-bottom:1px solid #cbdcda;border-radius:0;box-shadow:none;transform:none;padding:19px 0;min-width:0}
-.news-live-card.featured{grid-column:1/-1;background:transparent;border:0;border-bottom:1px solid #9ebbb4;border-radius:0;padding:22px 0 25px}
-.news-live-card.featured h3{font-size:clamp(25px,3.4vw,42px);max-width:1000px;line-height:1.17;letter-spacing:-.045em}
-.news-live-card.featured h3 a,.news-live-card h3 a{color:#123444}
-.news-live-card.featured .news-live-kicker,.news-live-card.featured .news-live-open{color:#09695d}
-.news-live-card.featured .news-live-meta{color:#4e6974}
-.news-live-card h3{font-size:20px;line-height:1.3}
-.radar-command-strip{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid #bdcfcc;border-bottom:1px solid #bdcfcc;margin:9px 0 25px}
-.radar-command-metric,.radar-command-metric:hover{flex:1 1 180px;border:0;border-radius:0;background:transparent;box-shadow:none;padding:14px 18px;text-align:left;transform:none}
-.radar-command-metric+.radar-command-metric{border-left:1px solid #d1e0dc}
-.radar-command-metric strong{font-size:24px;display:inline-block}
-.radar-command-metric small{font-size:12px;color:#09695d}
-.radar-company-panel{border:0;border-top:2px solid #163b45;border-radius:0;box-shadow:none;background:transparent;padding:21px 0}
-.radar-company-directory{border:0;border-radius:0;background:transparent}
-.radar-directory-list{gap:0 20px}
-.radar-directory-list li{border:0;border-bottom:1px solid #d0dfda;background:transparent;border-radius:0;padding:12px 0}
-.overview-section .stats{gap:0}
-.overview-section .stat{box-shadow:none;border-radius:0;border:0;border-bottom:1px solid #d1dfdc;background:transparent}
-@media(max-width:720px){
- body[data-current-tab="panorama"] .radar-premium-hero{padding:8px 0 14px}
- body[data-current-tab="panorama"] .radar-premium-hero h2{font-size:29px}
- .news-live-grid{grid-template-columns:1fr}
- .news-live-card.featured{padding:17px 0 21px}
- .news-live-card.featured h3{font-size:27px}
- .news-live-card h3{font-size:20px}
- .radar-command-metric,.radar-command-metric:hover{flex:1 1 30%;min-width:0;padding:12px 8px}
- .radar-command-metric span{font-size:9px}
- .radar-command-metric strong{font-size:23px}
- .radar-command-metric small{font-size:10px}
- .news-live-heading{gap:10px}
- .radar-company-panel{padding:17px 0}
+@media(max-width:450px){
+ body[data-current-tab="panorama"] .radar-issue-meta{font-size:9px;gap:8px;letter-spacing:.08em}
+ body[data-current-tab="panorama"] .radar-issue-line{width:20px}
+ body[data-current-tab="panorama"] .radar-issue-scope{gap:8px 11px;font-size:8px}
+ body[data-current-tab="panorama"] .topbar{align-items:flex-start;gap:5px}
+ body[data-current-tab="panorama"] .top-actions{justify-content:flex-end}
+ body[data-current-tab="panorama"] .top-actions .btn{font-size:9px;padding:6px 5px;min-height:36px}
+ body[data-current-tab="panorama"] .radar-issue-lead h2{font-size:39px}
+ body[data-current-tab="panorama"] .news-live-heading{align-items:start}
+ body[data-current-tab="panorama"] .news-live-heading h2{font-size:29px}
+ body[data-current-tab="panorama"] .news-live-heading .news-live-refresh{font-size:10px;padding:6px 8px}
+ body[data-current-tab="panorama"] .radar-command-metric.radar-command-link{flex:1 1 46%;min-width:0}
+ body[data-current-tab="panorama"] .radar-command-metric span{font-size:9px}
 }
 </style></head><body><p id="environmentNotice" class="sr-only">HOMOLOGAÇÃO PRIVADA — CATÁLOGO EMPRESARIAL SEPARADO DOS DADOS COMERCIAIS. Cadastros ainda não validados individualmente. Não utilize informações confidenciais.</p>
 <div class="shell"><aside class="sidebar"><div class="brand"><span class="mark" aria-hidden="true"></span><div><strong>RADAR</strong><small>OBSERVATÓRIO</small></div></div><div><div class="side-section">Inteligência regional</div><nav class="nav" aria-label="Navegação principal"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg> Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/><path d="M7 16h2m3 0h2m3 0h2"/></svg> Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9m-9 4h6"/></svg> Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg> Indicadores</button></nav></div><div class="sidefoot"><b>RS • OESTE SC • LITORAL SUL SC</b><span>Painel regional e financeiro. Novos documentos passam por revisão humana.</span><p>v1.9 · Prévia de desenvolvimento sem homologação</p></div></aside><div class="workspace"><header class="topbar"><div><span class="mobile-brand">◉ RADAR OBSERVATÓRIO</span><span class="kicker">Observatório econômico</span><h1 id="pageName">Panorama Regional</h1></div><div class="top-actions"><button type="button" id="openUpdates" class="btn" aria-label="Abrir notícias e atualizações para revisão">↻ Notícias &amp; atualizações</button><button type="button" id="openTools" class="btn" aria-label="Abrir fontes, histórico e backup">Ferramentas</button><button type="button" id="exportTop" class="btn primary" aria-label="Exportar backup JSON">Exportar backup</button></div></header><main class="content" id="body" aria-live="polite"></main></div></div>
@@ -837,19 +829,30 @@ function panorama(moves){
  const queue=moves.filter(m=>m.proximaVerificacaoMotivo).sort((a,b)=>(a.proximaVerificacaoData||'9999').localeCompare(b.proximaVerificacaoData||'9999')).slice(0,4);
  const pending=(state.caixaAtualizacoes||[]).filter(c=>c.status==='pendente').length;
  const lead=moves.filter(m=>m.prioridade==='Alta').sort((a,b)=>(b.dataPublicacao||'').localeCompare(a.dataPublicacao||''))[0];
- return `<section class="hero hero-compact radar-premium-hero"><div><span class="eyebrow">ECONOMIA • EMPRESAS • MOVIMENTOS</span><h2>O que move a economia.</h2><p>Notícias públicas, empresas monitoradas e acontecimentos relevantes em uma única leitura.</p><div class="hero-scope">Rio Grande do Sul <span>•</span> Santa Catarina</div>${lead?`<button type="button" class="hero-focus" data-open="${E(lead.id)}" aria-label="Abrir destaque regional: ${E(lead.titulo)}"><span>EM FOCO</span> ${E(lead.titulo)} ↗</button>`:''}</div><div class="hero-meta"><span>OBSERVATÓRIO</span><strong>360°</strong><small>Fontes e evidências</small></div></section>
+ return `<header class="radar-issue-lead" aria-label="Abertura editorial">
+ <div class="radar-issue-meta"><span>RADAR 360</span><span class="radar-issue-line" aria-hidden="true"></span><span>INTELIGÊNCIA EMPRESARIAL · SUL DO BRASIL</span></div>
+ <h2>O que está <em>movendo</em> a economia.</h2>
+ <p>Notícias verificáveis, empresas em observação e acontecimentos que merecem atenção. Uma leitura, sem excesso de painéis.</p>
+ <div class="radar-issue-scope"><span>RIO GRANDE DO SUL</span><span>OESTE DE SANTA CATARINA</span><span>LITORAL SUL</span></div>
+ </header>
  ${storageWarning?`<div class="notice danger">${E(storageWarning)}</div>`:''}
- <div class="radar-editorial-top" aria-label="Mercados e principais notícias">
-   <div class="panorama-main-market" id="marketSnapshot">${RadarFinancial.render()}</div>
+ <section class="radar-edition-cover" aria-label="Caderno de notícias">
    ${liveNewsSection()}
- </div>
+ </section>
  <section class="radar-command-strip" aria-label="Atalhos para as listas do Observatório">
   <button type="button" class="radar-command-metric radar-command-link" data-quick-target="empresas" aria-label="Abrir lista de empresas monitoradas"><span>EMPRESAS NO CATÁLOGO</span><strong id="radarTopCompanies">${window.RadarCompanies.read().length}</strong><small>Consultar empresas <span aria-hidden="true">↗</span></small></button>
   <button type="button" class="radar-command-metric radar-command-link" data-quick-target="noticias" aria-label="Abrir lista de notícias consultadas"><span>NOTÍCIAS CONSULTADAS</span><strong id="radarTopNews">${liveNewsCache?.items?.length??'—'}</strong><small>Ver manchetes <span aria-hidden="true">↗</span></small></button>
   <button type="button" class="radar-command-metric radar-command-link" data-quick-target="movimentos" aria-label="Abrir lista de movimentos documentados"><span>MOVIMENTOS DOCUMENTADOS</span><strong>${moves.length}</strong><small>Explorar registros <span aria-hidden="true">↗</span></small></button>
  </section>
- ${window.RadarCompanies.panel()}
- <section class="overview-section">${sect('Indicadores de acompanhamento','Atalhos para assuntos e registros documentados.')}${headlineNumbers(moves)}</section>
+ <section class="radar-directory-feature" aria-label="Observatório de empresas">
+  <div class="radar-section-intro"><span class="radar-section-index">02 / EMPRESAS</span><h2>Quem está no radar</h2><p>Uma biblioteca pesquisável de empresas. Menções em notícias são apenas correspondências textuais, sujeitas à conferência.</p></div>
+  ${window.RadarCompanies.panel()}
+ </section>
+ <section class="radar-analytical-appendix" aria-label="Dados de referência">
+  <div class="radar-section-intro"><span class="radar-section-index">03 / CONTEXTO</span><h2>Indicadores e referências</h2><p>Câmbio, mercados e registros documentados para aprofundar a leitura.</p></div>
+  <div class="panorama-main-market" id="marketSnapshot">${RadarFinancial.render()}</div>
+  <section class="overview-section">${sect('Registros e evidências','Acesse os conjuntos de dados e seus históricos.')}${headlineNumbers(moves)}</section>
+ </section>
  ${disclosure('prioridades','Leitura executiva','Destaques e movimentos que merecem atenção.',priorityBrief(moves))}
  <div class="quick-updates"><div><strong>${pending} atualização(ões) para revisar</strong><span>Coleta de notícias por lote, com verificação humana antes de vincular.</span></div><button type="button" class="btn" id="inboxFromPanorama" data-open-inbox>Revisar publicações ↗</button></div>
  ${disclosure('agenda','Agenda e critérios','Pendências, fontes e regras de interpretação.',`<div class="split"><div>${sect('Próximas verificações','Pendências e evidências necessárias para decisões.')}
