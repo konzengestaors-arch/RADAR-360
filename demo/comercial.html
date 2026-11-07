@@ -7,7 +7,7 @@
 <main>
 <section class="notice" role="status">Ambiente público com dados fictícios. Não insira dados de clientes, contatos ou informações confidenciais. O armazenamento é exclusivo deste navegador.</section>
 <section class="kpis" aria-label="Indicadores da demonstração"><article><span>Empresas</span><strong id="numEmpresas">0</strong></article><article><span>Ações registradas</span><strong id="numAcoes">0</strong></article><article><span>Regiões</span><strong id="numRegioes">0</strong></article></section>
-<section class="panel"><div class="heading"><div><small>PORTFÓLIO DEMONSTRATIVO</small><h2>Empresas e acompanhamento</h2></div><button id="export" type="button">Exportar backup sintético</button></div>
+<section class="panel"><div class="heading"><div><small>PORTFÓLIO DEMONSTRATIVO</small><h2>Empresas e acompanhamento</h2></div><div class="backup-actions"><button id="export" type="button">Exportar backup sintético</button><button id="import" type="button">Restaurar backup sintético</button><input id="backupFile" type="file" accept=".json,application/json" hidden aria-label="Arquivo de backup sintético"></div></div>
 <div class="filters"><label>Buscar empresa<input id="busca" type="search" placeholder="Nome ou segmento"></label><label>Região<select id="regiao"><option value="">Todas</option><option value="RS">Rio Grande do Sul</option><option value="SC">Santa Catarina</option></select></label></div>
 <div class="tablewrap"><table><thead><tr><th>Empresa</th><th>Segmento</th><th>Região</th><th>Etapa</th><th>Próxima ação</th><th></th></tr></thead><tbody id="empresas"></tbody></table></div>
 </section>
