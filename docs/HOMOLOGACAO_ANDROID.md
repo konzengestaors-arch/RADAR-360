@@ -56,3 +56,36 @@ Não verifica isolamento entre organizações, autenticação ou sincronização
 - **Alcance real:** o pacote permite avaliar abertura e usabilidade em arquivo local; não constitui PWA, APK, instalação autenticada ou publicação HTTPS. O comportamento de `localStorage` em `file://` no Android pode ser bloqueado ou variar entre navegadores.
 - **Aceite físico pendente:** os cenários C05–C08 e O02–O03, especialmente persistência e restauração, devem ser comprovados numa origem HTTPS de teste separada para representar corretamente o comportamento web final.
 - **Não houve deploy** nem alteração da `main` ou produção.
+
+
+## Roteiro operacional atualizado — 07/11/2026
+
+**Esta seção substitui apenas as afirmações históricas acima de que não existia origem HTTPS de teste.** O registro anterior é preservado como histórico, não como estado vigente.
+
+### Ambiente atualmente disponível
+
+- **URL HTTPS para teste no Android:** https://radar-360-homologacao-isolada-mhh386jwh-konzengestaors-2191.vercel.app/
+- **Comercial:** https://radar-360-homologacao-isolada-mhh386jwh-konzengestaors-2191.vercel.app/comercial.html
+- **Observatório:** https://radar-360-homologacao-isolada-mhh386jwh-konzengestaors-2191.vercel.app/observatorio.html
+- **API RSS:** `/api/noticias` (responde apenas com autenticação Vercel; notícias são sugestões públicas sujeitas a revisão).
+- **Projeto Vercel separado:** `radar-360-homologacao-isolada`, deployment `dpl_3juu6Ds1hqNSzGiQBEP4AKdzcT5A` com target `staging`, READY.
+- **SHA da implementação implantada:** `674eea95d88dca6d9eb9f16d60763caa3e49613c`. Commits posteriores até `8bc70228fe3e07ce2900b8f9922016e816c4dccb` adicionam documentação e verificação de acesso, não modificam a implementação implantada.
+- **Acesso protegido:** requisições anônimas no GitHub Actions resultaram em 302 para autenticação em `/`, `/comercial.html`, `/observatorio.html`, e 401 em `/api/noticias`. Evidência: https://github.com/konzengestaors-arch/RADAR-360/actions/runs/42351971195 . Para entrar no Android, é necessária uma identidade autorizada no projeto Vercel; não remover proteção nem usar links de bypass.
+- **CI no SHA atual:** https://github.com/konzengestaors-arch/RADAR-360/actions/runs/42351976714 (Node/browser); https://github.com/konzengestaors-arch/RADAR-360/actions/runs/42351976732 (pacote Android local); https://github.com/konzengestaors-arch/RADAR-360/actions/runs/42351976719 (controle de acesso). Todos reportados como sucesso em 07/11/2026.
+- **Produção:** `radar-360-app-piloto.vercel.app` é ambiente distinto e não deve ser usado neste ensaio.
+
+### Execução física no Android — caminho mínimo antes do ensaio completo
+
+1. No Chrome Android em janela normal, abrir a **URL de homologação** acima e fazer login Vercel, se solicitado. Anotar se o login funcionou; se a conta foi negada, marcar **BLOQUEADO — acesso**, sem alterar proteção.
+2. Abrir Comercial e Observatório pelos links na capa. Registrar modelo Android, versão Chrome, data e capturas das duas telas sem dados reais. Isso atende apenas ao início de C01 e O01.
+3. **Comercial:** gerar uma ação com descrição inteiramente inventada, observar confirmação, fechar a aba e reabrir **a mesma origem e mesmo perfil do Chrome**. Confirmar ação e histórico. Se desaparecerem, registrar **FALHOU** com passos reproduzíveis (C03/C05).
+4. **Observatório:** inserir indicador inventado, fechar/reabrir a mesma origem e conferir persistência (O02).
+5. Exportar os backups JSON e validar sua existência. Executar restauração apenas em ambiente de ensaio autorizado **e somente com dados fictícios**. Não limpar o armazenamento de outras ferramentas reais e não enviar backups com dados pessoais. Completar C06–C08 e O03 após confirmar segurança da origem.
+6. Executar busca, filtros, troca de etapa e navegação com teclado móvel conforme C02/C04/C09 e O04. Registrar PASSOU/FALHOU/BLOQUEADO para cada cenário no Issue #2: https://github.com/konzengestaors-arch/RADAR-360/issues/2 .
+
+### Critérios de interpretação
+
+- O login Vercel é uma barreira de acesso ao staging; **não** é autenticação individual do RADAR nem segregação de registros entre usuários.
+- HTTP 200 em testes autenticados e Playwright desktop **não** validam persistência em Android físico.
+- A consulta RSS coleta candidatos de fontes públicas, que não são movimentações econômicas verificadas.
+- Não declarar o portão físico aprovado sem evidências do dispositivo e testes completos de backup/restauração.
