@@ -1,0 +1,59 @@
+/* Observatório 360 | Design System 1.0 — camada visual modular e reversível.
+ * Não altera contratos JS, cadastros, backup ou API.
+ * Tokens aprovados: petróleo, verde, papel e dourado discreto.
+ */
+:root {
+ --o360-ink:#142f38;
+ --o360-deep:#0b2339;
+ --o360-petrol:#103d46;
+ --o360-accent:#087e69;
+ --o360-accent-soft:#d7eee8;
+ --o360-paper:#f5f7f4;
+ --o360-surface:#fff;
+ --o360-line:#d4e1dc;
+ --o360-muted:#526e70;
+ --o360-gold:#b39457;
+ --o360-radius-sm:8px;
+ --o360-radius-md:12px;
+ --o360-touch:44px;
+ --o360-focus:#19a88a;
+ --o360-serif:Georgia,'Times New Roman',serif;
+ --o360-sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+}
+:where(button,a,input,select,textarea,summary):focus-visible{
+ outline:3px solid var(--o360-focus);
+ outline-offset:3px;
+}
+:where(.sidebar .nav button,.tabs-mobile button,.news-live-refresh,.news-live-open,.radar-cover-link,.radar-command-link,.top-actions .btn){
+ min-height:var(--o360-touch);
+}
+:where(.news-live-card,.radar-invest-list li,.radar-official-reference-list li) a{
+ overflow-wrap:anywhere;
+}
+:where(.news-live-heading p,.radar-news-freshness,.radar-cover-status,.radar-cover-caption){
+ line-height:1.6;
+}
+:where(.radar-decision-brief,.news-live-card){
+ overflow-wrap:break-word;
+}
+@media(max-width:900px){
+ .sidebar .nav{min-width:0;overflow-x:auto;scrollbar-width:thin;overscroll-behavior-inline:contain}
+ .sidebar .nav button{min-width:0}
+ .topbar{gap:12px;flex-wrap:wrap}
+ .top-actions{display:flex;flex-wrap:wrap;gap:8px;max-width:100%;width:100%}
+ .top-actions .btn{font-size:12px!important;line-height:1.3!important;min-height:44px!important;padding:10px 11px!important;white-space:normal;text-align:center}
+ .news-live-card h3{overflow-wrap:anywhere}
+}
+@media(max-width:450px){
+ .topbar{padding:14px 5%!important}
+ .top-actions .btn{flex:1 1 135px;max-width:100%}
+ .sidebar .nav button{min-height:44px;font-size:11px!important;padding:9px 5px!important}
+ .news-live-card h3{line-height:1.3}
+ .radar-cover-rates{min-width:0}
+ .radar-cover-rates strong{white-space:normal;overflow-wrap:anywhere}
+ .radar-issue-meta{flex-wrap:wrap}
+ .radar-issue-lead h2{overflow-wrap:break-word}
+}
+@media(prefers-reduced-motion:reduce){
+ :where(.news-live-card,.stat-link,.btn){transition:none!important;scroll-behavior:auto!important;transform:none!important}
+}
