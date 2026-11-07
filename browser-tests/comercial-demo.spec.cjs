@@ -146,3 +146,24 @@ for(const width of [320,390,430]){
   await context.close();
  });
 }
+
+
+test('C08: JSON de teste inválido rejeitado após restauração conserva a ação sintética', async ({page})=>{
+ await page.goto(path);
+ await page.locator('#empresaId').selectOption('DEMO-001');
+ await page.locator('#descricao').fill('Ação preservada no ensaio C08');
+ await page.locator('#data').fill('2026-11-20');
+ await page.locator('#acaoForm button').click();
+ await expect(page.locator('#numAcoes')).toHaveText('1');
+ const before=await page.evaluate(k=>localStorage.getItem(k),key);
+ await page.locator('#backupFile').setInputFiles({
+  name:'RADAR_TESTE_BACKUP_INVALIDO.json',mimeType:'application/json',
+  buffer:Buffer.from('{"schema":"invalido","origem":"teste sintético de rejeição"}\\n'.replace('\\n','\n'))
+ });
+ await expect(page.locator('.notice')).toContainText('Restauração rejeitada');
+ expect(await page.evaluate(k=>localStorage.getItem(k),key)).toBe(before);
+ await expect(page.locator('#acoes')).toContainText('Ação preservada no ensaio C08');
+ await page.reload();
+ await expect(page.locator('#numAcoes')).toHaveText('1');
+ await expect(page.locator('#acoes')).toContainText('Ação preservada no ensaio C08');
+});
