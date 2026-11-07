@@ -13,7 +13,7 @@ for(const width of [320,390,1440])test('referências oficiais e sinais são cate
   await page.goto('/demo/observatorio.html');
   await page.locator('.nav [data-nav="investimentos"]').click();
   await expect(page.locator('#radarInvestmentSignals .radar-invest-list li')).toHaveCount(2);
-  await expect(page.locator('.radar-official-reference-list li')).toHaveCount(4);
+  await expect(page.locator('.radar-official-reference-list li')).toHaveCount(6);
   await expect(page.locator('.radar-official-reference-list')).toContainText('BNDES');
   await expect(page.locator('.radar-invest-editorial[aria-label="Investimentos com documentos cadastrados"]')).toContainText('Projetos documentados');
   await expect(page.locator('#body')).toContainText('Nenhum projeto documentado');
@@ -30,5 +30,5 @@ test('fontes oficiais continuam visíveis se RSS falhar',async({page})=>{
  await page.goto('/demo/observatorio.html');
  await page.locator('.nav [data-nav="investimentos"]').click();
  await expect(page.locator('#radarInvestmentSignals')).toContainText('Não foi possível consultar');
- await expect(page.locator('.radar-official-reference-list li')).toHaveCount(4);
+ await expect(page.locator('.radar-official-reference-list li')).toHaveCount(6);
 });
