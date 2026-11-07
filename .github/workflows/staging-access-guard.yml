@@ -1,7 +1,7 @@
 name: RADAR 360 — Gate acesso anonimo staging
 on:
   push:
-    branches: ['codex/auditoria-homologacao']
+    branches: ['codex/auditoria-homologacao', 'codex/capa-inteligencia-20261107']
   pull_request:
     branches: ['codex/desenvolvimento']
   workflow_dispatch:
