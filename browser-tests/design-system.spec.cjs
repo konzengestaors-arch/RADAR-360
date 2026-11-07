@@ -15,7 +15,16 @@ for(const width of [320,390,1440]){
    expect((await nav.boundingBox()).height).toBeGreaterThanOrEqual(43);
    if(width<=390){
     const buttons=page.locator('.top-actions .btn');
-    for(let i=0;i<await buttons.count();i++)expect((await buttons.nth(i).boundingBox()).height).toBeGreaterThanOrEqual(43);
+    let visibleCount=0;
+    for(let i=0;i<await buttons.count();i++){
+     const button=buttons.nth(i);
+     if(!(await button.isVisible()))continue;
+     visibleCount++;
+     const rect=await button.boundingBox();
+     expect(rect,'Botão visível deve ter geometria mensurável').not.toBeNull();
+     expect(rect.height).toBeGreaterThanOrEqual(43);
+    }
+    expect(visibleCount,'Ao menos um botão superior visível').toBeGreaterThan(0);
    }
    const metrics=await page.evaluate(()=>({client:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
    expect(metrics.scroll).toBeLessThanOrEqual(metrics.client+2);
