@@ -930,9 +930,9 @@ function renderInvestmentSignals(){
  const target=document.getElementById('radarInvestmentSignals');if(!target)return;
  if(!liveNewsCache){target.innerHTML='<p class="radar-invest-status">Consultando fontes públicas…</p>';return;}
  if(liveNewsCache.error){target.innerHTML='<p class="radar-invest-status">Não foi possível consultar notícias agora. Use a aba Notícias para atualizar.</p>';return;}
- const normalizeTitle=s=>String(s||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'');
- const expressions=/\\b(investiment\\w*|ampli\\w*|expans\\w*|nova fabrica|instalac\\w*|construc\\w*|licitac\\w*|concess\\w*|modernizac\\w*|obra\\w*|nova unidade|inaugur\\w*)\\b/i;
- const candidates=(liveNewsCache.items||[]).filter(x=>expressions.test(normalizeTitle(x.titulo))&&/^https:\\/\\/[^\\s]+$/i.test(String(x.url||''))).slice(0,8);
+ const normalizeTitle=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ const expressions=/\b(investiment\w*|ampli\w*|expans\w*|nova fabrica|instalac\w*|construc\w*|licitac\w*|concess\w*|modernizac\w*|obra\w*|nova unidade|inaugur\w*)\b/i;
+ const candidates=(liveNewsCache.items||[]).filter(x=>expressions.test(normalizeTitle(x.titulo))&&/^https:\/\/[^\s]+$/i.test(String(x.url||''))).slice(0,8);
  if(!candidates.length){target.innerHTML='<p class="radar-invest-status">Nenhuma manchete com sinais de investimento nos feeds consultados nesta leitura. Isso não significa ausência de novos projetos na região.</p>';return;}
  target.innerHTML='<ol class="radar-invest-list">'+candidates.map(x=>'<li><span class="radar-invest-tag">PISTA A VERIFICAR</span><a href="'+E(x.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.titulo)+'</a><small>'+E(x.fonte||'Fonte não informada')+' · '+E(x.publicadoEm||'Data não informada')+'</small></li>').join('')+'</ol>';
 }
