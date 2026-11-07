@@ -34,5 +34,12 @@ test('catálogo privado compactado de 222 empresas carrega sem persistir a lista
  await page.goto('/demo/observatorio.html');
  await expect(page.locator('.radar-company-count')).toHaveText('222');
  await expect(page.locator('.radar-company-hit')).toHaveCount(1);
+ await page.locator('.radar-company-directory summary').click();
+ await expect(page.locator('.radar-directory-list li')).toHaveCount(24);
+ await page.locator('#radarCompanySearch').fill('Número 003');
+ await expect(page.locator('.radar-directory-list li')).toHaveCount(1);
+ await expect(page.locator('.radar-directory-list')).toContainText('Empresa Fictícia Número 003');
+ await page.locator('#radarCompanySearch').fill('Inexistente');
+ await expect(page.locator('.radar-directory-list li')).toHaveCount(0);
  expect(await page.evaluate(()=>localStorage.getItem('radar_empresas_publicas_nome_cnpj_v1'))).toBeNull();
 });
