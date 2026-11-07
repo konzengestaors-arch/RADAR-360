@@ -80,6 +80,30 @@ async function importFile(file){
  }catch(err){stateMessage='Importação não realizada: '+err.message;}
  if(typeof onUpdate==='function')onUpdate();
 }
+/* Qualidade de identidade: não confundir consistência do CNPJ com verificação oficial.
+   Ambiguidades permanecem pesquisáveis, mas não entram em sugestões de correspondência. */
+function validCNPJ(cnpj){
+ if(!/^\\d{14}$/.test(cnpj)||/^(\\d)\\1{13}$/.test(cnpj))return false;
+ const digit=(len,weights)=>{
+  let sum=0;
+  for(let i=0;i<len;i++)sum+=Number(cnpj[i])*weights[i];
+  const d=sum%11;return d<2?0:11-d;
+ };
+ return digit(12,[5,4,3,2,9,8,7,6,5,4,3,2])===Number(cnpj[12])&&
+        digit(13,[6,5,4,3,2,9,8,7,6,5,4,3,2])===Number(cnpj[13]);
+}
+function identityReview(){
+ const countsCNPJ=new Map(),countsName=new Map();
+ for(const row of entries){
+  const n=normalize(row.nome);
+  countsName.set(n,(countsName.get(n)||0)+1);
+  if(row.cnpj)countsCNPJ.set(row.cnpj,(countsCNPJ.get(row.cnpj)||0)+1);
+ }
+ return new Set(entries.filter(row=>{
+  const n=normalize(row.nome);
+  return (row.cnpj&&(!validCNPJ(row.cnpj)||countsCNPJ.get(row.cnpj)>1))||countsName.get(n)>1;
+ }).map(row=>normalize(row.nome)));
+}
 function safeName(name){
  const n=normalize(name).replace(/\b(?:LTDA|EIRELI|S A|SA|SPE|EPP|ME)\b/g,'').replace(/\s+/g,' ').trim();
  const tokens=n.split(' ').filter(Boolean);
@@ -92,7 +116,9 @@ function matchesFor(items){
  for(const news of items){
   const title=normalize(news.titulo||'');
   if(!title)continue;
+  const pending=identityReview();
   const matched=entries.filter(x=>{
+   if(pending.has(normalize(x.nome)))return false;
    const name=safeName(x.nome);
    return !!name&&(' '+title+' ').includes(' '+name+' ');
   }).slice(0,3);
@@ -119,12 +145,13 @@ function updateDirectory(){
 }
 function panel(){
  const filled=entries.filter(x=>x.cnpj).length;
+ const pending=identityReview().size;
  return '<section class="radar-company-panel" aria-label="Empresas monitoradas">'+
  '<div class="radar-company-heading"><div><span class="eyebrow">INTELIGÊNCIA EMPRESARIAL</span><h2>Empresas monitoradas <span class="radar-company-count">'+entries.length+'</span></h2><p>Nomes de empresas e CNPJs, associados a menções em notícias públicas.</p></div></div>'+
  '<div class="radar-company-actions"><label class="radar-company-import" for="radarCompanyFile">Importar lista local (.html ou .json)</label>'+
  '<input type="file" id="radarCompanyFile" accept=".html,.json,text/html,application/json" aria-label="Selecionar arquivo de empresas">'+
- '<span class="radar-company-meta">'+(entries.length?filled+' registros com CNPJ informado.':'Nenhuma lista importada neste navegador.')+'</span></div>'+
- '<p class="radar-company-warning">Importações manuais são locais. O catálogo inicial, quando disponível, contém apenas nomes/CNPJs e é servido pelo ambiente privado; carteira, prioridades, ações e outros campos são excluídos. Correspondências exigem conferência.</p>'+
+ '<span class="radar-company-meta">'+(entries.length?filled+' registros com CNPJ informado · '+pending+' registro(s) em conferência de identidade.':'Nenhuma lista importada neste navegador.')+'</span></div>'+
+ '<p class="radar-company-warning">Importações manuais são locais. O catálogo inicial, quando disponível, contém apenas nomes/CNPJs e é servido pelo ambiente privado; carteira, prioridades, ações e outros campos são excluídos. Registros com CNPJ inválido, repetido ou nome duplicado são excluídos das sugestões de notícias até conferência. Correspondências exibidas são apenas indícios.</p>'+
  '<details class="radar-company-directory" open><summary>Consultar empresas do catálogo</summary><div class="radar-directory-inside"><label for="radarCompanySearch">Pesquisar nome ou CNPJ</label><input id="radarCompanySearch" type="search" autocomplete="off" placeholder="Digite o nome da empresa..." value="'+escape(directoryQuery)+'"><div id="radarCompanyDirectoryList">'+directoryList()+'</div></div></details>'+
  '<p id="radarCompanyMessage" class="radar-company-message" role="status">'+escape(stateMessage)+'</p>'+
  '<div id="radarCompanyMatches" aria-live="polite"></div></section>';
