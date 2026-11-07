@@ -5,7 +5,9 @@ const FEEDS = Object.freeze([
   {id:'g1-rs',nome:'g1 · Rio Grande do Sul',url:'https://g1.globo.com/rss/g1/rs/rio-grande-do-sul/',area:'RS'},
   {id:'g1-sc',nome:'g1 · Santa Catarina',url:'https://g1.globo.com/rss/g1/sc/santa-catarina/',area:'SC'},
   // Endpoint JSON usado pela Agência BNDES em sua página oficial, não um RSS público.
-  {id:'bndes-investimentos',nome:'Agência BNDES · Comunicados',url:'https://agenciadenoticias.bndes.gov.br/misc/ultimasRestWebService/',area:'Brasil',kind:'json'}
+  {id:'bndes-investimentos',nome:'Agência BNDES · Comunicados',url:'https://agenciadenoticias.bndes.gov.br/misc/ultimasRestWebService/',area:'Brasil',kind:'json'},
+  // Feed público do BRDE. Por abranger também o Paraná, só aceitar títulos que citem explicitamente nossas regiões-alvo.
+  {id:'brde-regional',nome:'BRDE · Notícias regionais',url:'https://brde.com.br/feed/',area:'Sul'}
 ]);
 const HOT=/\b(investiment\w*|economi\w*|empreg\w*|ind[uú]stria\w*|f[aá]brica\w*|produ[cç][aã]o|exporta\w*|importa\w*|portos?|aeroport\w*|obras?|rodovi\w*|ferrovi\w*|energia|usinas?|licita[cç][aã]o|concess[aã]o|pib|infla[cç][aã]o|juros?|selic|c[aâ]mbio|d[oó]lar|euro|agroind[uú]stria|safra|cooperativ\w*|com[eé]rcio|log[ií]stica|infraestrutur\w*|enchent\w*|inunda[cç][aã]o|temporal|tornado|chuvas?|cr[aá]tera|desabastec\w*|bloqueio|interdi[cç][aã]o|financiam\w*|cr[eé]dito|brde|bndes|fiesc|desenvolv\w*|min[eé]ri\w*|minera[cç][aã]o)\b/i;
 const SC_W=/\b(chapec[oó]|xanxer[eê]|conc[oó]rdia|s[aã]o miguel do oeste|s[aã]o louren[cç]o do oeste|maravilha|s[aã]o carlos|pinhalzinho|palmitos|s[aã]o domingos|descanso|s[aã]o jos[eé] do cedro|s[aã]o miguel da boa vista|itapiranga|cordilheira alta|saudades|abelardo luz|ponte serrada|s[aã]o jo[aã]o do oeste|imbituba|laguna|tubar[aã]o|garopaba|arangu[aá]|sombrio|balne[aá]rio gaivota|passo de torres|jaguaruna|crici[uú]ma|i[cç]ara|urussanga|orleans|s[aã]o ludgero|porto belo|sul catarinense|oeste catarinense|oeste de (?:sc|santa catarina)|litoral sul|extremo sul|sul de santa catarina)\b/i;
@@ -23,7 +25,7 @@ function classify(feed,text){text=String(text||'').normalize('NFD').replace(/[\u
  const impact=/\b(aeroporto\w*|voos? suspens\w*|rodovi\w*|estradas?|pontes?|escombros|bloqueio|bloqueia acesso|desabastec\w*|infraestrutur\w*|cidades? sem luz|energia|prejuiz\w*|paralis\w*|produ[cç]ao|logistica|porto de|posto de combustiveis|industria\w*|safra|agroindustria|ferrovi\w*)\b/i.test(topical);
  const weather=/\b(temporal\w*|tornado\w*|chuvas?|enchent\w*|inunda[cç][aã]o|enxurrad\w*|tempestad\w*|vento\w*|granizo|destrui[cç][aã]o)\b/i.test(topical);
  const economic=/\b(investiment\w*|economi\w*|empreg\w*|industria\w*|fabrica\w*|producao|exporta\w*|importa\w*|portuari\w*|porto de|portos?(?! alegre)|aeroporto\w*|obras?|rodovi\w*|ferrovi\w*|energia|usinas?|licitacao|concessao|pib|inflacao|juros?|selic|cambio|dolar|euro|agroindustria|safra|cooperativ\w*|comercio|logistica|infraestrutur\w*|desabastec\w*|bloqueio|interdicao|financiam\w*|credito|brde|bndes|fiesc|desenvolv\w*|miner\w*|mineracao)\b/i.test(topical);
- if(!economic && !(weather&&impact))return null;if(feed.area==='RS')return {territorio:'RS',setor:'Economia regional'};
+ if(!economic && !(weather&&impact))return null;if(feed.area==='Sul'&&!SC_W.test(text)&&!RS_W.test(text))return null;if(feed.area==='RS')return {territorio:'RS',setor:'Economia regional'};
  if(feed.area==='SC'){if(!SC_W.test(text))return null;return {territorio:SC_S.test(text)?'Litoral sul SC':'Oeste SC',setor:'Economia regional'};}
  if(SC_W.test(text))return {territorio:SC_S.test(text)?'Litoral sul SC':'Oeste SC',setor:'Economia regional'};
  if(RS_W.test(text))return {territorio:'RS',setor:'Economia regional'};
