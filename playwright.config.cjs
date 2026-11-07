@@ -3,7 +3,8 @@ module.exports = defineConfig({
  testDir: './browser-tests',
  timeout: 30000,
  retries: 0,
- use: { baseURL: 'http://127.0.0.1:4173', browserName: 'chromium', headless: true },
+ use: { baseURL: 'http://127.0.0.1:4173', browserName: 'chromium', headless: true,
+   ...(process.env.RADAR_CHROMIUM_EXECUTABLE ? {launchOptions:{executablePath:process.env.RADAR_CHROMIUM_EXECUTABLE}} : {}) },
  webServer: {
    command: 'python3 -m http.server 4173 --bind 127.0.0.1',
    url: 'http://127.0.0.1:4173/demo/observatorio.html',

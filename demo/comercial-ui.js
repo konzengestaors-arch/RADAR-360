@@ -3,10 +3,12 @@
  const $ = id => document.getElementById(id);
  let state=initialState();
  let readonly=false;
+ let expectedStored=null;
  try{
    const raw=localStorage.getItem(STORAGE_KEY);
+   expectedStored=raw;
    if(raw){const candidate=JSON.parse(raw);validate(candidate);state=candidate;}
-   else localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+   else {localStorage.setItem(STORAGE_KEY,JSON.stringify(state));expectedStored=JSON.stringify(state);}
  }catch(e){
    readonly=true;
    document.querySelector('.notice').textContent='Armazenamento local indisponível ou inválido. Modo somente leitura: nenhum registro será salvo. Não limpe os dados originais.';
@@ -76,10 +78,7 @@
    if(readonly)return;
    try{
      const next=addAction(state,$('empresaId').value,$('descricao').value.trim(),$('data').value);
-     const text=JSON.stringify(next);
-     localStorage.setItem(STORAGE_KEY,text);
-     if(localStorage.getItem(STORAGE_KEY)!==text)throw Error('Gravação não confirmada');
-     state=next;
+     saveVerified(next);
      $('descricao').value='';
      render();
    }catch(error){
@@ -89,8 +88,10 @@
  function saveVerified(candidate){
    validate(candidate);
    const serialized=JSON.stringify(candidate);
+   if(localStorage.getItem(STORAGE_KEY)!==expectedStored)throw Error('Base alterada em outra aba. Recarregue antes de salvar ou restaurar.');
    localStorage.setItem(STORAGE_KEY,serialized);
    if(localStorage.getItem(STORAGE_KEY)!==serialized)throw Error('Leitura divergente após gravação');
+   expectedStored=serialized;
    state=clone(candidate);
    readonly=false;
    render();

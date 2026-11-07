@@ -10,6 +10,11 @@ const SAMPLE = Object.freeze([
 function initialState() {
  return {schema:SCHEMA,origem:'dados 100% sintéticos',empresas:SAMPLE.map(x=>({...x})),acoes:[],oportunidades:[]};
 }
+function validDate(value) {
+ if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
+ const date=new Date(value+'T00:00:00Z');
+ return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===value;
+}
 function validate(state) {
  if(!state||state.schema!==SCHEMA||!Array.isArray(state.empresas)||!Array.isArray(state.acoes)||!(state.oportunidades===undefined||Array.isArray(state.oportunidades)))throw Error('Backup de outra aplicação ou estrutura inválida');
  if(state.empresas.length>1000||state.acoes.length>5000||(state.oportunidades||[]).length>1000)throw Error('Limite de segurança excedido');
@@ -18,12 +23,12 @@ function validate(state) {
   if(!e||typeof e.id!=='string'||!/^DEMO-[0-9]{3,}$/.test(e.id)||ids.has(e.id)||
     typeof e.nome!=='string'||!e.nome.trim()||e.nome.length>120||
     !['RS','SC'].includes(e.regiao)||typeof e.segmento!=='string'||
-    typeof e.etapa!=='string'||!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(e.proximaAcao))throw Error('Empresa inválida ou duplicada');
+    typeof e.etapa!=='string'||!validDate(e.proximaAcao))throw Error('Empresa inválida ou duplicada');
   ids.add(e.id);
  }
  for(const a of state.acoes){
   if(!a||!ids.has(a.empresaId)||typeof a.descricao!=='string'||!a.descricao.trim()||
-     a.descricao.length>400||typeof a.data!=='string'||!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(a.data))throw Error('Ação inválida');
+     a.descricao.length>400||typeof a.data!=='string'||!validDate(a.data))throw Error('Ação inválida');
  }
  const oppIds=new Set();
  for(const o of state.oportunidades||[]){
@@ -34,7 +39,7 @@ function validate(state) {
   oppIds.add(o.id);
   for(const h of o.historico){
    if(!h||!['Identificada','Qualificação','Proposta','Concluída','Descartada'].includes(h.status)||
-      typeof h.data!=='string'||!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(h.data)||
+      typeof h.data!=='string'||!validDate(h.data)||
       typeof h.motivo!=='string'||h.motivo.length>250)throw Error('Histórico inválido');
   }
   if(o.historico.at(-1).status!==o.status)throw Error('Status sem histórico consistente');

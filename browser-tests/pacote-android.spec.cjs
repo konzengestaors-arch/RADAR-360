@@ -28,3 +28,21 @@ test('pacote Observatório mantém navegação e aviso de demonstração',async(
  await expect(page.locator('body')).toContainText('DEMONSTRAÇÃO DE DESENVOLVIMENTO');
  expect(errors).toEqual([]);
 });
+
+// Complementa file://; HTTP não comprova suporte a arquivos locais no Android.
+for(const [file,heading] of [['RADAR_COMERCIAL_DEMO_LOCAL.html','Inteligência comercial'],['RADAR_OBSERVATORIO_DEMO_LOCAL.html','Panorama Regional']]){
+ test('HTML empacotado servido por HTTP: '+file,async({page})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.route('**/*',r=>new URL(r.request().url()).origin==='http://127.0.0.1:4173'?r.continue():r.abort());
+  await page.goto('/dist/android/'+file);
+  await expect(page.locator('h1')).toHaveText(heading);
+  if(file.includes('COMERCIAL')){
+   await page.locator('#busca').fill('Beta');
+   await expect(page.locator('#empresas tr')).toHaveCount(1);
+  }else{
+   await page.locator('#openTools').click();
+   await expect(page.getByRole('dialog',{name:'Fontes, histórico e backup'})).toBeVisible();
+  }
+  expect(errors).toEqual([]);
+ });
+}
