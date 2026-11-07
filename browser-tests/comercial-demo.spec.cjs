@@ -158,7 +158,7 @@ test('C08: JSON de teste inválido rejeitado após restauração conserva a aç�
  const before=await page.evaluate(k=>localStorage.getItem(k),key);
  await page.locator('#backupFile').setInputFiles({
   name:'RADAR_TESTE_BACKUP_INVALIDO.json',mimeType:'application/json',
-  buffer:Buffer.from('{"schema":"invalido","origem":"teste sintético de rejeição"}\\n'.replace('\\n','\n'))
+  buffer:Buffer.from(JSON.stringify({schema:'invalido',origem:'teste sintético de rejeição'})+'\\n')
  });
  await expect(page.locator('.notice')).toContainText('Restauração rejeitada');
  expect(await page.evaluate(k=>localStorage.getItem(k),key)).toBe(before);
