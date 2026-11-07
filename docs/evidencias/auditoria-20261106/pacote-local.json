@@ -1,0 +1,18 @@
+{
+  "tipo": "RADAR-360-pacote-homologacao-local",
+  "branch": "codex/auditoria-homologacao",
+  "commit": "586261ffda25f8519e35349d69831e75200faf0f",
+  "alteracoesLocais": false,
+  "arquivos": [
+    {
+      "nome": "RADAR_COMERCIAL_DEMO_LOCAL.html",
+      "bytes": 19225,
+      "sha256": "086635f6fa6f6880f67191f546032ef49ad3ff92eb3ab903243efab468ab41f5"
+    },
+    {
+      "nome": "RADAR_OBSERVATORIO_DEMO_LOCAL.html",
+      "bytes": 103091,
+      "sha256": "e101b53c685c01d12528186115bef9934679b34d50d70bf10e23626c3521e581"
+    }
+  ]
+}

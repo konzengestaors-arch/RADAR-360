@@ -3,10 +3,17 @@
  const $ = id => document.getElementById(id);
  let state=initialState();
  let readonly=false;
+ let expectedStored=null;
  try{
    const raw=localStorage.getItem(STORAGE_KEY);
+   expectedStored=raw;
    if(raw){const candidate=JSON.parse(raw);validate(candidate);state=candidate;}
-   else localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+   else {
+     const seed=JSON.stringify(state);
+     localStorage.setItem(STORAGE_KEY,seed);
+     if(localStorage.getItem(STORAGE_KEY)!==seed)throw Error('Gravação inicial não confirmada');
+     expectedStored=seed;
+   }
  }catch(e){
    readonly=true;
    document.querySelector('.notice').textContent='Armazenamento local indisponível ou inválido. Modo somente leitura: nenhum registro será salvo. Não limpe os dados originais.';
@@ -68,6 +75,8 @@
    }
    $('acaoForm').querySelector('button[type=submit]').disabled=readonly;
    $('oppForm').querySelector('button[type=submit]').disabled=readonly;
+   $('export').disabled=readonly;
+   $('export').title=readonly?'Exportação indisponível: a base local não foi recuperada. Restaure um backup sintético válido.':'Exportar a base sintética confirmada';
  }
  $('busca').addEventListener('input',render);
  $('regiao').addEventListener('change',render);
@@ -76,10 +85,7 @@
    if(readonly)return;
    try{
      const next=addAction(state,$('empresaId').value,$('descricao').value.trim(),$('data').value);
-     const text=JSON.stringify(next);
-     localStorage.setItem(STORAGE_KEY,text);
-     if(localStorage.getItem(STORAGE_KEY)!==text)throw Error('Gravação não confirmada');
-     state=next;
+     saveVerified(next);
      $('descricao').value='';
      render();
    }catch(error){
@@ -89,8 +95,19 @@
  function saveVerified(candidate){
    validate(candidate);
    const serialized=JSON.stringify(candidate);
-   localStorage.setItem(STORAGE_KEY,serialized);
-   if(localStorage.getItem(STORAGE_KEY)!==serialized)throw Error('Leitura divergente após gravação');
+   if(localStorage.getItem(STORAGE_KEY)!==expectedStored)throw Error('Base alterada em outra aba. Recarregue antes de salvar ou restaurar.');
+   // Falha após setItem pode ter deixado bytes diferentes dos esperados.
+   // Não afirmar que o conteúdo anterior foi preservado; bloquear operações
+   // até que uma recuperação validada seja confirmada.
+   try{
+     localStorage.setItem(STORAGE_KEY,serialized);
+     if(localStorage.getItem(STORAGE_KEY)!==serialized)throw Error('Leitura divergente após gravação');
+   }catch(error){
+     readonly=true;
+     render();
+     throw Error('Persistência não confirmada; edição e exportação bloqueadas. Verifique a base local antes de restaurar: '+error.message);
+   }
+   expectedStored=serialized;
    state=clone(candidate);
    readonly=false;
    render();
@@ -123,6 +140,17 @@
    }catch(error){document.querySelector('.notice').textContent='Cadastro rejeitado: '+error.message}
  });
  $('export').addEventListener('click',()=>{
+   if(readonly){
+     document.querySelector('.notice').textContent='Exportação bloqueada: base local indisponível ou inválida. Restaure um backup sintético antes de exportar.';
+     return;
+   }
+   try{
+     if(localStorage.getItem(STORAGE_KEY)!==expectedStored)throw Error('Base alterada em outra aba. Recarregue antes de exportar.');
+     validate(state);
+   }catch(error){
+     document.querySelector('.notice').textContent='Exportação bloqueada: '+error.message;
+     return;
+   }
    const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
    const url=URL.createObjectURL(blob),a=document.createElement('a');
    a.href=url;a.download='RADAR_COMERCIAL_DEMO_SINTETICO.json';a.click();

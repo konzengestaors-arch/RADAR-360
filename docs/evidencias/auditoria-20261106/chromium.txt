@@ -1,0 +1,127 @@
+
+> radar-360@0.0.0-dev test:browser
+> playwright test
+
+
+Running 57 tests using 2 workers
+
+(node:16129) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16128) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16128) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16129) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 browser-tests/auditoria-regressao.spec.cjs:2:1 › Observatório rejeita URL executável e tipos inválidos no backup sem mutação (2.2s)
+  ✓   2 browser-tests/acessibilidade.spec.cjs:3:50 › acessibilidade automatizada móvel: comercial (3.3s)
+  ✓   3 browser-tests/auditoria-regressao.spec.cjs:16:1 › abas desatualizadas não sobrescrevem ações comerciais confirmadas (1.1s)
+  ✓   5 browser-tests/auditoria-regressao.spec.cjs:27:1 › abas desatualizadas não sobrescrevem indicadores confirmados (1.5s)
+  ✓   6 browser-tests/auditoria-regressao.spec.cjs:36:1 › câmbio permite nova tentativa após erro de rede (796ms)
+  ✓   4 browser-tests/acessibilidade.spec.cjs:3:50 › acessibilidade automatizada móvel: observatorio (3.4s)
+  ✓   7 browser-tests/backup-mobile.spec.cjs:5:1 › exportação e restauração preservam indicador sintético sem misturar bases (993ms)
+  ✓   8 browser-tests/comercial-demo.spec.cjs:5:1 › demonstração comercial abre com três empresas fictícias (630ms)
+  ✓   9 browser-tests/backup-mobile.spec.cjs:41:1 › backup de outra aplicação é rejeitado sem substituir a base atual (1.1s)
+  ✓  10 browser-tests/comercial-demo.spec.cjs:14:1 › busca, filtro regional e seleção funcionam (979ms)
+  ✓  11 browser-tests/backup-mobile.spec.cjs:55:3 › viewport 320 mantém navegação e cabeçalho acessíveis (799ms)
+  ✓  12 browser-tests/comercial-demo.spec.cjs:24:1 › ação sintética persiste após reload sem tocar chave do Observatório (874ms)
+  ✓  13 browser-tests/backup-mobile.spec.cjs:55:3 › viewport 390 mantém navegação e cabeçalho acessíveis (769ms)
+  ✓  14 browser-tests/comercial-demo.spec.cjs:37:1 › esquema incompatível na chave comercial entra em leitura sem sobrescrever (638ms)
+  ✓  15 browser-tests/backup-mobile.spec.cjs:55:3 › viewport 430 mantém navegação e cabeçalho acessíveis (958ms)
+  ✓  16 browser-tests/comercial-demo.spec.cjs:45:1 › exporta somente registro sintético (824ms)
+  ✓  17 browser-tests/backup-mobile.spec.cjs:55:3 › viewport 768 mantém navegação e cabeçalho acessíveis (867ms)
+  ✓  18 browser-tests/comercial-demo.spec.cjs:58:1 › restauração de backup sintético recupera ações após limpeza da chave (939ms)
+  ✓  19 browser-tests/backup-mobile.spec.cjs:55:3 › viewport 1440 mantém navegação e cabeçalho acessíveis (803ms)
+  ✓  20 browser-tests/comercial-demo.spec.cjs:75:1 › backup comercial de esquema diferente é rejeitado e chave preservada (682ms)
+  ✓  21 browser-tests/backup-mobile.spec.cjs:71:1 › rejeita JSON sem esquema e conserva indicador existente (948ms)
+  ✓  22 browser-tests/comercial-demo.spec.cjs:83:1 › arquivo corrompido é rejeitado sem afetar registros (806ms)
+  ✓  23 browser-tests/backup-mobile.spec.cjs:84:1 › rejeita esquema comercial e mantém os dados locais intactos (813ms)
+  ✓  24 browser-tests/comercial-demo.spec.cjs:91:1 › cancelar a confirmação mantém a base intacta (925ms)
+  ✓  25 browser-tests/backup-mobile.spec.cjs:96:1 › rejeita backup JSON sintaticamente inválido sem alterar a base (772ms)
+  ✓  26 browser-tests/comercial-demo.spec.cjs:100:1 › restauração aceita backup válido após armazenamento local incompatível (902ms)
+  ✓  27 browser-tests/comercial-layout-audit.spec.cjs:6:3 › auditoria de layout e foco Comercial 320px (627ms)
+  ✓  29 browser-tests/comercial-layout-audit.spec.cjs:6:3 › auditoria de layout e foco Comercial 390px (685ms)
+  ✓  28 browser-tests/comercial-demo.spec.cjs:117:1 › oportunidade sintética mantém histórico após reload e backup (993ms)
+  ✓  30 browser-tests/comercial-layout-audit.spec.cjs:6:3 › auditoria de layout e foco Comercial 430px (799ms)
+  ✓  31 browser-tests/comercial-demo.spec.cjs:138:2 › comercial móvel 320 mantém ações e oportunidades visíveis (847ms)
+  ✓  32 browser-tests/comercial-layout-audit.spec.cjs:6:3 › auditoria de layout e foco Comercial 768px (723ms)
+  ✓  33 browser-tests/comercial-demo.spec.cjs:138:2 › comercial móvel 390 mantém ações e oportunidades visíveis (736ms)
+  ✓  35 browser-tests/comercial-demo.spec.cjs:138:2 › comercial móvel 430 mantém ações e oportunidades visíveis (737ms)
+  ✓  34 browser-tests/comercial-layout-audit.spec.cjs:6:3 › auditoria de layout e foco Comercial 1440px (824ms)
+  ✓  36 browser-tests/comercial-mobile-opportunities.spec.cjs:5:2 › Comercial mantém controles funcionais em 320 px (818ms)
+  ✓  37 browser-tests/comercial-layout-audit.spec.cjs:36:1 › laboratório comercial não acessa origens externas ao carregar e operar (889ms)
+  ✓  38 browser-tests/comercial-mobile-opportunities.spec.cjs:5:2 › Comercial mantém controles funcionais em 390 px (673ms)
+  ✓  39 browser-tests/integridade-storage.spec.cjs:6:1 › base local corrompida não é sobrescrita na inicialização (730ms)
+  ✓  40 browser-tests/comercial-mobile-opportunities.spec.cjs:5:2 › Comercial mantém controles funcionais em 430 px (668ms)
+  ✓  41 browser-tests/integridade-storage.spec.cjs:20:1 › falha de gravação impede confirmação e preserva estado em memória (753ms)
+  ✓  43 browser-tests/integridade-storage.spec.cjs:43:1 › chave operacional histórica não é lida nem alterada na demonstração (743ms)
+  ✓  42 browser-tests/comercial-mobile-opportunities.spec.cjs:5:2 › Comercial mantém controles funcionais em 768 px (990ms)
+  ✓  45 browser-tests/comercial-mobile-opportunities.spec.cjs:5:2 › Comercial mantém controles funcionais em 1440 px (835ms)
+  ✓  44 browser-tests/integridade-storage.spec.cjs:56:1 › restauração cancelada não modifica o armazenamento (1.0s)
+  ✓  47 browser-tests/integridade-storage.spec.cjs:70:1 › esquema comercial na chave da demo não é lido ou sobrescrito (876ms)
+  ✓  46 browser-tests/comercial-mobile-opportunities.spec.cjs:21:1 › oportunidade demonstra trilha persistente e bloqueia mudança sem justificativa (1.3s)
+  ✓  49 browser-tests/comercial-mobile-opportunities.spec.cjs:43:1 › restauração não aceita histórico sintético retroativo (961ms)
+  ✓  48 browser-tests/integridade-storage.spec.cjs:83:1 › base inválida pode ser restaurada por backup válido sem alterar outra chave (1.3s)
+  ✓  50 browser-tests/observatorio.spec.cjs:5:1 › abre a demonstração sem registros de origem e com aviso (1.0s)
+  ✘  51 browser-tests/pacote-android.spec.cjs:7:1 › pacote Comercial autocontido abre e executa scripts com CSP restritiva (1.4s)
+(node:18986) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  52 browser-tests/observatorio.spec.cjs:17:1 › navega entre quatro seções e preserva dados vazios após recarregar (1.2s)
+(node:18986) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  53 browser-tests/observatorio.spec.cjs:30:1 › não consulta chaves operacionais antigas mesmo quando existem (683ms)
+  ✓  54 browser-tests/observatorio.spec.cjs:41:1 › registra indicador sintético e mantém após reload (1.5s)
+  ✘  55 browser-tests/pacote-android.spec.cjs:20:1 › pacote Observatório mantém navegação e aviso de demonstração (1.4s)
+(node:19254) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19254) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  56 browser-tests/pacote-android.spec.cjs:34:2 › HTML empacotado servido por HTTP: RADAR_COMERCIAL_DEMO_LOCAL.html (759ms)
+  ✓  57 browser-tests/pacote-android.spec.cjs:34:2 › HTML empacotado servido por HTTP: RADAR_OBSERVATORIO_DEMO_LOCAL.html (554ms)
+
+
+  1) browser-tests/pacote-android.spec.cjs:7:1 › pacote Comercial autocontido abre e executa scripts com CSP restritiva 
+
+    Error: page.goto: net::ERR_BLOCKED_BY_ADMINISTRATOR at file:///workspace/RADAR-360/dist/android/RADAR_COMERCIAL_DEMO_LOCAL.html
+    Call log:
+      - navigating to "file:///workspace/RADAR-360/dist/android/RADAR_COMERCIAL_DEMO_LOCAL.html", waiting until "load"
+
+
+      10 |  const errors=[];
+      11 |  page.on('pageerror',err=>errors.push(err.message));
+    > 12 |  await page.goto(pathToFileURL(file).href);
+         |             ^
+      13 |  await expect(page.locator('h1')).toHaveText('Inteligência comercial');
+      14 |  await expect(page.locator('#numEmpresas')).toHaveText('3');
+      15 |  await expect(page.locator('#empresas tr')).toHaveCount(3);
+        at /workspace/RADAR-360/browser-tests/pacote-android.spec.cjs:12:13
+
+    Error Context: test-results/pacote-android-pacote-Come-7ee12--scripts-com-CSP-restritiva/error-context.md
+
+  2) browser-tests/pacote-android.spec.cjs:20:1 › pacote Observatório mantém navegação e aviso de demonstração 
+
+    Error: page.goto: net::ERR_BLOCKED_BY_ADMINISTRATOR at file:///workspace/RADAR-360/dist/android/RADAR_OBSERVATORIO_DEMO_LOCAL.html
+    Call log:
+      - navigating to "file:///workspace/RADAR-360/dist/android/RADAR_OBSERVATORIO_DEMO_LOCAL.html", waiting until "load"
+
+
+      23 |  const errors=[];
+      24 |  page.on('pageerror',err=>errors.push(err.message));
+    > 25 |  await page.goto(pathToFileURL(file).href);
+         |             ^
+      26 |  await expect(page.locator('#pageName')).toBeVisible();
+      27 |  await expect(page.locator('#openTools')).toBeVisible();
+      28 |  await expect(page.locator('body')).toContainText('DEMONSTRAÇÃO DE DESENVOLVIMENTO');
+        at /workspace/RADAR-360/browser-tests/pacote-android.spec.cjs:25:13
+
+    Error Context: test-results/pacote-android-pacote-Obse-236ad-ção-e-aviso-de-demonstração/error-context.md
+
+  2 failed
+    browser-tests/pacote-android.spec.cjs:7:1 › pacote Comercial autocontido abre e executa scripts com CSP restritiva 
+    browser-tests/pacote-android.spec.cjs:20:1 › pacote Observatório mantém navegação e aviso de demonstração 
+  55 passed (34.9s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

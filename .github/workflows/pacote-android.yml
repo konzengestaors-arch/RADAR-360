@@ -6,18 +6,26 @@ on:
       - 'demo/**'
       - 'scripts/build-android.cjs'
       - '.github/workflows/pacote-android.yml'
+  pull_request:
+    branches: [codex/desenvolvimento]
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   pacote-local:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Instalar dependências fixadas
+        run: npm ci --no-audit --no-fund
+      - name: Preparar Chromium do Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Testes Node
+        run: npm run check
       - name: Verificar sintaxe do empacotador
         run: node --check scripts/build-android.cjs
       - name: Gerar arquivos HTML locais e manifesto de integridade
@@ -40,6 +48,8 @@ jobs:
           assert(!commercial.includes('src="comercial-core.js"'));
           console.log('Arquivos e hashes conferidos no commit:',m.commit);
           NODE
+      - name: Validar HTMLs empacotados antes de disponibilizar
+        run: npx playwright test browser-tests/pacote-android.spec.cjs
       - name: Compactar pacote
         run: |
           cd dist/android

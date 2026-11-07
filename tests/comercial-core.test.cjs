@@ -76,3 +76,15 @@ test('backup sintético com histórico contraditório é rejeitado',()=>{
  noReason.oportunidades[0].status='Proposta';
  assert.throws(()=>radar.validate(noReason),/Justificativa/);
 });
+
+test('rejeita datas impossíveis em ações, empresas e histórico sem mutação',()=>{
+ for(const date of ['2026-02-30','2026-13-01','2025-02-29','2026-00-10','2026-11-00']){
+  const state=radar.initialState(),before=JSON.stringify(state);
+  assert.throws(()=>radar.addAction(state,'DEMO-001','Teste sintético',date));
+  assert.throws(()=>radar.addOpportunity(state,'DEMO-001','Teste sintético',date));
+  assert.equal(JSON.stringify(state),before);
+  const backup=radar.initialState();backup.empresas[0].proximaAcao=date;
+  assert.throws(()=>radar.validate(backup));
+ }
+ assert.equal(radar.addAction(radar.initialState(),'DEMO-001','Ano bissexto','2028-02-29').acoes.length,1);
+});

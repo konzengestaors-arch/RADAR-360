@@ -7,7 +7,8 @@ test('abre a demonstração sem registros de origem e com aviso', async ({ page 
  page.on('pageerror', e => errors.push(e.message));
  await page.goto(route);
  await expect(page.locator('#pageName')).toHaveText('Panorama Regional');
- await expect(page.locator('[role="status"]').first()).toContainText('DEMONSTRAÇÃO DE DESENVOLVIMENTO');
+ await expect(page.locator('#environmentNotice')).toContainText('HOMOLOGAÇÃO PRIVADA');
+ await expect(page.locator('#environmentNotice')).toHaveClass(/sr-only/);
  const data = await page.evaluate(k => JSON.parse(localStorage.getItem(k)), key);
  expect(data.movimentos).toEqual([]);
  expect(data.indicadores).toEqual([]);
@@ -41,6 +42,7 @@ test('não consulta chaves operacionais antigas mesmo quando existem', async ({ 
 test('registra indicador sintético e mantém após reload', async ({ page }) => {
  await page.goto(route);
  await page.locator('.nav [data-nav="indicadores"]').click();
+ await page.locator('.editorial-tools > summary').click();
  await page.locator('[data-create="indicador"]').click();
  await expect(page.locator('#editor')).toBeVisible();
  await page.locator('#m-titulo').fill('Indicador sintético');

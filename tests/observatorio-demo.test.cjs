@@ -31,7 +31,7 @@ test('chaves isoladas não acessam os dados operacionais conhecidos', () => {
 });
 
 test('demonstração adverte sobre dados confidenciais', () => {
-  assert.match(html, /DEMONSTRAÇÃO DE DESENVOLVIMENTO/);
+  assert.match(html, /HOMOLOGAÇÃO PRIVADA/);
   assert.match(html, /Não utilize informações confidenciais/);
 });
 
