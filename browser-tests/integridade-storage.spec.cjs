@@ -91,13 +91,17 @@ test('base inválida pode ser restaurada por backup válido sem alterar outra ch
   await expect(page.locator('body')).toContainText('modo somente leitura ativado');
   const valid = await page.evaluate(() => window.__RADAR_TEST__.getState());
   await page.locator('#openTools').click();
-  page.once('dialog', dialog => dialog.accept());
+  const confirmation=page.waitForEvent('dialog');
   await page.locator('#fileInput').setInputFiles({
     name:'recuperacao-sintetica.json',mimeType:'application/json',
     buffer:Buffer.from(JSON.stringify(valid))
   });
+  const dialog=await confirmation;
+  expect(dialog.message()).toContain('Importar');
+  await dialog.accept();
   await expect.poll(async () => page.evaluate(key => {
     try { return JSON.parse(localStorage.getItem(key)).schema } catch {return null;}
-  },KEY)).toBe('radar-observatorio-unico/1.7');
+  },KEY),{timeout:10000}).toBe('radar-observatorio-unico/1.7');
+  await expect(page.locator('body')).toContainText('Backup do Observatório restaurado com sucesso.');
   expect(await page.evaluate(old=>localStorage.getItem(old),OLD)).toBe(historical);
 });
