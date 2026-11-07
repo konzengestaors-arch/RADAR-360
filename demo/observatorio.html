@@ -450,6 +450,32 @@ body{background:radial-gradient(circle at 88% 0%,#dcefe8 0%,transparent 38%),#f3
  body[data-current-tab="investimentos"] .top-actions,body[data-current-tab="noticias"] .top-actions,body[data-current-tab="indicadores"] .top-actions{margin-left:auto}
 }
 @media(min-width:721px) and (max-width:1100px){.editorial-indicator-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style><style>
+/* Leitura executiva: mercados visíveis e operações discretas. */
+body[data-current-tab="panorama"] .panorama-main-market{margin-top:12px}
+body[data-current-tab="panorama"] .overview-section{margin-top:18px}
+body[data-current-tab="panorama"] .market-board{border-color:#c7dedd;box-shadow:0 12px 28px rgba(7,54,64,.08)}
+body[data-current-tab="panorama"] .market-board-head h2{letter-spacing:-.04em}
+body[data-current-tab="investimentos"] .editorial-lead,
+body[data-current-tab="noticias"] .editorial-lead,
+body[data-current-tab="indicadores"] .editorial-lead{border:1px solid #d7e5e4;box-shadow:0 9px 28px rgba(7,54,64,.045)}
+body[data-current-tab="investimentos"] .editorial-tools,
+body[data-current-tab="noticias"] .editorial-tools,
+body[data-current-tab="indicadores"] .editorial-tools{background:#f7faf9}
+body[data-current-tab="investimentos"] .editorial-tools>summary,
+body[data-current-tab="noticias"] .editorial-tools>summary,
+body[data-current-tab="indicadores"] .editorial-tools>summary{font-weight:650}
+@media(max-width:720px){
+ body[data-current-tab="panorama"] .market-board-head{gap:8px}
+ body[data-current-tab="panorama"] .market-board-head h2{font-size:20px}
+ body[data-current-tab="panorama"] .market-board-head p{font-size:11px}
+ body[data-current-tab="investimentos"] .editorial-lead,
+ body[data-current-tab="noticias"] .editorial-lead,
+ body[data-current-tab="indicadores"] .editorial-lead{margin-top:0}
+ body[data-current-tab="investimentos"] .editorial-tools,
+ body[data-current-tab="noticias"] .editorial-tools,
+ body[data-current-tab="indicadores"] .editorial-tools{margin-top:14px}
+}
 </style></head><body><p id="environmentNotice" class="sr-only">HOMOLOGAÇÃO PRIVADA — CATÁLOGO EMPRESARIAL SEPARADO DOS DADOS COMERCIAIS. Cadastros ainda não validados individualmente. Não utilize informações confidenciais.</p>
 <div class="shell"><aside class="sidebar"><div class="brand"><span class="mark" aria-hidden="true"></span><div><strong>RADAR</strong><small>OBSERVATÓRIO</small></div></div><div><div class="side-section">Inteligência regional</div><nav class="nav" aria-label="Navegação principal"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg> Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/><path d="M7 16h2m3 0h2m3 0h2"/></svg> Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9m-9 4h6"/></svg> Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg> Indicadores</button></nav></div><div class="sidefoot"><b>RS • OESTE SC • LITORAL SUL SC</b><span>Painel regional e financeiro. Novos documentos passam por revisão humana.</span><p>v1.9 · Prévia de desenvolvimento sem homologação</p></div></aside><div class="workspace"><header class="topbar"><div><span class="mobile-brand">◉ RADAR OBSERVATÓRIO</span><span class="kicker">Observatório econômico</span><h1 id="pageName">Panorama Regional</h1></div><div class="top-actions"><button type="button" id="openUpdates" class="btn" aria-label="Abrir notícias e atualizações para revisão">↻ Notícias &amp; atualizações</button><button type="button" id="openTools" class="btn" aria-label="Abrir fontes, histórico e backup">Dados &amp; backup</button><button type="button" id="exportTop" class="btn primary" aria-label="Exportar backup JSON">Exportar backup</button></div></header><main class="content" id="body" aria-live="polite"></main></div></div>
 <nav class="tabs-mobile" aria-label="Navegação principal móvel"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg>Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/></svg>Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9"/></svg>Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg>Indicadores</button></nav>
@@ -685,8 +711,8 @@ function panorama(moves){
  ${storageWarning?`<div class="notice danger">${E(storageWarning)}</div>`:''}
  ${liveNewsSection()}
  ${window.RadarCompanies.panel()}
- <section class="overview-section">${sect('Indicadores de acompanhamento','Atalhos para assuntos e registros documentados.')}${headlineNumbers(moves)}</section>
  <div class="panorama-main-market" id="marketSnapshot">${RadarFinancial.render()}</div>
+ <section class="overview-section">${sect('Indicadores de acompanhamento','Atalhos para assuntos e registros documentados.')}${headlineNumbers(moves)}</section>
  ${disclosure('prioridades','Leitura executiva','Destaques e movimentos que merecem atenção.',priorityBrief(moves))}
  <div class="quick-updates"><div><strong>${pending} atualização(ões) para revisar</strong><span>Coleta de notícias por lote, com verificação humana antes de vincular.</span></div><button type="button" class="btn" id="inboxFromPanorama" data-open-inbox>Revisar publicações ↗</button></div>
  ${disclosure('agenda','Agenda e critérios','Pendências, fontes e regras de interpretação.',`<div class="split"><div>${sect('Próximas verificações','Pendências e evidências necessárias para decisões.')}
