@@ -20,11 +20,16 @@ test('cards KPI abrem listas sem perder Panorama em '+width+'px',async({browser}
  await page.locator('[data-quick-target="noticias"]').click();
  await expect(page.locator('#radarLiveNews')).toBeFocused();
  await expect(page.locator('#radarLiveNews')).toContainText('Notícia pública fictícia');
+ if(width===390)await page.evaluate(()=>{
+  window.__quickTrace=[];
+  document.addEventListener('click',e=>{const t=e.target.closest('[data-quick-target],summary');if(t)window.__quickTrace.push({type:'click',tag:t.tagName,dataset:t.dataset.quickTarget||'',text:t.textContent.trim().slice(0,60)})},true);
+  document.addEventListener('toggle',e=>{if(e.target.matches?.('details[data-panorama-section]'))window.__quickTrace.push({type:'toggle',section:e.target.dataset.panoramaSection,open:e.target.open})},true);
+ });
  await page.locator('[data-quick-target="movimentos"]').click();
  if(width===390){console.log('FOCUS-DIAG',JSON.stringify(await page.evaluate(()=>{
   const section=document.getElementById('lista-movimentos');
   const parent=section?.closest('details');
-  return {active:document.activeElement?.tagName,activeId:document.activeElement?.id,activeClass:document.activeElement?.className,open:parent?.open,activeHtml:document.activeElement?.outerHTML?.slice(0,200),visible:section?{display:getComputedStyle(section).display,visibility:getComputedStyle(section).visibility,rect:section.getBoundingClientRect().toJSON()}:null};
+  return {active:document.activeElement?.tagName,activeId:document.activeElement?.id,activeClass:document.activeElement?.className,open:parent?.open,activeHtml:document.activeElement?.outerHTML?.slice(0,200),trace:window.__quickTrace,visible:section?{display:getComputedStyle(section).display,visibility:getComputedStyle(section).visibility,rect:section.getBoundingClientRect().toJSON()}:null};
  })));}
  await expect(page.locator('#lista-movimentos')).toBeFocused();
  await expect(page.locator('[data-panorama-section="registros"]')).toHaveAttribute('open','');
