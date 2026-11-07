@@ -103,7 +103,9 @@ function matchesFor(items){
 }
 function directoryList(){
  const q=normalize(directoryQuery);
- const matching=entries.filter(x=>!q||normalize(x.nome).includes(q)||x.cnpj.includes(q.replace(/\D/g,'')));
+ const digits=q.replace(/\D/g,'');
+ const cnpjQuery=digits.length>=3&&/^[0-9 ]+$/.test(q);
+ const matching=entries.filter(x=>!q||normalize(x.nome).includes(q)||(cnpjQuery&&x.cnpj.includes(digits)));
  const subset=matching.slice(0,24);
  return '<p class="radar-directory-meta">'+matching.length+' empresa(s) encontradas. '+(matching.length>24?'Exibindo as primeiras 24.':'')+'</p>'+
  (subset.length?'<ul class="radar-directory-list">'+subset.map(x=>
