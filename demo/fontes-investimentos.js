@@ -27,6 +27,19 @@ const references=Object.freeze([
   fonte:'Secretaria de Desenvolvimento Econômico do RS',data:'2026-10-28',territorio:'RS',
   etapa:'Programa instituído; fundo em estruturação',tipo:'Inovação',
   url:'https://desenvolvimento.rs.gov.br/governo-do-estado-institui-programa-avancar-deep-tech-para-impulsionar-inovacao-e-desenvolvimento-economico'
+ }) ,Object.freeze({
+  id:'brde-mercopar-rs-20261021',
+  titulo:'BRDE anuncia R$ 12,4 milhões em novos financiamentos para inovação na Serra e Vale do Taquari',
+  fonte:'BRDE · Imprensa RS',data:'2026-10-21',territorio:'RS',
+  etapa:'Operações de crédito anunciadas',tipo:'Inovação e crédito empresarial',
+  url:'https://www.brde.com.br/noticia/brde-celebra-r-124-milhoes-em-novos-financiamentos-para-apoiar-a-inovacao-durante-a-mercopar/'
+ }),
+ Object.freeze({
+  id:'brde-faex-sc-20261016',
+  titulo:'BRDE prospecta cerca de R$ 250 milhões em projetos de energia na FAEX Energy',
+  fonte:'BRDE · Imprensa SC',data:'2026-10-16',territorio:'Oeste SC',
+  etapa:'Prospecção de projetos; não contratados',tipo:'Energia renovável e infraestrutura',
+  url:'https://www.brde.com.br/noticia/brde-apresenta-oportunidades-de-financiamento-e-prospecta-r250-milhoes-em-projetos-para-o-setor-de-energia-na-faex-energy/'
  })
 ]);
 const normalize=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
