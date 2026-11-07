@@ -615,7 +615,11 @@ const expandedPanoramaSections = new Set();
 function disclosure(key,title,description,body){
  return `<details class="radar-disclosure" data-panorama-section="${key}" ${expandedPanoramaSections.has(key)?'open':''}><summary><span class="disclosure-label"><strong>${title}</strong><small>${description}</small></span><span class="disclosure-arrow" aria-hidden="true">⌄</span></summary><div class="disclosure-content">${body}</div></details>`;
 }
-function liveNewsSection(){return ` ${liveNewsSection()}
+function liveNewsSection(){return ` <section class="news-live-section" aria-label="Últimas notícias econômicas">
+  <div class="news-live-heading"><div><span class="eyebrow">RADAR DE ACONTECIMENTOS</span><h2>Notícias em destaque</h2><p>Matérias recentes de fontes públicas, com acesso direto às publicações.</p></div><button class="btn news-live-refresh" type="button" id="refreshNewsLive" aria-label="Atualizar notícias">Atualizar notícias ↻</button></div>
+  <div id="radarLiveNews" class="news-live-grid" aria-live="polite"><p class="news-live-status">Consultando fontes públicas…</p></div>
+  <p class="news-live-foot">Notícias externas não são automaticamente vinculadas a empresas ou consideradas fatos verificados pelo RADAR. Confirme o conteúdo na fonte original.</p>
+ </section>
 `;}
 function panorama(moves){
  const queue=moves.filter(m=>m.proximaVerificacaoMotivo).sort((a,b)=>(a.proximaVerificacaoData||'9999').localeCompare(b.proximaVerificacaoData||'9999')).slice(0,4);
@@ -628,11 +632,7 @@ function panorama(moves){
   <div class="radar-command-metric"><span>MOVIMENTOS DOCUMENTADOS</span><strong>${moves.length}</strong><small>Registros em revisão no navegador</small></div>
  </section>
  ${storageWarning?`<div class="notice danger">${E(storageWarning)}</div>`:''}
- <section class="news-live-section" aria-label="Últimas notícias econômicas">
-  <div class="news-live-heading"><div><span class="eyebrow">RADAR DE ACONTECIMENTOS</span><h2>Notícias em destaque</h2><p>Matérias recentes de fontes públicas, com acesso direto às publicações.</p></div><button class="btn news-live-refresh" type="button" id="refreshNewsLive" aria-label="Atualizar notícias">Atualizar notícias ↻</button></div>
-  <div id="radarLiveNews" class="news-live-grid" aria-live="polite"><p class="news-live-status">Consultando fontes públicas…</p></div>
-  <p class="news-live-foot">Notícias externas não são automaticamente vinculadas a empresas ou consideradas fatos verificados pelo RADAR. Confirme o conteúdo na fonte original.</p>
- </section>
+ ${liveNewsSection()}
  ${window.RadarCompanies.panel()}
  <section class="overview-section">${sect('Indicadores de acompanhamento','Atalhos para assuntos e registros documentados.')}${headlineNumbers(moves)}</section>
  <div class="panorama-main-market" id="marketSnapshot">${RadarFinancial.render()}</div>
