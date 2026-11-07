@@ -41,7 +41,7 @@ for(const [file,heading] of [['RADAR_COMERCIAL_DEMO_LOCAL.html','Inteligência c
    await expect(page.locator('#empresas tr')).toHaveCount(1);
   }else{
    await page.locator('#openTools').click();
-   await expect(page.getByRole('dialog',{name:'Fontes, histórico e backup'})).toBeVisible();
+   await expect(page.getByRole('dialog',{name:'Dados e backup'})).toBeVisible();
   }
   expect(errors).toEqual([]);
  });
