@@ -64,6 +64,6 @@ test('U01-U05: percurso sintético funcional em viewport Android',async({browser
   await expect(page.locator('#toolExport')).toBeVisible();
   await expect(page.locator('#toolImport')).toBeVisible();
   expect(errors).toEqual([]);
- });
+ }
  finally {await context.close()}
 });
