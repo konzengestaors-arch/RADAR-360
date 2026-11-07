@@ -621,7 +621,7 @@ function panorama(moves){
   <div class="radar-command-metric"><span>EMPRESAS NO CATÁLOGO</span><strong id="radarTopCompanies">${window.RadarCompanies.read().length}</strong><small>Cadastros históricos · não verificados</small></div>
   <div class="radar-command-metric"><span>NOTÍCIAS CONSULTADAS</span><strong id="radarTopNews">${liveNewsCache?.items?.length??'—'}</strong><small>Matérias externas, sem validação automática</small></div>
   <div class="radar-command-metric"><span>MOVIMENTOS DOCUMENTADOS</span><strong>${moves.length}</strong><small>Registros em revisão no navegador</small></div>
- </section>`
+ </section>
  ${storageWarning?`<div class="notice danger">${E(storageWarning)}</div>`:''}
  <section class="news-live-section" aria-label="Últimas notícias econômicas">
   <div class="news-live-heading"><div><span class="eyebrow">RADAR DE ACONTECIMENTOS</span><h2>Notícias em destaque</h2><p>Matérias recentes de fontes públicas, com acesso direto às publicações.</p></div><button class="btn news-live-refresh" type="button" id="refreshNewsLive" aria-label="Atualizar notícias">Atualizar notícias ↻</button></div>
