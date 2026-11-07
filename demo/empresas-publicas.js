@@ -45,9 +45,20 @@ function parse(text,name){
 async function loadPrivateStagingCatalog(){
  if(entries.length)return;
  try{
-  const response=await fetch('/empresas-catalogo-222.json',{cache:'no-store',headers:{Accept:'application/json'}});
-  if(!response.ok)return;
-  const candidate=await response.json();
+  let candidate;
+  const zip=await fetch('/empresas-catalogo-222.json.gz',{cache:'no-store'});
+  if(zip.ok){
+   const bytes=await zip.arrayBuffer(),magic=new Uint8Array(bytes);
+   if(magic[0]===0x1f&&magic[1]===0x8b){
+    if(typeof DecompressionStream!=='function')return;
+    const decompressed=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+    candidate=await new Response(decompressed).json();
+   }else candidate=JSON.parse(new TextDecoder('utf-8').decode(bytes));
+  }else{
+   const response=await fetch('/empresas-catalogo-222.json',{cache:'no-store',headers:{Accept:'application/json'}});
+   if(!response.ok)return;
+   candidate=await response.json();
+  }
   if(!Array.isArray(candidate)||candidate.length!==222)return;
   const sanitized=parse(JSON.stringify(candidate),'catalogo.json');
   if(entries.length)return;
