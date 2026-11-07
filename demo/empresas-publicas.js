@@ -125,7 +125,7 @@ function panel(){
  '<input type="file" id="radarCompanyFile" accept=".html,.json,text/html,application/json" aria-label="Selecionar arquivo de empresas">'+
  '<span class="radar-company-meta">'+(entries.length?filled+' registros com CNPJ informado.':'Nenhuma lista importada neste navegador.')+'</span></div>'+
  '<p class="radar-company-warning">Importações manuais são locais. O catálogo inicial, quando disponível, contém apenas nomes/CNPJs e é servido pelo ambiente privado; carteira, prioridades, ações e outros campos são excluídos. Correspondências exigem conferência.</p>'+
- '<details class="radar-company-directory"><summary>Consultar empresas do catálogo</summary><div class="radar-directory-inside"><label for="radarCompanySearch">Pesquisar nome ou CNPJ</label><input id="radarCompanySearch" type="search" autocomplete="off" placeholder="Digite o nome da empresa..." value="'+escape(directoryQuery)+'"><div id="radarCompanyDirectoryList">'+directoryList()+'</div></div></details>'+
+ '<details class="radar-company-directory" open><summary>Consultar empresas do catálogo</summary><div class="radar-directory-inside"><label for="radarCompanySearch">Pesquisar nome ou CNPJ</label><input id="radarCompanySearch" type="search" autocomplete="off" placeholder="Digite o nome da empresa..." value="'+escape(directoryQuery)+'"><div id="radarCompanyDirectoryList">'+directoryList()+'</div></div></details>'+
  '<p id="radarCompanyMessage" class="radar-company-message" role="status">'+escape(stateMessage)+'</p>'+
  '<div id="radarCompanyMatches" aria-live="polite"></div></section>';
 }
