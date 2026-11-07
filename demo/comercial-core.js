@@ -38,6 +38,12 @@ function validate(state) {
       typeof h.motivo!=='string'||h.motivo.length>250)throw Error('Histórico inválido');
   }
   if(o.historico.at(-1).status!==o.status)throw Error('Status sem histórico consistente');
+  for(let i=1;i<o.historico.length;i++){
+   const previous=o.historico[i-1],current=o.historico[i];
+   if(current.data<previous.data)throw Error('Histórico com data retroativa');
+   if(current.status===previous.status)throw Error('Transição sem mudança de etapa');
+   if(!current.motivo.trim())throw Error('Justificativa obrigatória na mudança de etapa');
+  }
  }
  return true;
 }
@@ -59,6 +65,8 @@ function changeOpportunity(state,id,status,data,motivo){
  validate(state);const next=clone(state),opp=(next.oportunidades||[]).find(x=>x.id===id);
  if(!opp)throw Error('Oportunidade não localizada');
  if(opp.status===status)throw Error('Novo status deve ser diferente');
+ if(typeof motivo!=='string'||!motivo.trim())throw Error('Justificativa obrigatória na mudança de etapa');
+ if(typeof data!=='string'||data<opp.historico.at(-1).data)throw Error('Data da transição anterior à etapa atual');
  opp.status=status;opp.historico.push({status,data,motivo});validate(next);return next;
 }
 function filterCompanies(state,{busca='',regiao=''}={}){
