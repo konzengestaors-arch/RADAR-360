@@ -21,6 +21,11 @@ test('cards KPI abrem listas sem perder Panorama em '+width+'px',async({browser}
  await expect(page.locator('#radarLiveNews')).toBeFocused();
  await expect(page.locator('#radarLiveNews')).toContainText('Notícia pública fictícia');
  await page.locator('[data-quick-target="movimentos"]').click();
+ if(width===390){console.log('FOCUS-DIAG',JSON.stringify(await page.evaluate(()=>{
+  const section=document.getElementById('lista-movimentos');
+  const parent=section?.closest('details');
+  return {active:document.activeElement?.tagName,activeId:document.activeElement?.id,activeClass:document.activeElement?.className,open:parent?.open,activeHtml:document.activeElement?.outerHTML?.slice(0,200),visible:section?{display:getComputedStyle(section).display,visibility:getComputedStyle(section).visibility,rect:section.getBoundingClientRect().toJSON()}:null};
+ })));}
  await expect(page.locator('#lista-movimentos')).toBeFocused();
  await expect(page.locator('[data-panorama-section="registros"]')).toHaveAttribute('open','');
  const widths=await page.evaluate(()=>({inner:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
