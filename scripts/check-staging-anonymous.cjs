@@ -1,7 +1,7 @@
 'use strict';
 /* Gate remoto anônimo: não enviar cookies, Authorization, token ou bypass.
    Não comprova Android físico, autorização interna ou SSO específico. */
-const ORIGIN='https://radar-360-homologacao-isolada-ablahj5n1-konzengestaors-2191.vercel.app';
+const ORIGIN='https://radar-360-homologacao-isolada-81c3t1o5t-konzengestaors-2191.vercel.app';
 const ROUTES=['/','/observatorio.html','/empresas-catalogo-222.json','/fontes-investimentos.js','/api/noticias'];
 function classification(status,location){
   if(status===200)return 'PUBLICO_INESPERADO';
