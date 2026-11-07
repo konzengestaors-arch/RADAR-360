@@ -145,7 +145,8 @@ function updateDirectory(){
 }
 function panel(){
  const filled=entries.filter(x=>x.cnpj).length;
- const pending=identityReview().size;
+ const riskyNames=identityReview();
+ const pending=entries.filter(row=>riskyNames.has(normalize(row.nome))).length;
  return '<section class="radar-company-panel" aria-label="Empresas monitoradas">'+
  '<div class="radar-company-heading"><div><span class="eyebrow">INTELIGÊNCIA EMPRESARIAL</span><h2>Empresas monitoradas <span class="radar-company-count">'+entries.length+'</span></h2><p>Nomes de empresas e CNPJs, associados a menções em notícias públicas.</p></div></div>'+
  '<div class="radar-company-actions"><label class="radar-company-import" for="radarCompanyFile">Importar lista local (.html ou .json)</label>'+
