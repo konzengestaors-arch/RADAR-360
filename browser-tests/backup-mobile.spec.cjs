@@ -59,7 +59,7 @@ for (const width of [320, 390, 430, 768, 1440]) {
     await expect(page.locator('#pageName')).toBeVisible();
     await expect(page.locator('#openTools')).toBeVisible();
     const mobile = width <= 430;
-    const nav = mobile ? page.locator('.tabs-mobile [data-nav="indicadores"]') : page.locator('.sidebar [data-nav="indicadores"]');
+    const nav = mobile ? page.locator('.nav [data-nav="indicadores"]') : page.locator('.sidebar [data-nav="indicadores"]');
     await expect(nav).toBeVisible();
     await nav.click();
     await expect(page.locator('#pageName')).toHaveText('Indicadores');
