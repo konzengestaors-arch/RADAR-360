@@ -1,8 +1,8 @@
 'use strict';
 /* Gate remoto anônimo: não enviar cookies, Authorization, token ou bypass.
    Não comprova Android físico, autorização interna ou SSO específico. */
-const ORIGIN='https://radar-360-homologacao-isolada-4x8pr8dfg-konzengestaors-2191.vercel.app';
-const ROUTES=['/','/observatorio.html','/empresas-catalogo-222.json','/api/noticias'];
+const ORIGIN='https://radar-360-homologacao-isolada-d428byh3u-konzengestaors-2191.vercel.app';
+const ROUTES=['/','/observatorio.html','/empresas-catalogo-222.json','/fontes-investimentos.js','/api/noticias'];
 function classification(status,location){
   if(status===200)return 'PUBLICO_INESPERADO';
   if(status===401||status===403)return 'ACESSO_NEGADO';
@@ -34,6 +34,6 @@ async function main(){
  console.log(JSON.stringify({origin:ORIGIN,checkedAt:new Date().toISOString(),results:output},null,2));
  const allBlocked=output.every(x=>x.outcome==='ACESSO_NEGADO'||x.outcome==='REDIRECIONAMENTO_AUTENTICACAO');
  if(!allBlocked){console.error('GATE P0 NÃO COMPROVADO: resposta pública, redirecionamento não autenticado ou falha de rede.');process.exitCode=1}
- else console.log('GATE REMOTO: bloqueio anônimo observado nas quatro rotas, incluindo catálogo empresarial. Não comprova controle por usuário.');
+ else console.log('GATE REMOTO: bloqueio anônimo observado nas cinco rotas, incluindo catálogo empresarial. Não comprova controle por usuário.');
 }
 main().catch(e=>{console.error('GATE INTERROMPIDO',e.name);process.exitCode=1});
