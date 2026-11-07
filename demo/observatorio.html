@@ -529,6 +529,52 @@ body{background:#f8f8f4;color:#172f36}
 .fx-grid{gap:0}.tile-number{font-size:14px!important}.tile-date{font-size:8px}.fx-tile{padding:5px 5px}
 .radar-command-strip{justify-content:space-between;gap:6px}.radar-command-metric.radar-command-link{flex-direction:column;gap:0}.radar-command-metric span{font-size:8px}.radar-command-metric strong{font-size:16px}
 }
+</style><style id="radar-editorial-reading">
+/* Leitura editorial: manchetes e listas, mantendo os controles existentes. */
+body[data-current-tab="panorama"] .radar-premium-hero{background:transparent;border:0;box-shadow:none;color:#153846;padding:12px 0 18px;border-radius:0}
+body[data-current-tab="panorama"] .radar-premium-hero:after{display:none}
+body[data-current-tab="panorama"] .radar-premium-hero h2{color:#123344;font-size:clamp(28px,4vw,44px);letter-spacing:-.055em}
+body[data-current-tab="panorama"] .radar-premium-hero p{color:#526b77}
+body[data-current-tab="panorama"] .radar-premium-hero .eyebrow{color:#0b6c61}
+body[data-current-tab="panorama"] .hero-meta{display:none}
+body[data-current-tab="panorama"] .radar-editorial-top{display:flex;flex-direction:column;gap:20px}
+body[data-current-tab="panorama"] .panorama-main-market{width:100%;margin:0}
+body[data-current-tab="panorama"] .news-live-section{width:100%;border:0;border-radius:0;box-shadow:none;background:transparent;padding:4px 0 18px}
+.news-live-heading{border-bottom:2px solid #163b45;padding-bottom:15px}
+.news-live-heading h2{font-size:clamp(25px,3vw,35px);letter-spacing:-.05em}
+.news-live-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 26px}
+.news-live-card,.news-live-card:hover{background:transparent;border:0;border-bottom:1px solid #cbdcda;border-radius:0;box-shadow:none;transform:none;padding:19px 0;min-width:0}
+.news-live-card.featured{grid-column:1/-1;background:transparent;border:0;border-bottom:1px solid #9ebbb4;border-radius:0;padding:22px 0 25px}
+.news-live-card.featured h3{font-size:clamp(25px,3.4vw,42px);max-width:1000px;line-height:1.17;letter-spacing:-.045em}
+.news-live-card.featured h3 a,.news-live-card h3 a{color:#123444}
+.news-live-card.featured .news-live-kicker,.news-live-card.featured .news-live-open{color:#09695d}
+.news-live-card.featured .news-live-meta{color:#4e6974}
+.news-live-card h3{font-size:20px;line-height:1.3}
+.radar-command-strip{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid #bdcfcc;border-bottom:1px solid #bdcfcc;margin:9px 0 25px}
+.radar-command-metric,.radar-command-metric:hover{flex:1 1 180px;border:0;border-radius:0;background:transparent;box-shadow:none;padding:14px 18px;text-align:left;transform:none}
+.radar-command-metric+.radar-command-metric{border-left:1px solid #d1e0dc}
+.radar-command-metric strong{font-size:24px;display:inline-block}
+.radar-command-metric small{font-size:12px;color:#09695d}
+.radar-company-panel{border:0;border-top:2px solid #163b45;border-radius:0;box-shadow:none;background:transparent;padding:21px 0}
+.radar-company-directory{border:0;border-radius:0;background:transparent}
+.radar-directory-list{gap:0 20px}
+.radar-directory-list li{border:0;border-bottom:1px solid #d0dfda;background:transparent;border-radius:0;padding:12px 0}
+.overview-section .stats{gap:0}
+.overview-section .stat{box-shadow:none;border-radius:0;border:0;border-bottom:1px solid #d1dfdc;background:transparent}
+@media(max-width:720px){
+ body[data-current-tab="panorama"] .radar-premium-hero{padding:8px 0 14px}
+ body[data-current-tab="panorama"] .radar-premium-hero h2{font-size:29px}
+ .news-live-grid{grid-template-columns:1fr}
+ .news-live-card.featured{padding:17px 0 21px}
+ .news-live-card.featured h3{font-size:27px}
+ .news-live-card h3{font-size:20px}
+ .radar-command-metric,.radar-command-metric:hover{flex:1 1 30%;min-width:0;padding:12px 8px}
+ .radar-command-metric span{font-size:9px}
+ .radar-command-metric strong{font-size:23px}
+ .radar-command-metric small{font-size:10px}
+ .news-live-heading{gap:10px}
+ .radar-company-panel{padding:17px 0}
+}
 </style></head><body><p id="environmentNotice" class="sr-only">HOMOLOGAÇÃO PRIVADA — CATÁLOGO EMPRESARIAL SEPARADO DOS DADOS COMERCIAIS. Cadastros ainda não validados individualmente. Não utilize informações confidenciais.</p>
 <div class="shell"><aside class="sidebar"><div class="brand"><span class="mark" aria-hidden="true"></span><div><strong>RADAR</strong><small>OBSERVATÓRIO</small></div></div><div><div class="side-section">Inteligência regional</div><nav class="nav" aria-label="Navegação principal"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg> Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/><path d="M7 16h2m3 0h2m3 0h2"/></svg> Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9m-9 4h6"/></svg> Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg> Indicadores</button></nav></div><div class="sidefoot"><b>RS • OESTE SC • LITORAL SUL SC</b><span>Painel regional e financeiro. Novos documentos passam por revisão humana.</span><p>v1.9 · Prévia de desenvolvimento sem homologação</p></div></aside><div class="workspace"><header class="topbar"><div><span class="mobile-brand">◉ RADAR OBSERVATÓRIO</span><span class="kicker">Observatório econômico</span><h1 id="pageName">Panorama Regional</h1></div><div class="top-actions"><button type="button" id="openUpdates" class="btn" aria-label="Abrir notícias e atualizações para revisão">↻ Notícias &amp; atualizações</button><button type="button" id="openTools" class="btn" aria-label="Abrir fontes, histórico e backup">Ferramentas</button><button type="button" id="exportTop" class="btn primary" aria-label="Exportar backup JSON">Exportar backup</button></div></header><main class="content" id="body" aria-live="polite"></main></div></div>
 <nav class="tabs-mobile" aria-label="Navegação principal móvel"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg>Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/></svg>Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9"/></svg>Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg>Indicadores</button></nav>
