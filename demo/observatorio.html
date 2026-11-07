@@ -183,7 +183,50 @@ html,body{font:15px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Hel
 .market-fallback p,.stat small,.footerline,.tabs-mobile button{color:#506776}
 .dialogbody code{overflow-wrap:anywhere}
 .market-live .tradingview-widget-container[data-unavailable="true"]{height:0;overflow:hidden}
-</style><style>.radar-module-link{display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;margin:2px 0 7px;border-radius:9px;border:1px solid #a5dcd1;background:#e5f8f2;color:#095c53;text-decoration:none;font-weight:750;font-size:12px}.radar-module-link:focus-visible{outline:3px solid #37ad98;outline-offset:3px}@media(max-width:480px){.radar-module-link{font-size:11px;min-height:40px;margin:3px 0}}</style></head><body><div role="status" style="background:#fff1cb;color:#43320b;padding:10px 16px;text-align:center;font:600 14px system-ui">DEMONSTRAÇÃO DE DESENVOLVIMENTO — SEM DADOS INCORPORADOS. Não utilize informações confidenciais.</div>
+</style><style>.radar-module-link{display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;margin:2px 0 7px;border-radius:9px;border:1px solid #a5dcd1;background:#e5f8f2;color:#095c53;text-decoration:none;font-weight:750;font-size:12px}.radar-module-link:focus-visible{outline:3px solid #37ad98;outline-offset:3px}@media(max-width:480px){.radar-module-link{font-size:11px;min-height:40px;margin:3px 0}}</style><style>
+/* RADAR 360 — tema editorial modernizado. Preserva scripts e estados. */
+:root{--ink:#163447;--muted:#637f8b;--navy:#091f34;--navy2:#163e54;--teal:#087e72;--mint:#e3f5ed;--mist:#f2f6f9;--line:#dbe6eb;--shadow:0 10px 30px rgba(12,40,59,.06)}
+html,body{font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;background:var(--mist)}
+.sidebar{background:linear-gradient(170deg,#071a2d,#103448 68%,#095d57);border-right:1px solid #ffffff12}
+.brand{padding-top:11px;padding-bottom:11px}
+.brand strong{font-weight:900;letter-spacing:.10em}
+.brand small{color:#9fdbc8}
+.nav{gap:6px}.nav button{border-radius:12px;padding:13px 15px}
+.nav button.active{background:linear-gradient(90deg,#17675e,#16545e);box-shadow:inset 3px 0 0 #a4f0bd;color:#fff}
+.nav button:hover{background:#ffffff13}
+.topbar{background:#fff;border-bottom-color:#dfe9ed}
+.topbar h1{font-weight:850;letter-spacing:-.05em;color:#123449}
+.kicker,.eyebrow{letter-spacing:.14em}
+.content{background:radial-gradient(circle at top right,#e7f7f0 0,transparent 420px);max-width:1450px}
+.hero{background:linear-gradient(110deg,#0a2236,#104459 58%,#08766e);border-radius:19px;box-shadow:0 15px 35px #0d3c4917}
+.hero:after{border-color:#c7ffe039;box-shadow:0 0 0 46px #a6f1d40b,0 0 0 93px #a6f1d407}
+.hero h2{font-weight:850;letter-spacing:-.052em}
+.stat,.card,.panel,.market-board,.brief-panel,.filterbar,.tablewrap{border-radius:15px;box-shadow:0 9px 30px rgba(15,49,65,.05)}
+.stat{border-top:3px solid #15998a}
+.stat:nth-child(even){border-top-color:#528cc1}
+.stat b{color:#113950;font-weight:860}
+.sectionhead h2{font-weight:840;letter-spacing:-.04em;color:#14354a}
+.card{background:#fff;border-color:#dbe8eb}
+.card:hover{border-color:#b5d9d6}
+.btn{border-radius:10px;min-height:42px}
+.btn.primary{background:#087a70;border-color:#087a70}
+.btn.primary:hover{background:#076157}
+.field input,.field select,.field textarea{border-radius:10px;background:#fbfdfd}
+.chip.green{background:#e0f4e9;color:#086d53}
+.chip.blue{background:#e9f0fc;color:#275b8f}
+.radar-module-link{border-radius:10px;background:#e1f5ee;border-color:#b9ded4;color:#0a655e}
+@media(max-width:720px){
+ .topbar{padding:12px 13px;min-height:80px;gap:7px}
+ .topbar h1{font-size:19px}
+ .top-actions{max-width:100%;width:100%;justify-content:flex-start;gap:7px}
+ .top-actions #openTools,.top-actions #openUpdates{min-height:44px;border-radius:10px;padding:9px 11px}
+ .hero{border-radius:15px}
+ .content{padding:14px 12px 92px}
+ .stat,.card,.panel{border-radius:13px}
+ .tabs-mobile{box-shadow:0 -8px 22px #071f3415;border-top:1px solid #dce9e8}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
+</style></head><body><div role="status" style="background:#fff1cb;color:#43320b;padding:10px 16px;text-align:center;font:600 14px system-ui">DEMONSTRAÇÃO DE DESENVOLVIMENTO — SEM DADOS INCORPORADOS. Não utilize informações confidenciais.</div>
 <div class="shell"><aside class="sidebar"><div class="brand"><span class="mark" aria-hidden="true"></span><div><strong>RADAR</strong><small>OBSERVATÓRIO</small></div></div><div><div class="side-section">Inteligência regional</div><nav class="nav" aria-label="Navegação principal"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg> Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/><path d="M7 16h2m3 0h2m3 0h2"/></svg> Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9m-9 4h6"/></svg> Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg> Indicadores</button></nav></div><div class="sidefoot"><b>RS • OESTE SC • LITORAL SUL SC</b><span>Painel regional e financeiro. Novos documentos passam por revisão humana.</span><p>v1.9 · Prévia de desenvolvimento sem homologação</p></div></aside><div class="workspace"><header class="topbar"><div><span class="mobile-brand">◉ RADAR OBSERVATÓRIO</span><a class="radar-module-link" href="comercial.html" aria-label="Abrir RADAR Comercial">↗ Comercial</a><span class="kicker">Observatório econômico</span><h1 id="pageName">Panorama Regional</h1></div><div class="top-actions"><button type="button" id="openUpdates" class="btn" aria-label="Abrir notícias e atualizações para revisão">↻ Notícias &amp; atualizações</button><button type="button" id="openTools" class="btn" aria-label="Abrir fontes, histórico e backup">Dados &amp; backup</button><button type="button" id="exportTop" class="btn primary" aria-label="Exportar backup JSON">Exportar backup</button></div></header><main class="content" id="body" aria-live="polite"></main></div></div>
 <nav class="tabs-mobile" aria-label="Navegação principal móvel"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg>Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/></svg>Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9"/></svg>Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg>Indicadores</button></nav>
 <div id="overlay" class="overlay" aria-hidden="true"><aside class="drawer" role="region" aria-label="Dossiê do movimento"><div class="drawerhead"><div><span class="eyebrow">REGISTRO CENTRAL</span><div id="detailTitle" style="font-weight:800">Dossiê</div></div><button class="close" id="detailClose" aria-label="Fechar dossiê">✕</button></div><div id="detailBody" class="drawerbody"></div></aside></div><dialog class="dialog" id="editor" aria-labelledby="dialogTitle"><div class="dialoghead"><h2 id="dialogTitle">Editar registro</h2><button type="button" class="close" id="dialogClose" aria-label="Fechar">✕</button></div><div id="dialogBody" class="dialogbody"></div><div class="dialogfooter"><button type="button" class="btn" id="dialogCancel">Cancelar</button><button type="button" class="btn primary" id="dialogSave">Salvar alteração</button></div></dialog><input class="sr-only" id="fileInput" aria-label="Backup sintético do Observatório" type="file" accept=".json,application/json"><input class="sr-only" id="feedInput" aria-label="Lote sintético de notícias" type="file" accept=".json,application/json"><input class="sr-only" id="marketFile" aria-label="Fechamentos sintéticos de índices" type="file" accept=".json,application/json"><div class="toast" id="toast" role="status" aria-live="polite"></div><span class="sr-only" id="release">1.8.1-indices-widget-candidata</span>
