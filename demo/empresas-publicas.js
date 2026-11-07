@@ -39,6 +39,23 @@ function parse(text,name){
  });
  return clean;
 }
+/* O catálogo de homologação é disponibilizado somente no deployment protegido:
+   não faz parte do repositório GitHub público, não grava em localStorage
+   e nunca substitui uma lista que o usuário importou manualmente. */
+async function loadPrivateStagingCatalog(){
+ if(entries.length)return;
+ try{
+  const response=await fetch('/empresas-catalogo-222.json',{cache:'no-store',headers:{Accept:'application/json'}});
+  if(!response.ok)return;
+  const candidate=await response.json();
+  if(!Array.isArray(candidate)||candidate.length!==222)return;
+  const sanitized=parse(JSON.stringify(candidate),'catalogo.json');
+  if(entries.length)return;
+  entries=sanitized;
+  stateMessage='222 empresas carregadas do catálogo de homologação privado. Nomes e CNPJs não foram validados individualmente em bases oficiais.';
+  if(typeof onUpdate==='function')onUpdate();
+ }catch(e){/* Catálogo opcional: preservar importações locais e continuar sem base. */}
+}
 async function importFile(file){
  if(!file)return;
  try{
@@ -80,7 +97,7 @@ function panel(){
  '<div class="radar-company-actions"><label class="radar-company-import" for="radarCompanyFile">Importar lista local (.html ou .json)</label>'+
  '<input type="file" id="radarCompanyFile" accept=".html,.json,text/html,application/json" aria-label="Selecionar arquivo de empresas">'+
  '<span class="radar-company-meta">'+(entries.length?filled+' registros com CNPJ informado.':'Nenhuma lista importada neste navegador.')+'</span></div>'+
- '<p class="radar-company-warning">O processamento ocorre neste dispositivo. O RADAR descarta carteira, prioridades, ações e demais campos; não envia o arquivo à API de notícias.</p>'+
+ '<p class="radar-company-warning">Importações manuais são locais. O catálogo inicial, quando disponível, contém apenas nomes/CNPJs e é servido pelo ambiente privado; carteira, prioridades, ações e outros campos são excluídos. Correspondências exigem conferência.</p>'+
  '<p id="radarCompanyMessage" class="radar-company-message" role="status">'+escape(stateMessage)+'</p>'+
  '<div id="radarCompanyMatches" aria-live="polite"></div></section>';
 }
@@ -96,6 +113,7 @@ function showMatches(items){
  '<p class="radar-company-empty">As menções são avaliadas somente nos títulos consultados. Ausência de correspondência não significa ausência de notícias sobre a empresa.</p>');
 }
 load();
+loadPrivateStagingCatalog();
 document.addEventListener('change',e=>{if(e.target?.id==='radarCompanyFile'){const file=e.target.files?.[0];importFile(file);e.target.value='';}});
 window.RadarCompanies={panel,showMatches,matchesFor,importFile,read:()=>entries.map(x=>({...x})),setOnUpdate:fn=>{onUpdate=fn}};
 })();
