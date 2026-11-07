@@ -39,7 +39,7 @@ test('U01-U05: percurso sintético funcional em viewport Android',async({browser
   await expect(page.locator('#lista-indicadores')).toBeVisible();
   await expect(page.locator('#lista-indicadores')).toContainText('Indicador exclusivamente sintético U01');
   // U02 — expandir, voltar e continuar
-  await page.locator('.tabs-mobile [data-nav="panorama"]').click();
+  await page.locator('.nav [data-nav="panorama"]').click();
   const brief=page.locator('[data-panorama-section="prioridades"]');
   await brief.locator('summary').click();
   await expect(brief).toHaveAttribute('open','');
