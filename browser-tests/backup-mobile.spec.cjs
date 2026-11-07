@@ -103,3 +103,43 @@ test('rejeita backup JSON sintaticamente inválido sem alterar a base', async ({
   await expect(page.locator('body')).toContainText('Importação cancelada');
   expect(await page.evaluate(k => localStorage.getItem(k), key)).toBe(before);
 });
+
+
+test('O02 emulação móvel: indicador persiste após reabrir sem modificar a base Comercial', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true
+  });
+  try {
+    const page = await context.newPage();
+    await page.goto(route);
+    const fixture = await page.evaluate(() => {
+      const commercialKey = 'radar_comercial_demo_publica_20261106';
+      localStorage.setItem(commercialKey, '{"sentinela":"COMERCIAL NAO ALTERAR"}');
+      const next = window.__RADAR_TEST__.getState();
+      next.indicadores.push({
+        id: 'IND-ANDROID-O02-001',
+        titulo: 'Indicador sintético de persistência Android',
+        unidade: 'unidades', periodo: '2026-11', fonte: 'Laboratório sintético',
+        url: 'https://example.org/ensaio', valorOriginal: '42'
+      });
+      if (!window.__RADAR_TEST__.commit(next)) throw Error('Falha ao gravar indicador sintético');
+      return {
+        obs: localStorage.getItem('radar_obs_demo_publica_20261106'),
+        comercial: localStorage.getItem(commercialKey)
+      };
+    });
+    expect(fixture.obs).toContain('IND-ANDROID-O02-001');
+    await page.reload();
+    const after = await page.evaluate(() => ({
+      obs: localStorage.getItem('radar_obs_demo_publica_20261106'),
+      commercial: localStorage.getItem('radar_comercial_demo_publica_20261106'),
+      indicator: window.__RADAR_TEST__.getState().indicadores
+        .find(item => item.id === 'IND-ANDROID-O02-001')
+    }));
+    expect(after.obs).toBe(fixture.obs);
+    expect(after.commercial).toBe(fixture.comercial);
+    expect(after.indicator.titulo).toBe('Indicador sintético de persistência Android');
+  } finally {
+    await context.close();
+  }
+});
