@@ -31,3 +31,29 @@ test('impede duplicidade de empresas e ações inválidas',()=>{
  assert.throws(()=>radar.validate(x));
  assert.throws(()=>radar.addAction(radar.initialState(),'DEMO-001','','2026-11-20'));
 });
+
+
+test('oportunidade sintética mantém trilha e não altera estado original',()=>{
+ const original=radar.initialState();
+ const a=radar.addOpportunity(original,'DEMO-001','Projeto de teste','2026-11-06');
+ assert.equal(original.oportunidades.length,0);
+ assert.equal(a.oportunidades.length,1);
+ assert.equal(a.oportunidades[0].historico.length,1);
+ const b=radar.changeOpportunity(a,'OP-DEMO-001','Proposta','2026-11-07','Simulação documentada');
+ assert.equal(a.oportunidades[0].status,'Identificada');
+ assert.equal(b.oportunidades[0].status,'Proposta');
+ assert.deepEqual(b.oportunidades[0].historico.map(h=>h.status),['Identificada','Proposta']);
+ assert.equal(radar.validate(b),true);
+});
+test('bloqueia empresa inexistente e histórico inconsistente',()=>{
+ assert.throws(()=>radar.addOpportunity(radar.initialState(),'DEMO-999','Teste','2026-11-06'));
+ const state=radar.addOpportunity(radar.initialState(),'DEMO-001','Teste','2026-11-06');
+ state.oportunidades[0].status='Concluída';
+ assert.throws(()=>radar.validate(state),/Status sem histórico/);
+});
+test('backup legado sintético sem oportunidades continua aceito',()=>{
+ const state=radar.initialState();delete state.oportunidades;
+ assert.equal(radar.validate(state),true);
+ const changed=radar.addOpportunity(state,'DEMO-001','Teste legado','2026-11-06');
+ assert.equal(changed.oportunidades.length,1);
+});
