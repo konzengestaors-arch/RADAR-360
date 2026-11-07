@@ -611,11 +611,18 @@ body[data-current-tab="panorama"] .tabs-mobile{display:none!important}
 .radar-invest-list small,.radar-invest-status{font-size:12px;color:#5a7370;line-height:1.6}
 @media(max-width:760px){.radar-cover-intel{grid-template-columns:1fr;gap:18px;padding:20px 0 28px}.radar-cover-economy{padding:0 0 20px;border-right:0;border-bottom:1px solid #d4dfd8}.radar-cover-intel h3{font-size:25px}.radar-cover-rates strong{font-size:26px}}
 @media(max-width:390px){.radar-cover-rates strong{font-size:22px}.radar-cover-intel{gap:14px}}
+
+/* Seleção oficial: leitura editorial, separada de sinais automatizados e do cadastro. */
+.radar-official-reference-list{border-top:1px solid #c7d9d1}
+.radar-official-reference-list li{padding:19px 0}
+.radar-official-reference-list .radar-invest-tag{color:#285b60}
+.radar-official-reference-list small{font-size:11px;line-height:1.5;color:#667b77}
+@media(max-width:720px){.radar-official-reference-list li{padding:15px 0}.radar-official-reference-list a{font-size:19px}}
 </style></head><body><p id="environmentNotice" class="sr-only">HOMOLOGAÇÃO PRIVADA — CATÁLOGO EMPRESARIAL SEPARADO DOS DADOS COMERCIAIS. Cadastros ainda não validados individualmente. Não utilize informações confidenciais.</p>
 <div class="shell"><aside class="sidebar"><div class="brand"><span class="mark" aria-hidden="true"></span><div><strong>RADAR</strong><small>OBSERVATÓRIO</small></div></div><div><div class="side-section">Inteligência regional</div><nav class="nav" aria-label="Navegação principal"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg> Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/><path d="M7 16h2m3 0h2m3 0h2"/></svg> Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9m-9 4h6"/></svg> Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg> Indicadores</button></nav></div><div class="sidefoot"><b>RS • OESTE SC • LITORAL SUL SC</b><span>Painel regional e financeiro. Novos documentos passam por revisão humana.</span><p>v1.9 · Prévia de desenvolvimento sem homologação</p></div></aside><div class="workspace"><header class="topbar"><div><span class="mobile-brand">◉ RADAR OBSERVATÓRIO</span><span class="kicker">Observatório econômico</span><h1 id="pageName">Panorama Regional</h1></div><div class="top-actions"><button type="button" id="openUpdates" class="btn" aria-label="Abrir notícias e atualizações para revisão">↻ Notícias &amp; atualizações</button><button type="button" id="openTools" class="btn" aria-label="Dados e backup: exportar, restaurar e consultar armazenamento local">Dados e backup</button><button type="button" id="exportTop" class="btn primary" aria-label="Exportar backup JSON">Exportar backup</button></div></header><main class="content" id="body" aria-live="polite"></main></div></div>
 <nav class="tabs-mobile" aria-label="Navegação principal móvel"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg>Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/></svg>Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9"/></svg>Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg>Indicadores</button></nav>
 <div id="overlay" class="overlay" aria-hidden="true"><aside class="drawer" role="region" aria-label="Dossiê do movimento"><div class="drawerhead"><div><span class="eyebrow">REGISTRO CENTRAL</span><div id="detailTitle" style="font-weight:800">Dossiê</div></div><button class="close" id="detailClose" aria-label="Fechar dossiê">✕</button></div><div id="detailBody" class="drawerbody"></div></aside></div><dialog class="dialog" id="editor" aria-labelledby="dialogTitle"><div class="dialoghead"><h2 id="dialogTitle">Editar registro</h2><button type="button" class="close" id="dialogClose" aria-label="Fechar">✕</button></div><div id="dialogBody" class="dialogbody"></div><div class="dialogfooter"><button type="button" class="btn" id="dialogCancel">Cancelar</button><button type="button" class="btn primary" id="dialogSave">Salvar alteração</button></div></dialog><input class="sr-only" id="fileInput" aria-label="Backup sintético do Observatório" type="file" accept=".json,application/json"><input class="sr-only" id="feedInput" aria-label="Lote sintético de notícias" type="file" accept=".json,application/json"><input class="sr-only" id="marketFile" aria-label="Fechamentos sintéticos de índices" type="file" accept=".json,application/json"><div class="toast" id="toast" role="status" aria-live="polite"></div><span class="sr-only" id="release">1.8.1-indices-widget-candidata</span>
-<script src="empresas-publicas.js"></script><script>window.__RADAR_SEED__={"schema":"radar-observatorio-unico/1.7","release":"1.9-demo-sintetica","dataBase":"2026-11-06","movimentos":[],"indicadores":[],"criadoEm":"2026-11-06T00:00:00Z","atualizadoEm":"2026-11-06T00:00:00Z","migracao":{"origem":"demonstração limpa","observacao":"Sem registros incorporados e sem migração automática de dados locais."},"caixaAtualizacoes":[]};</script><script>/* RADAR Observatório 1.7 — revisão humana de candidatos, sem acesso à rede. */
+<script src="empresas-publicas.js"></script><script src="fontes-investimentos.js"></script><script>window.__RADAR_SEED__={"schema":"radar-observatorio-unico/1.7","release":"1.9-demo-sintetica","dataBase":"2026-11-06","movimentos":[],"indicadores":[],"criadoEm":"2026-11-06T00:00:00Z","atualizadoEm":"2026-11-06T00:00:00Z","migracao":{"origem":"demonstração limpa","observacao":"Sem registros incorporados e sem migração automática de dados locais."},"caixaAtualizacoes":[]};</script><script>/* RADAR Observatório 1.7 — revisão humana de candidatos, sem acesso à rede. */
 (function(root){'use strict';
 const SCHEMA='radar-observatorio-feed/1';
 const TERR=['RS','Oeste SC','Litoral sul SC'];
@@ -930,11 +937,20 @@ function renderInvestmentSignals(){
  const target=document.getElementById('radarInvestmentSignals');if(!target)return;
  if(!liveNewsCache){target.innerHTML='<p class="radar-invest-status">Consultando fontes públicas…</p>';return;}
  if(liveNewsCache.error){target.innerHTML='<p class="radar-invest-status">Não foi possível consultar notícias agora. Use a aba Notícias para atualizar.</p>';return;}
- const normalizeTitle=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
- const expressions=/\b(investiment\w*|ampli\w*|expans\w*|nova fabrica|instalac\w*|construc\w*|licitac\w*|concess\w*|modernizac\w*|obra\w*|nova unidade|inaugur\w*)\b/i;
- const candidates=(liveNewsCache.items||[]).filter(x=>expressions.test(normalizeTitle(x.titulo))&&/^https:\/\/[^\s]+$/i.test(String(x.url||''))).slice(0,8);
+ const signalFor=window.RadarInvestmentSources?.classifyTitle;
+ const candidates=(liveNewsCache.items||[]).filter(x=>typeof signalFor==='function'&&signalFor(x.titulo)&&/^https:\/\/[^\s]+$/i.test(String(x.url||''))).slice(0,8);
  if(!candidates.length){target.innerHTML='<p class="radar-invest-status">Nenhuma manchete com sinais de investimento nos feeds consultados nesta leitura. Isso não significa ausência de novos projetos na região.</p>';return;}
- target.innerHTML='<ol class="radar-invest-list">'+candidates.map(x=>'<li><span class="radar-invest-tag">PISTA A VERIFICAR</span><a href="'+E(x.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.titulo)+'</a><small>'+E(x.fonte||'Fonte não informada')+' · '+E(x.publicadoEm||'Data não informada')+'</small></li>').join('')+'</ol>';
+ target.innerHTML='<ol class="radar-invest-list">'+candidates.map(x=>'<li><span class="radar-invest-tag">'+E(signalFor(x.titulo)||'PISTA A VERIFICAR')+' · A VERIFICAR</span><a href="'+E(x.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.titulo)+'</a><small>'+E(x.fonte||'Fonte não informada')+' · '+E(x.publicadoEm||'Data não informada')+'</small></li>').join('')+'</ol>';
+}
+function officialInvestmentReading(){
+ const sources=window.RadarInvestmentSources;
+ if(!sources)return '<p class="radar-invest-status">Catálogo de fontes oficiais indisponível nesta versão.</p>';
+ const date=new Date(sources.reviewedAt+'T12:00:00Z').toLocaleDateString('pt-BR',{timeZone:'UTC'});
+ return '<p class="radar-invest-status">Seleção manual conferida em '+E(date)+'. As referências não são atualizadas pelo RSS e não constituem registros internos aprovados.</p>'
+ +'<ol class="radar-invest-list radar-official-reference-list">'+sources.references.map(x=>
+ '<li><span class="radar-invest-tag">'+E(x.etapa)+' · '+E(x.territorio)+'</span>'
+ +'<a href="'+E(x.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.titulo)+'</a>'
+ +'<small>'+E(x.fonte)+' · Publicado em '+E(x.data)+' · '+E(x.tipo)+'</small></li>').join('')+'</ol>';
 }
 function investimentos(moves){
  const projects=moves.filter(m=>m.tipo==='Investimento'||/licita|obra|investimento|moderniza|projeto/i.test(m.titulo));
@@ -943,8 +959,12 @@ function investimentos(moves){
   <div class="radar-section-intro"><span class="radar-section-index">01 / NOTÍCIAS PARA VERIFICAR</span><h2>Sinais de investimento</h2><p>Menções identificadas apenas pelos títulos dos feeds RSS. Não representam investimento confirmado, valor contratado ou decisão de empresa.</p></div>
   <div id="radarInvestmentSignals" aria-live="polite"><p class="radar-invest-status">Consultando fontes públicas…</p></div>
  </section>
+ <section class="radar-invest-editorial" aria-label="Publicações oficiais selecionadas">
+  <div class="radar-section-intro"><span class="radar-section-index">02 / REFERÊNCIAS OFICIAIS</span><h2>Investimentos em fontes públicas</h2><p>Publicações de órgãos oficiais, com data e estágio declarado. A seleção é documental e datada; não representa acompanhamento automático nem comprovação de execução.</p></div>
+  ${officialInvestmentReading()}
+ </section>
  <section class="radar-invest-editorial" aria-label="Investimentos com documentos cadastrados">
-  <div class="radar-section-intro"><span class="radar-section-index">02 / EVIDÊNCIAS</span><h2>Projetos documentados</h2><p>Registros incluídos após revisão, com estágio e fonte identificados.</p></div>
+  <div class="radar-section-intro"><span class="radar-section-index">03 / EVIDÊNCIAS</span><h2>Projetos documentados</h2><p>Registros incluídos após revisão, com estágio e fonte identificados.</p></div>
   <p class="radar-invest-status">${projects.length} projeto(s) registrado(s) nesta base.</p>
   ${projects.length?'<div class="cards editorial-projects">'+projects.map(card).join('')+'</div>':'<div class="editorial-empty"><strong>Nenhum projeto documentado nesta base de homologação.</strong><p>As notícias acima são pistas para pesquisa. Um projeto só deve aparecer aqui após conferência da fonte e registro com evidências.</p></div>'}
  </section>
