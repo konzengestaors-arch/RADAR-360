@@ -326,6 +326,79 @@ html,body{font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;backgr
 .radar-directory-list strong{font-size:12px;line-height:1.35;color:#153a4b;overflow-wrap:anywhere}
 .radar-directory-list small{color:#57727d;font-size:11px}
 @media(max-width:720px){.radar-directory-list{grid-template-columns:1fr}}
+</style><style>
+/* RADAR 360 — painel editorial premium v2: informação antes de decoração. */
+:root{--ink:#132e3b;--navy:#0a2336;--navy2:#123f50;--teal:#0a776d;--mist:#f1f5f5;--line:#d9e5e6;--shadow:0 9px 30px rgba(15,55,68,.055)}
+body{background:radial-gradient(circle at 88% 0%,#dcefe8 0%,transparent 38%),#f3f6f5}
+.content{max-width:1380px}
+.topbar{background:rgba(255,255,255,.96);box-shadow:0 2px 24px #082f3b06}
+.sidebar{background:linear-gradient(180deg,#071f30,#0e3747 65%,#103c46)}
+.nav button.active{background:#1b595b;box-shadow:inset 3px 0 0 #89ebc1}
+.radar-premium-hero{background:linear-gradient(115deg,#0a2237,#123a4a 53%,#0e6762);border:1px solid #235765;box-shadow:0 14px 38px #0d3c451a}
+.radar-premium-hero.hero-compact{padding:22px 28px}
+.radar-premium-hero h2{font-size:clamp(23px,2.5vw,33px);letter-spacing:-.045em;max-width:640px}
+.radar-premium-hero .hero-meta strong{font-size:28px;letter-spacing:-.06em}
+.radar-command-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:13px 0 17px}
+.radar-command-metric{display:flex;flex-direction:column;min-width:0;padding:15px 18px;border-radius:14px;border:1px solid #dbe7e7;background:white;box-shadow:var(--shadow)}
+.radar-command-metric span{color:#416674;font-size:10px;font-weight:850;letter-spacing:.075em}
+.radar-command-metric strong{font-size:31px;line-height:1.18;letter-spacing:-.07em;color:#113846;margin:7px 0 4px;font-variant-numeric:tabular-nums}
+.radar-command-metric small{font-size:10px;line-height:1.35;color:#56717c}
+.news-live-section{padding:22px;border-color:#cbdfe0;box-shadow:0 16px 38px #0c394916}
+.news-live-heading{align-items:flex-start}
+.news-live-heading h2{font-size:26px;letter-spacing:-.045em}
+.news-live-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.news-live-card{background:#fff;border-radius:14px;padding:18px;transition:border-color .18s,transform .18s,box-shadow .18s}
+.news-live-card:hover{border-color:#94bfb7;transform:translateY(-2px);box-shadow:0 10px 22px #113f4b12}
+.news-live-card.featured{grid-column:1/-1;background:linear-gradient(112deg,#0e3543,#10554f);border:1px solid #1e746a;padding:21px 23px}
+.news-live-card.featured .news-live-kicker{color:#aff1d9}
+.news-live-card.featured h3{max-width:770px;font-size:23px;line-height:1.28}
+.news-live-card.featured h3 a{color:#fff}
+.news-live-card.featured .news-live-meta{color:#c6e5e3}
+.news-live-card.featured .news-live-open{color:#b3ffe0}
+.news-live-card h3{font-size:16px;line-height:1.36}
+.news-live-open{min-height:44px;align-self:flex-start}
+.radar-company-panel{border-color:#d4e5e6;box-shadow:0 12px 32px #0e394a0e}
+.radar-company-heading h2{font-size:24px}
+.radar-company-directory{background:#f6faf9}
+.radar-company-directory summary{font-size:14px;color:#0a625a}
+.overview-section,.panorama-main-market{margin-top:22px}
+@media(max-width:720px){
+ .content{padding:12px 13px 94px}
+ .topbar{padding:12px 15px;gap:8px;min-height:62px}
+ .topbar h1{font-size:18px}
+ .top-actions{gap:6px}
+ .top-actions #exportTop{display:none}
+ .top-actions #openUpdates,.top-actions #openTools{min-height:44px}
+ .radar-premium-hero.hero-compact{padding:14px 16px;border-radius:13px}
+ .radar-premium-hero.hero-compact h2{font-size:22px;line-height:1.2}
+ .radar-premium-hero.hero-compact p{font-size:12px}
+ .radar-premium-hero .hero-scope{font-size:10px;margin-top:9px}
+ .radar-command-strip{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0 12px}
+ .radar-command-metric{padding:11px 9px;border-radius:11px}
+ .radar-command-metric span{font-size:9px;letter-spacing:0;line-height:1.25;min-height:23px}
+ .radar-command-metric strong{font-size:26px;margin:5px 0 2px}
+ .radar-command-metric small{font-size:9px;line-height:1.25}
+ .news-live-section{padding:15px 12px 12px;border-radius:14px;margin-top:0}
+ .news-live-heading h2{font-size:22px}
+ .news-live-heading p{font-size:11px}
+ .news-live-grid{grid-template-columns:1fr;gap:8px}
+ .news-live-card{padding:13px 14px;gap:6px}
+ .news-live-card.featured{grid-column:auto;padding:16px}
+ .news-live-card.featured h3{font-size:19px}
+ .news-live-meta{font-size:11px}
+ .news-live-open{font-size:12px;min-height:42px}
+ .radar-company-panel{margin:10px 0;padding:14px 12px}
+ .radar-company-heading h2{font-size:21px}
+ .overview-section,.panorama-main-market{margin-top:14px}
+}
+@media(max-width:360px){
+ .radar-command-metric{padding:9px 7px}
+ .radar-command-metric strong{font-size:23px}
+ .radar-command-metric small{font-size:8.5px}
+ .news-live-heading{flex-wrap:wrap}
+ .news-live-refresh{width:100%}
+}
+@media(prefers-reduced-motion:reduce){.news-live-card{transition:none}.news-live-card:hover{transform:none}}
 </style></head><body><div role="status" style="background:#fff1cb;color:#43320b;padding:10px 16px;text-align:center;font:600 14px system-ui">HOMOLOGAÇÃO PRIVADA — CATÁLOGO EMPRESARIAL SEPARADO DOS DADOS COMERCIAIS. Cadastros ainda não validados individualmente. Não utilize informações confidenciais.</div>
 <div class="shell"><aside class="sidebar"><div class="brand"><span class="mark" aria-hidden="true"></span><div><strong>RADAR</strong><small>OBSERVATÓRIO</small></div></div><div><div class="side-section">Inteligência regional</div><nav class="nav" aria-label="Navegação principal"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg> Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/><path d="M7 16h2m3 0h2m3 0h2"/></svg> Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9m-9 4h6"/></svg> Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg> Indicadores</button></nav></div><div class="sidefoot"><b>RS • OESTE SC • LITORAL SUL SC</b><span>Painel regional e financeiro. Novos documentos passam por revisão humana.</span><p>v1.9 · Prévia de desenvolvimento sem homologação</p></div></aside><div class="workspace"><header class="topbar"><div><span class="mobile-brand">◉ RADAR OBSERVATÓRIO</span><span class="kicker">Observatório econômico</span><h1 id="pageName">Panorama Regional</h1></div><div class="top-actions"><button type="button" id="openUpdates" class="btn" aria-label="Abrir notícias e atualizações para revisão">↻ Notícias &amp; atualizações</button><button type="button" id="openTools" class="btn" aria-label="Abrir fontes, histórico e backup">Dados &amp; backup</button><button type="button" id="exportTop" class="btn primary" aria-label="Exportar backup JSON">Exportar backup</button></div></header><main class="content" id="body" aria-live="polite"></main></div></div>
 <nav class="tabs-mobile" aria-label="Navegação principal móvel"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg>Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/></svg>Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9"/></svg>Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg>Indicadores</button></nav>
@@ -543,7 +616,12 @@ function panorama(moves){
  const queue=moves.filter(m=>m.proximaVerificacaoMotivo).sort((a,b)=>(a.proximaVerificacaoData||'9999').localeCompare(b.proximaVerificacaoData||'9999')).slice(0,4);
  const pending=(state.caixaAtualizacoes||[]).filter(c=>c.status==='pendente').length;
  const lead=moves.filter(m=>m.prioridade==='Alta').sort((a,b)=>(b.dataPublicacao||'').localeCompare(a.dataPublicacao||''))[0];
- return `<section class="hero hero-compact"><div><span class="eyebrow">INTELIGÊNCIA ECONÔMICA REGIONAL</span><h2>A região em perspectiva.</h2><p>Movimentos, sinais de mercado e verificações em uma única leitura.</p><div class="hero-scope">RS <span>•</span> Oeste SC <span>•</span> Litoral sul SC</div>${lead?`<button type="button" class="hero-focus" data-open="${E(lead.id)}" aria-label="Abrir destaque regional: ${E(lead.titulo)}"><span>EM FOCO</span> ${E(lead.titulo)} ↗</button>`:''}</div><div class="hero-meta"><strong>06.11.2026</strong><span>Demonstração sem dados iniciais</span><small>Atualização por evidências</small></div></section>
+ return `<section class="hero hero-compact radar-premium-hero"><div><span class="eyebrow">RADAR 360 / INTELIGÊNCIA EMPRESARIAL</span><h2>O que merece sua atenção.</h2><p>Notícias públicas, empresas monitoradas e acontecimentos relevantes em uma única leitura.</p><div class="hero-scope">Rio Grande do Sul <span>•</span> Santa Catarina</div>${lead?`<button type="button" class="hero-focus" data-open="${E(lead.id)}" aria-label="Abrir destaque regional: ${E(lead.titulo)}"><span>EM FOCO</span> ${E(lead.titulo)} ↗</button>`:''}</div><div class="hero-meta"><span>OBSERVATÓRIO</span><strong>360°</strong><small>Fontes e evidências</small></div></section>
+ <section class="radar-command-strip" aria-label="Visão geral do monitoramento">
+  <div class="radar-command-metric"><span>EMPRESAS NO CATÁLOGO</span><strong id="radarTopCompanies">${window.RadarCompanies.read().length}</strong><small>Cadastros históricos · não verificados</small></div>
+  <div class="radar-command-metric"><span>NOTÍCIAS CONSULTADAS</span><strong id="radarTopNews">${liveNewsCache?.items?.length??'—'}</strong><small>Matérias externas, sem validação automática</small></div>
+  <div class="radar-command-metric"><span>MOVIMENTOS DOCUMENTADOS</span><strong>${moves.length}</strong><small>Registros em revisão no navegador</small></div>
+ </section>`
  ${storageWarning?`<div class="notice danger">${E(storageWarning)}</div>`:''}
  <section class="news-live-section" aria-label="Últimas notícias econômicas">
   <div class="news-live-heading"><div><span class="eyebrow">RADAR DE ACONTECIMENTOS</span><h2>Notícias em destaque</h2><p>Matérias recentes de fontes públicas, com acesso direto às publicações.</p></div><button class="btn news-live-refresh" type="button" id="refreshNewsLive" aria-label="Atualizar notícias">Atualizar notícias ↻</button></div>
@@ -551,8 +629,8 @@ function panorama(moves){
   <p class="news-live-foot">Notícias externas não são automaticamente vinculadas a empresas ou consideradas fatos verificados pelo RADAR. Confirme o conteúdo na fonte original.</p>
  </section>
  ${window.RadarCompanies.panel()}
+ <section class="overview-section">${sect('Indicadores de acompanhamento','Atalhos para assuntos e registros documentados.')}${headlineNumbers(moves)}</section>
  <div class="panorama-main-market" id="marketSnapshot">${RadarFinancial.render()}</div>
- <section class="overview-section">${sect('Em números','Acesse rapidamente os assuntos relevantes.')}${headlineNumbers(moves)}</section>
  ${disclosure('prioridades','Leitura executiva','Destaques e movimentos que merecem atenção.',priorityBrief(moves))}
  <div class="quick-updates"><div><strong>${pending} atualização(ões) para revisar</strong><span>Coleta de notícias por lote, com verificação humana antes de vincular.</span></div><button type="button" class="btn" id="inboxFromPanorama" data-open-inbox>Revisar publicações ↗</button></div>
  ${disclosure('agenda','Agenda e critérios','Pendências, fontes e regras de interpretação.',`<div class="split"><div>${sect('Próximas verificações','Pendências e evidências necessárias para decisões.')}
@@ -612,6 +690,7 @@ function renderLiveNews(){
  const target=document.getElementById('radarLiveNews');if(!target)return;
  if(!liveNewsCache)return;
  if(liveNewsCache.error){target.innerHTML='<p class="news-live-status" role="status">'+E(liveNewsCache.error)+'</p>';return;}
+ const counter=document.getElementById('radarTopNews');if(counter)counter.textContent=Array.isArray(liveNewsCache.items)?String(liveNewsCache.items.length):'—';
  const items=liveNewsCache.items||[];
  if(!items.length){target.innerHTML='<p class="news-live-status">Nenhuma matéria disponível nesta consulta. Você ainda pode explorar os indicadores abaixo.</p>';return;}
  target.innerHTML=items.slice(0,8).map((item,index)=>{
