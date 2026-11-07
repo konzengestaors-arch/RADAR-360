@@ -23,7 +23,8 @@ for(const width of [320,390,768,1440]){
    await expect(page.locator('#body')).toContainText('Câmbio e mercados globais');
    await expect(page.locator('[data-create="indicador"]')).not.toBeVisible();
    await page.locator(nav+' [data-nav="investimentos"]').click();
-   await expect(page.locator('#body')).toContainText('Investimentos em acompanhamento');
+   await expect(page.locator('#body')).toContainText('Sinais de investimento');
+   await expect(page.locator('#body')).toContainText('Projetos documentados');
    await expect(page.locator('[data-create="movimento"]')).not.toBeVisible();
    await page.locator('.editorial-tools summary').first().click();
    await expect(page.locator('[data-create="movimento"]')).toBeVisible();
