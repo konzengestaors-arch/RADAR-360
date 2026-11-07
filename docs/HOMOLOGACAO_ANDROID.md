@@ -47,3 +47,12 @@ Não verifica isolamento entre organizações, autenticação ou sincronização
 - **Não foi realizado teste no Android físico.** Não existe aqui URL de homologação independente autorizada e verificada. Os links para `demo/*.html` no GitHub mostram arquivos-fonte, não uma aplicação hospedada.
 - **Portão bloqueado:** para iniciar C01–C09 e O01–O04 em dispositivo real, é necessário um ambiente de testes separado e acessível ao Android, com autorização de disponibilização e nenhuma base real. O GitHub CI não supre essa evidência.
 - **Proibição mantida:** não alterar `main`, produção ou conectar bases corporativas; não transformar evidência de emulação em homologação física.
+
+## Pacote local disponibilizado para avaliação
+
+- **Pacote ZIP:** artefato `RADAR_360_ANDROID_TESTE` da execução https://github.com/konzengestaors-arch/RADAR-360/actions/runs/42319976914 (retenção configurada em 14 dias; exige acesso ao artefato pelo GitHub).
+- **Manifesto:** `MANIFESTO.json`, com SHA-256 dos dois HTMLs e commit de origem `968f9ec3a5586b498129776a6268b20ae1227709`.
+- **Verificação posterior do empacotamento:** commit `baee5f210b4a8efcf544f6c65a79312486156a74`, execução https://github.com/konzengestaors-arch/RADAR-360/actions/runs/42320058549. A suíte confirmou abertura de ambos os HTMLs autocontidos em Chromium, além de 22 Node, 49 Chromium e 18 ensaios repetidos aprovados.
+- **Alcance real:** o pacote permite avaliar abertura e usabilidade em arquivo local; não constitui PWA, APK, instalação autenticada ou publicação HTTPS. O comportamento de `localStorage` em `file://` no Android pode ser bloqueado ou variar entre navegadores.
+- **Aceite físico pendente:** os cenários C05–C08 e O02–O03, especialmente persistência e restauração, devem ser comprovados numa origem HTTPS de teste separada para representar corretamente o comportamento web final.
+- **Não houve deploy** nem alteração da `main` ou produção.
