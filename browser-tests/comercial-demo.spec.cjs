@@ -112,3 +112,37 @@ test('restauração aceita backup válido após armazenamento local incompatíve
  await expect(page.locator('#numEmpresas')).toHaveText('1');
  expect(JSON.parse(await page.evaluate(k=>localStorage.getItem(k),key)).schema).toBe(valid.schema);
 });
+
+
+test('oportunidade sintética mantém histórico após reload e backup',async({page})=>{
+ await page.goto(path);
+ await page.locator('#oppEmpresa').selectOption('DEMO-002');
+ await page.locator('#oppTitulo').fill('Proposta demonstrativa');
+ await page.locator('#oppData').fill('2026-11-06');
+ await page.locator('#oppForm button').click();
+ await expect(page.locator('#oppCount')).toHaveText('1 oportunidades fictícias');
+ const card=page.locator('.opp-card').first();
+ await card.locator('select').selectOption('Proposta');
+ await card.locator('input[type=date]').fill('2026-11-07');
+ await card.locator('input[placeholder]').fill('Avanço apenas simulado');
+ await card.locator('button').click();
+ await expect(page.locator('.opp-card ol li')).toHaveCount(2);
+ await page.reload();
+ await expect(page.locator('.opp-card ol li')).toHaveCount(2);
+ const data=await page.evaluate(k=>JSON.parse(localStorage.getItem(k)),key);
+ expect(data.oportunidades[0].status).toBe('Proposta');
+ expect(data.oportunidades[0].historico[1].motivo).toBe('Avanço apenas simulado');
+});
+
+for(const width of [320,390,430]){
+ test('comercial móvel '+width+' mantém ações e oportunidades visíveis',async({browser})=>{
+  const context=await browser.newContext({viewport:{width,height:780},isMobile:true,hasTouch:true});
+  const page=await context.newPage();
+  await page.goto(path);
+  await expect(page.locator('#import')).toBeVisible();
+  await expect(page.locator('#export')).toBeVisible();
+  await expect(page.locator('#oppForm button')).toBeVisible();
+  await expect(page.locator('#oppHeading')).toBeVisible();
+  await context.close();
+ });
+}
