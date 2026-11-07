@@ -512,7 +512,38 @@ body[data-current-tab="panorama"] .radar-editorial-top .panorama-main-market{mar
  .radar-command-metric strong{font-size:24px}
 }
 @media(prefers-reduced-motion:reduce){.radar-command-link{transition:none}.radar-command-link:hover{transform:none}}
-</style></head><body><p id="environmentNotice" class="sr-only">HOMOLOGAÇÃO PRIVADA — CATÁLOGO EMPRESARIAL SEPARADO DOS DADOS COMERCIAIS. Cadastros ainda não validados individualmente. Não utilize informações confidenciais.</p>
+</style><style id="radar-design-refinement-2">
+/* Edição portátil: melhorias de legibilidade e acesso à pesquisa. */
+:root{--radar-radius:16px;--radar-outline:#197f70}
+.radar-company-panel .radar-company-directory{border-color:#b9d7cf;background:#f8fcfa}
+.radar-company-directory[open]>summary{border-bottom:1px solid #d7e7e2}
+#radarCompanySearch{min-height:48px;border:1px solid #a8c8bf;background:#fff;border-radius:12px;font-size:15px;padding:12px 14px;box-shadow:0 2px 8px #13392f05}
+#radarCompanySearch:focus-visible{outline:3px solid #70bba8;outline-offset:3px}
+.news-live-card{border-radius:15px}
+.news-live-card h3{line-height:1.42;letter-spacing:-.02em}
+.news-live-meta{gap:8px 14px;line-height:1.5}
+.news-live-open{min-height:44px}
+.radar-directory-list li{padding:12px;border-radius:11px}
+.radar-directory-list strong{font-size:13px;line-height:1.4}
+.radar-command-link{border-radius:14px;min-height:100px}
+@media(max-width:720px){
+.radar-premium-hero.hero-compact{padding:12px 14px}
+.radar-premium-hero.hero-compact h2{font-size:21px;line-height:1.2;max-width:310px}
+.radar-premium-hero .hero-scope{display:none}
+.radar-editorial-top{gap:12px}
+.news-live-heading h2{font-size:22px;line-height:1.15}
+.news-live-card{padding:15px}
+.news-live-card h3{font-size:16px}
+.news-live-card.featured h3{font-size:20px}
+.news-live-meta{font-size:11px}
+.radar-company-heading h2{font-size:22px}
+.radar-company-heading p{font-size:12px;line-height:1.5}
+.radar-command-metric span{font-size:10px;line-height:1.35}
+.radar-command-metric small{font-size:11px;line-height:1.3}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head><body><p id="environmentNotice" class="sr-only">HOMOLOGAÇÃO PRIVADA — CATÁLOGO EMPRESARIAL SEPARADO DOS DADOS COMERCIAIS. Cadastros ainda não validados individualmente. Não utilize informações confidenciais.</p>
 <div class="shell"><aside class="sidebar"><div class="brand"><span class="mark" aria-hidden="true"></span><div><strong>RADAR</strong><small>OBSERVATÓRIO</small></div></div><div><div class="side-section">Inteligência regional</div><nav class="nav" aria-label="Navegação principal"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg> Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/><path d="M7 16h2m3 0h2m3 0h2"/></svg> Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9m-9 4h6"/></svg> Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg> Indicadores</button></nav></div><div class="sidefoot"><b>RS • OESTE SC • LITORAL SUL SC</b><span>Painel regional e financeiro. Novos documentos passam por revisão humana.</span><p>v1.9 · Prévia de desenvolvimento sem homologação</p></div></aside><div class="workspace"><header class="topbar"><div><span class="mobile-brand">◉ RADAR OBSERVATÓRIO</span><span class="kicker">Observatório econômico</span><h1 id="pageName">Panorama Regional</h1></div><div class="top-actions"><button type="button" id="openUpdates" class="btn" aria-label="Abrir notícias e atualizações para revisão">↻ Notícias &amp; atualizações</button><button type="button" id="openTools" class="btn" aria-label="Abrir fontes, histórico e backup">Dados &amp; backup</button><button type="button" id="exportTop" class="btn primary" aria-label="Exportar backup JSON">Exportar backup</button></div></header><main class="content" id="body" aria-live="polite"></main></div></div>
 <nav class="tabs-mobile" aria-label="Navegação principal móvel"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg>Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/></svg>Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9"/></svg>Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg>Indicadores</button></nav>
 <div id="overlay" class="overlay" aria-hidden="true"><aside class="drawer" role="region" aria-label="Dossiê do movimento"><div class="drawerhead"><div><span class="eyebrow">REGISTRO CENTRAL</span><div id="detailTitle" style="font-weight:800">Dossiê</div></div><button class="close" id="detailClose" aria-label="Fechar dossiê">✕</button></div><div id="detailBody" class="drawerbody"></div></aside></div><dialog class="dialog" id="editor" aria-labelledby="dialogTitle"><div class="dialoghead"><h2 id="dialogTitle">Editar registro</h2><button type="button" class="close" id="dialogClose" aria-label="Fechar">✕</button></div><div id="dialogBody" class="dialogbody"></div><div class="dialogfooter"><button type="button" class="btn" id="dialogCancel">Cancelar</button><button type="button" class="btn primary" id="dialogSave">Salvar alteração</button></div></dialog><input class="sr-only" id="fileInput" aria-label="Backup sintético do Observatório" type="file" accept=".json,application/json"><input class="sr-only" id="feedInput" aria-label="Lote sintético de notícias" type="file" accept=".json,application/json"><input class="sr-only" id="marketFile" aria-label="Fechamentos sintéticos de índices" type="file" accept=".json,application/json"><div class="toast" id="toast" role="status" aria-live="polite"></div><span class="sr-only" id="release">1.8.1-indices-widget-candidata</span>
@@ -756,7 +787,7 @@ function panorama(moves){
  const queue=moves.filter(m=>m.proximaVerificacaoMotivo).sort((a,b)=>(a.proximaVerificacaoData||'9999').localeCompare(b.proximaVerificacaoData||'9999')).slice(0,4);
  const pending=(state.caixaAtualizacoes||[]).filter(c=>c.status==='pendente').length;
  const lead=moves.filter(m=>m.prioridade==='Alta').sort((a,b)=>(b.dataPublicacao||'').localeCompare(a.dataPublicacao||''))[0];
- return `<section class="hero hero-compact radar-premium-hero"><div><span class="eyebrow">RADAR 360 / INTELIGÊNCIA EMPRESARIAL</span><h2>O que merece sua atenção.</h2><p>Notícias públicas, empresas monitoradas e acontecimentos relevantes em uma única leitura.</p><div class="hero-scope">Rio Grande do Sul <span>•</span> Santa Catarina</div>${lead?`<button type="button" class="hero-focus" data-open="${E(lead.id)}" aria-label="Abrir destaque regional: ${E(lead.titulo)}"><span>EM FOCO</span> ${E(lead.titulo)} ↗</button>`:''}</div><div class="hero-meta"><span>OBSERVATÓRIO</span><strong>360°</strong><small>Fontes e evidências</small></div></section>
+ return `<section class="hero hero-compact radar-premium-hero"><div><span class="eyebrow">RADAR 360 / INTELIGÊNCIA EMPRESARIAL</span><h2>Mercados e empresas em perspectiva.</h2><p>Notícias públicas, empresas monitoradas e acontecimentos relevantes em uma única leitura.</p><div class="hero-scope">Rio Grande do Sul <span>•</span> Santa Catarina</div>${lead?`<button type="button" class="hero-focus" data-open="${E(lead.id)}" aria-label="Abrir destaque regional: ${E(lead.titulo)}"><span>EM FOCO</span> ${E(lead.titulo)} ↗</button>`:''}</div><div class="hero-meta"><span>OBSERVATÓRIO</span><strong>360°</strong><small>Fontes e evidências</small></div></section>
  ${storageWarning?`<div class="notice danger">${E(storageWarning)}</div>`:''}
  <div class="radar-editorial-top" aria-label="Mercados e principais notícias">
    <div class="panorama-main-market" id="marketSnapshot">${RadarFinancial.render()}</div>
