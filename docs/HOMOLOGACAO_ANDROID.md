@@ -1,0 +1,38 @@
+# RADAR 360 — Homologação controlada no Android físico
+
+**Estado:** roteiro de ensaio, não evidência de teste executado.
+**Ambiente:** somente DEMONSTRAÇÕES sintéticas; proibido inserir dados pessoais, corporativos ou de clientes.
+**Condição de segurança:** não utilizar a versão publicada para este ensaio e não limpar armazenamento do navegador que guarda dados reais.
+
+## Preparação
+1. Usar Chrome Android em janela normal (não anônima); anotar modelo, versão Android, versão Chrome, data/hora e URL exata utilizada. O arquivo `demo/*.html` no GitHub é fonte de código, **não link funcional de aplicativo**. Para executar, é necessário hospedar a demonstração em origem de testes isolada, com aprovação expressa de publicação, ou abrir um pacote local de testes preparado para essa finalidade.
+2. Usar apenas empresas fictícias da demonstração. Não inserir nomes, telefones, empresas, e-mails ou informações reais.
+3. Registrar a versão/commit visível na evidência; não comparar dois ambientes/origens diferentes como se compartilhassem armazenamento.
+
+## Cenários de aceite — Comercial
+- C01: abrir no dispositivo, verificar aviso de demonstração, três empresas sintéticas e ausência de erros fatais.
+- C02: buscar `Beta`, filtrar por SC, retornar para todas, conferir botões sem sobreposição ou corte.
+- C03: criar ação fictícia com data e descrição; anotar conteúdo sintético e conferir indicador de ações.
+- C04: criar oportunidade `Projeto teste Android` vinculada a `Empresa Exemplo Alfa`; alterar a etapa com motivo e data válida; confirmar duas entradas no histórico.
+- C05: fechar completamente a aba/app, reabrir a **mesma URL e origem** e verificar persistência da ação, da oportunidade e do histórico.
+- C06: exportar backup JSON sintético; localizar o arquivo salvo no Android e conferir existência/bytes sem compartilhar dados não sintéticos.
+- C07: limpar **somente** a chave da demo numa origem descartável e autorizada, ou usar outra origem isolada para restauração, sem remover armazenamento de aplicações reais. Restaurar JSON, confirmar o conteúdo e reabrir.
+- C08: tentar importar JSON de esquema incompatível e arquivo danificado. Confirmar rejeição e preservação da base de demonstração.
+- C09: com teclado virtual aberto, conferir campos, foco, rolagem, contraste, navegação e botões em modo retrato.
+
+## Cenários de aceite — Observatório
+- O01: abrir a demo sem registros documentais iniciais; conferir aviso de demonstração.
+- O02: criar indicador inteiramente sintético, fechar/reabrir e confirmar persistência.
+- O03: exportar, restaurar e validar a base sintética; rejeitar esquema comercial sem mutação.
+- O04: validar legibilidade, navegação e acesso a `Dados & backup` no celular.
+
+## Evidências necessárias
+Para cada cenário: identificador (C01... / O01...), PASSOU/FALHOU/BLOQUEADO, commit/hash, dispositivo, navegador, data, passos, resultado observado e screenshot sem informações reais. Em restauração, anexar backup **somente se integralmente sintético**. Reproduzir falhas com passos mínimos.
+
+## Critérios objetivos
+- **Aprovado no Android:** 100% dos cenários aplicáveis passaram, sem perda de histórico, sem cruzamento de dados, sem problemas críticos de usabilidade.
+- **Bloqueado:** falta link de teste autorizado ou origem separada; resultado não pode ser inferido dos testes CI.
+- **Reprovado:** perda de dados, restauração incompatível aceita, informação de outra origem revelada ou impossibilidade de operar controles essenciais.
+
+## Limites de escopo
+Não verifica isolamento entre organizações, autenticação ou sincronização de nuvem. Nenhum deploy, acesso a ambientes corporativos ou teste com dados reais está autorizado neste ciclo.
