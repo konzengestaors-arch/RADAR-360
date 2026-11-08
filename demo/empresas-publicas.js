@@ -5,13 +5,17 @@
 const KEY='radar_empresas_publicas_nome_cnpj_v1',MAX_BYTES=1024*1024,MAX_ROWS=500;
 const normalize=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').replace(/\s+/g,' ').trim();
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let entries=[],stateMessage='',onUpdate=null;
+let entries=[],stateMessage='Consultando o catálogo de empresas…',onUpdate=null,source='none';
+function notifyStatus(){if(typeof onUpdate==='function')onUpdate()}
+function setStatus(message){stateMessage=message;notifyStatus()}
+
 function load(){
  try{
   const raw=localStorage.getItem(KEY);
   if(raw){const x=JSON.parse(raw);if(!Array.isArray(x)||x.length>MAX_ROWS)throw Error('catálogo incompatível');
    entries=x.map(row=>({nome:String(row.nome||'').trim(),cnpj:String(row.cnpj||'').replace(/\D/g,'')}))
     .filter(row=>row.nome.length>=3&&row.nome.length<=160&&(!row.cnpj||row.cnpj.length===14));
+   if(entries.length){source='local';stateMessage='Lista local preservada neste navegador ('+entries.length+' registros). Ela tem prioridade sobre o catálogo de 222 empresas da homologação; não há substituição automática.';}
   }
  }catch(e){entries=[];stateMessage='O catálogo local não pôde ser lido. A base original foi preservada; não importe sem verificar o armazenamento.'}
 }
@@ -50,22 +54,22 @@ async function loadPrivateStagingCatalog(){
   if(zip.ok){
    const bytes=await zip.arrayBuffer(),magic=new Uint8Array(bytes);
    if(magic[0]===0x1f&&magic[1]===0x8b){
-    if(typeof DecompressionStream!=='function')return;
+    if(typeof DecompressionStream!=='function')throw Error('Compactação não suportada neste navegador');
     const decompressed=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
     candidate=await new Response(decompressed).json();
    }else candidate=JSON.parse(new TextDecoder('utf-8').decode(bytes));
   }else{
    const response=await fetch('/empresas-catalogo-222.json',{cache:'no-store',headers:{Accept:'application/json'}});
-   if(!response.ok)return;
+   if(!response.ok)throw Error('Catálogo hospedado não disponível (HTTP '+response.status+')');
    candidate=await response.json();
   }
-  if(!Array.isArray(candidate)||candidate.length!==222)return;
+  if(!Array.isArray(candidate)||candidate.length!==222)throw Error('Catálogo hospedado incompleto ou inválido');
   const sanitized=parse(JSON.stringify(candidate),'catalogo.json');
   if(entries.length)return;
   entries=sanitized;
-  stateMessage='222 empresas carregadas do catálogo de homologação privado. Nomes e CNPJs não foram validados individualmente em bases oficiais.';
-  if(typeof onUpdate==='function')onUpdate();
- }catch(e){/* Catálogo opcional: preservar importações locais e continuar sem base. */}
+  source='staging';
+  setStatus('Catálogo de homologação: 222 empresas carregadas do servidor privado. Nomes e CNPJs ainda não foram validados individualmente em bases oficiais.');
+ }catch(e){if(!entries.length)setStatus('Catálogo de homologação indisponível. Nenhuma lista local carregada. Confira a conexão ou importe sua lista. Motivo: '+String(e.message||e).slice(0,110));}
 }
 async function importFile(file){
  if(!file)return;
@@ -76,6 +80,7 @@ async function importFile(file){
   localStorage.setItem(KEY,data);
   if(localStorage.getItem(KEY)!==data)throw Error('Gravação não confirmada neste navegador.');
   entries=rows;
+  source='local';
   stateMessage=rows.length+' nomes importados localmente. Apenas nome e CNPJ foram armazenados; confirme a origem pública antes de usar.';
  }catch(err){stateMessage='Importação não realizada: '+err.message;}
  if(typeof onUpdate==='function')onUpdate();
@@ -147,7 +152,7 @@ function panel(){
  const filled=entries.filter(x=>x.cnpj).length;
  const riskyNames=identityReview();
  const pending=entries.filter(row=>riskyNames.has(normalize(row.nome))).length;
- return '<section class="radar-company-panel" aria-label="Empresas monitoradas">'+
+ return '<section class="radar-company-panel" aria-label="Empresas monitoradas" data-catalog-source="'+source+'">'+
  '<div class="radar-company-heading"><div><span class="eyebrow">INTELIGÊNCIA EMPRESARIAL</span><h2>Empresas monitoradas <span class="radar-company-count">'+entries.length+'</span></h2><p>Nomes de empresas e CNPJs, associados a menções em notícias públicas.</p></div></div>'+
  '<div class="radar-company-actions"><label class="radar-company-import" for="radarCompanyFile">Importar lista local (.html ou .json)</label>'+
  '<input type="file" id="radarCompanyFile" accept=".html,.json,text/html,application/json" aria-label="Selecionar arquivo de empresas">'+
