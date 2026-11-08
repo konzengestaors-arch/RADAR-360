@@ -26,9 +26,9 @@ jobs:
           assets=['editorial-panels.css','editorial-portal.css','design-system.css','brand-observatorio.css']
           for name in assets:
            css=(root/name).read_text(encoding='utf-8').replace("url('observatorio-mark.svg')",f"url('{svguri}')")
-           tag=f'<link rel="stylesheet" href="{name}">'
-           assert tag in page,name
-           page=page.replace(tag,'<style data-inline="'+name+'">'+css+'</style>',1)
+           pattern=r'<link rel="stylesheet" href="'+re.escape(name)+r'"[^>]*>'
+           page,count=re.subn(pattern,lambda _: '<style data-inline="'+name+'">'+css+'</style>',page,count=1)
+           assert count==1,name
           page=page.replace('src="observatorio-mark.svg"',f'src="{svguri}"')
           for name in ['empresas-publicas.js','fontes-investimentos.js','briefing-decisao.js','briefing-interface.js']:
            tag=f'<script src="{name}"></script>'
