@@ -8,6 +8,12 @@ for(const width of [320,390,1440]){
    await page.route('**/api/noticias',r=>r.fulfill({status:503,contentType:'application/json',body:'{}'}));
    await page.goto('/demo/observatorio.html');
    await expect(page.locator('link[href="design-system.css"]')).toHaveCount(1);
+   await expect(page.locator('link[href="editorial-portal.css"]')).toHaveCount(1);
+   const externalCss=await page.evaluate(()=>{
+    const link=document.querySelector('link[href="editorial-portal.css"]');
+    return link?.sheet?.cssRules?.length||0;
+   });
+   expect(externalCss,'CSS editorial deve carregar e conter regras').toBeGreaterThan(20);
    const tokens=await page.evaluate(()=>getComputedStyle(document.documentElement).getPropertyValue('--o360-accent').trim());
    expect(tokens).toBe('#087e69');
    const nav=page.locator('.sidebar .nav button').first();
