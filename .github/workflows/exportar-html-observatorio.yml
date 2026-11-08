@@ -1,0 +1,57 @@
+name: Observatório 360 — Exportar HTML
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/exportar-html-observatorio.yml'
+permissions:
+  contents: read
+jobs:
+  exportar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Gerar HTML autossuficiente e pacote de arquivos
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, base64, zipfile
+          root=Path('demo')
+          page=(root/'observatorio.html').read_text(encoding='utf-8')
+          svg=(root/'observatorio-mark.svg').read_bytes()
+          svguri='data:image/svg+xml;base64,'+base64.b64encode(svg).decode()
+          assets=['editorial-panels.css','editorial-portal.css','design-system.css','brand-observatorio.css']
+          for name in assets:
+           css=(root/name).read_text(encoding='utf-8').replace("url('observatorio-mark.svg')",f"url('{svguri}')")
+           tag=f'<link rel="stylesheet" href="{name}">'
+           assert tag in page,name
+           page=page.replace(tag,'<style data-inline="'+name+'">'+css+'</style>',1)
+          page=page.replace('src="observatorio-mark.svg"',f'src="{svguri}"')
+          for name in ['empresas-publicas.js','fontes-investimentos.js','briefing-decisao.js','briefing-interface.js']:
+           tag=f'<script src="{name}"></script>'
+           assert tag in page,name
+           code=(root/name).read_text(encoding='utf-8').replace('</script','<\\/script')
+           page=page.replace(tag,'<script data-inline="'+name+'">'+code+'</script>',1)
+          assert '<link rel="stylesheet" href="' not in page
+          assert '<script src="' not in page
+          assert 'observatorio-mark.svg' not in page.replace('data-inline="brand-observatorio.css"','')
+          out=Path('dist');out.mkdir(exist_ok=True)
+          (out/'OBSERVATORIO_360_UNICO.html').write_text(page,encoding='utf-8')
+          with zipfile.ZipFile(out/'OBSERVATORIO_360_COMPLETO.zip','w',zipfile.ZIP_DEFLATED) as z:
+           for p in sorted(root.rglob('*')):
+            if p.is_file():
+             z.write(p,p.relative_to(root.parent))
+          print('HTML único:',(out/'OBSERVATORIO_360_UNICO.html').stat().st_size,'bytes')
+          print('ZIP de arquivos:',(out/'OBSERVATORIO_360_COMPLETO.zip').stat().st_size,'bytes')
+          
+          PY
+      - name: Guardar pacote para download
+        uses: actions/upload-artifact@v4
+        with:
+          name: observatorio-360-html
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 7
