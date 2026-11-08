@@ -25,7 +25,10 @@ for(const width of [320,390,1440]){
    const geometry=await page.evaluate(()=>({client:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
    expect(geometry.scroll).toBeLessThanOrEqual(geometry.client+2);
    expect(errors).toEqual([]);
-   await testInfo.attach('observatorio-360-'+width+'px',{body:await page.screenshot({fullPage:true,animations:'disabled'}),contentType:'image/png'});
+   require('node:fs').mkdirSync('visual-evidence',{recursive:true});
+   const output='visual-evidence/observatorio-360-'+width+'px.png';
+   await page.screenshot({path:output,fullPage:true,animations:'disabled'});
+   await testInfo.attach('observatorio-360-'+width+'px',{path:output,contentType:'image/png'});
   }finally{await ctx.close()}
  });
 }
