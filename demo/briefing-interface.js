@@ -43,6 +43,6 @@ function render(card){
  root.append(dl);card.append(root);
 }
 function sync(){document.querySelectorAll('#radarLiveNews .news-live-card').forEach(render)}
-function init(){const container=document.getElementById('radarLiveNews');if(!container)return false;sync();const observer=new MutationObserver(sync);observer.observe(container,{childList:true,subtree:false});return true}
+function init(){const stableRoot=document.getElementById('body')||document.body;if(!stableRoot)return false;sync();/* O grid de notícias é recriado por render() após atualização do catálogo. Observar a área estável evita perder o briefing em uma nova instância do grid. */const observer=new MutationObserver(sync);observer.observe(stableRoot,{childList:true,subtree:true});return true}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
