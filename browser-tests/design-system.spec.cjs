@@ -8,6 +8,24 @@ for(const width of [320,390,1440]){
    await page.route('**/api/noticias',r=>r.fulfill({status:503,contentType:'application/json',body:'{}'}));
    await page.goto('/demo/observatorio.html');
    await expect(page.locator('link[href="design-system.css"]')).toHaveCount(1);
+   await expect(page.locator('link[href="brand-observatorio.css"]')).toHaveCount(1);
+   const brandReady=await page.evaluate(async()=>{
+    const stylesheet=document.querySelector('link[href="brand-observatorio.css"]');
+    const img=new Image();img.src='observatorio-mark.svg';
+    try{await img.decode()}catch{return false}
+    return Boolean(stylesheet?.sheet?.cssRules?.length>4 && img.naturalWidth>=90);
+   });
+   expect(brandReady,'Marca SVG e estilos de marca devem carregar').toBe(true);
+   await expect(page.locator('.sidebar .brand-title')).toHaveText('OBSERVATÓRIO');
+   await expect(page.locator('.sidebar .brand-subtitle')).toContainText('360');
+   if(width<=390){
+    const lockup=page.locator('.topbar .mobile-brand');
+    await expect(lockup).toBeVisible();
+    await expect(lockup).toContainText('OBSERVATÓRIO 360');
+    const b=await lockup.boundingBox();
+    expect(b).not.toBeNull();
+    expect(b.width).toBeLessThanOrEqual(width-12);
+   }
    await expect(page.locator('link[href="editorial-portal.css"]')).toHaveCount(1);
    await expect(page.locator('link[href="editorial-panels.css"]')).toHaveCount(1);
    const panelCss=await page.evaluate(()=>document.querySelector('link[href="editorial-panels.css"]')?.sheet?.cssRules?.length||0);
