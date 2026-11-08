@@ -1,0 +1,34 @@
+const {test,expect}=require('@playwright/test');
+const fixture={
+ schema:'radar-observatorio-feed/1',consultadoEm:'2026-11-07T20:00:00Z',
+ totais:{fontes:1,funcionando:1,comFalha:0,candidatos:2},
+ items:[
+  {titulo:'BRDE anuncia crédito para expansão industrial no Sul',url:'https://example.org/industria',fonte:'Fonte de teste',publicadoEm:'2026-11-07',setor:'Indústria'},
+  {titulo:'Setor portuário divulga investimentos regionais',url:'https://example.org/portos',fonte:'Fonte de teste',publicadoEm:'2026-11-07',setor:'Logística'}
+ ]
+};
+for(const width of [320,390,1440]){
+ test('consistência editorial e evidência de tela em '+width+'px',async({browser},testInfo)=>{
+  const ctx=await browser.newContext({viewport:{width,height:844},isMobile:width<700,hasTouch:width<700,deviceScaleFactor:1});
+  try{
+   const page=await ctx.newPage(),errors=[];
+   page.on('pageerror',e=>errors.push(e.message));
+   await page.route('**/api/noticias',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(fixture)}));
+   await page.goto('/demo/observatorio.html');
+   await expect(page.locator('.radar-issue-lead')).toBeVisible();
+   await expect(page.locator('.radar-issue-meta')).toContainText('OBSERVATÓRIO 360');
+   await expect(page.locator('#radarLiveNews .news-live-card')).toHaveCount(2);
+   await expect(page.locator('#radarLiveNews .radar-decision-brief')).toHaveCount(2);
+   const box=await page.locator('.radar-issue-lead').boundingBox();
+   expect(box).not.toBeNull();
+   expect(box.width).toBeGreaterThan(180);
+   const geometry=await page.evaluate(()=>({client:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
+   expect(geometry.scroll).toBeLessThanOrEqual(geometry.client+2);
+   expect(errors).toEqual([]);
+   require('node:fs').mkdirSync('visual-evidence',{recursive:true});
+   const output='visual-evidence/observatorio-360-'+width+'px.png';
+   await page.screenshot({path:output,fullPage:true,animations:'disabled'});
+   await testInfo.attach('observatorio-360-'+width+'px',{path:output,contentType:'image/png'});
+  }finally{await ctx.close()}
+ });
+}

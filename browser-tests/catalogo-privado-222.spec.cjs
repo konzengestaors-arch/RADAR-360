@@ -6,6 +6,8 @@ test('carrega 222 empresas da URL privada opcional sem persistir catálogo no na
  await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(FEED)}));
  await page.goto('/demo/observatorio.html');
  await expect(page.locator('.radar-company-count')).toHaveText('222');
+ await expect(page.locator('.radar-company-panel')).toHaveAttribute('data-catalog-source','staging');
+ await expect(page.locator('#radarCompanyMessage')).toContainText('222 empresas carregadas');
  await expect(page.locator('.radar-company-hit')).toHaveCount(1);
  await expect(page.locator('.radar-company-hit')).toContainText('Empresa Fictícia Número 003');
  expect(await page.evaluate(()=>localStorage.getItem('radar_empresas_publicas_nome_cnpj_v1'))).toBeNull();
@@ -16,6 +18,8 @@ test('importação local nunca é substituída pelo catálogo do deployment',asy
  await page.addInitScript(()=>localStorage.setItem('radar_empresas_publicas_nome_cnpj_v1',JSON.stringify([{nome:'Empresa Local Fictícia',cnpj:''}])));
  await page.goto('/demo/observatorio.html');
  await expect(page.locator('.radar-company-count')).toHaveText('1');
+ await expect(page.locator('.radar-company-panel')).toHaveAttribute('data-catalog-source','local');
+ await expect(page.locator('#radarCompanyMessage')).toContainText('Lista local preservada');
  expect(await page.evaluate(()=>window.RadarCompanies.read())).toEqual([{nome:'Empresa Local Fictícia',cnpj:''}]);
 });
 test('erro de catálogo remoto não impede observatório nem notícias',async({page})=>{
@@ -23,6 +27,7 @@ test('erro de catálogo remoto não impede observatório nem notícias',async({p
  await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(FEED)}));
  await page.goto('/demo/observatorio.html');
  await expect(page.locator('.radar-company-count')).toHaveText('0');
+ await expect(page.locator('#radarCompanyMessage')).toContainText('Catálogo de homologação indisponível');
  await expect(page.locator('.news-live-card')).toHaveCount(1);
 });
 

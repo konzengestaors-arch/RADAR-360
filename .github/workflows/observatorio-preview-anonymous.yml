@@ -1,0 +1,22 @@
+name: Observatório 360 — Gate anônimo preview
+on:
+  pull_request:
+    paths:
+      - 'scripts/check-preview-anonymous.cjs'
+      - '.github/workflows/observatorio-preview-anonymous.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  acesso-anonimo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar cinco rotas sem autenticação e sem bypass
+        run: node scripts/check-preview-anonymous.cjs

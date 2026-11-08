@@ -1,0 +1,19 @@
+/* Observatório 360 — identidade editorial 1.1, sem alterar componentes funcionais. */
+.sidebar .brand{display:flex;align-items:center;gap:11px;padding:8px 8px 13px}
+.sidebar .brand .mark{display:block;position:static;flex:0 0 43px;width:43px;height:43px;border:0;border-radius:50%;box-shadow:none;background:#f8f5ec url('observatorio-mark.svg') center/100% 100% no-repeat}
+.sidebar .brand .mark::before,.sidebar .brand .mark::after{content:none!important}
+.sidebar .brand .brand-lockup{min-width:0;display:flex;flex-direction:column;gap:2px}
+.sidebar .brand .brand-title{display:block;color:#f8f5ec;font-size:13px;line-height:1.15;font-weight:750;letter-spacing:.045em}
+.sidebar .brand .brand-subtitle{display:block;color:#9dd9c8;font-size:11px;letter-spacing:.14em;font-weight:650}
+.topbar .mobile-brand{align-items:center;gap:8px;color:#0b444b;font-size:11px;font-weight:800;letter-spacing:.045em;line-height:1.1}
+.topbar .mobile-brand img{display:block;width:31px;height:31px;flex:0 0 31px}
+.topbar .mobile-brand b{font-weight:850;color:#087e69}
+@media(max-width:720px){
+  .topbar .mobile-brand{display:inline-flex;max-width:100%;margin-bottom:4px;white-space:nowrap}
+  .topbar .mobile-brand img{width:30px;height:30px;flex-basis:30px}
+  .topbar h1{margin-top:2px}
+}
+@media(max-width:350px){
+  .topbar .mobile-brand{font-size:10px;gap:7px}
+  .topbar .mobile-brand img{width:27px;height:27px;flex-basis:27px}
+}
