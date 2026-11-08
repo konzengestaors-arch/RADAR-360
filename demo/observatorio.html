@@ -650,6 +650,9 @@ function panorama(moves){
  </header>
  ${storageWarning?`<div class="notice danger">${E(storageWarning)}</div>`:''}
 
+ <section class="radar-edition-cover" aria-label="Caderno de notícias">
+   ${liveNewsSection()}
+ </section>
  <section class="radar-cover-intel" aria-label="Síntese da edição">
    <div class="radar-cover-economy">
      <span class="radar-cover-label">CONTEXTO ECONÔMICO</span>
@@ -665,9 +668,6 @@ function panorama(moves){
      <ol id="radarCoverTopics" class="radar-cover-topics"><li>Aguardando notícias das fontes públicas.</li></ol>
      <p class="radar-cover-caption">Síntese baseada somente em manchetes. Não substitui a leitura da publicação original.</p>
    </div>
- </section>
- <section class="radar-edition-cover" aria-label="Caderno de notícias">
-   ${liveNewsSection()}
  </section>
  <section class="radar-command-strip" aria-label="Atalhos para as listas do Observatório">
   <button type="button" class="radar-command-metric radar-command-link" data-quick-target="empresas" aria-label="Abrir lista de empresas monitoradas"><span>EMPRESAS NO CATÁLOGO</span><strong id="radarTopCompanies">${window.RadarCompanies.read().length}</strong><small>Consultar empresas <span aria-hidden="true">↗</span></small></button>
