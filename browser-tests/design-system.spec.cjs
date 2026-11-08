@@ -9,6 +9,9 @@ for(const width of [320,390,1440]){
    await page.goto('/demo/observatorio.html');
    await expect(page.locator('link[href="design-system.css"]')).toHaveCount(1);
    await expect(page.locator('link[href="editorial-portal.css"]')).toHaveCount(1);
+   await expect(page.locator('link[href="editorial-panels.css"]')).toHaveCount(1);
+   const panelCss=await page.evaluate(()=>document.querySelector('link[href="editorial-panels.css"]')?.sheet?.cssRules?.length||0);
+   expect(panelCss,'Estilos de painéis devem estar acessíveis').toBeGreaterThan(15);
    const externalCss=await page.evaluate(()=>{
     const link=document.querySelector('link[href="editorial-portal.css"]');
     return link?.sheet?.cssRules?.length||0;
