@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title">
+<title>Observatório 360 — horizonte e inteligência regional</title>
+<defs><clipPath id="c"><circle cx="48" cy="48" r="42"/></clipPath></defs>
+<circle cx="48" cy="48" r="42" fill="#0B444B"/>
+<g clip-path="url(#c)">
+<path d="M-2 59C17 41 34 36 50 39c20 3 31 19 51 8v51H-2Z" fill="#6FB39C"/>
+<path d="M-2 70C20 50 39 53 57 62s32 10 46-4v44H-2Z" fill="#0A6263"/>
+<path d="M-2 70C20 50 39 53 57 62s32 10 46-4" stroke="#F8F5EC" stroke-width="4" fill="none" stroke-linecap="round"/>
+</g><circle cx="48" cy="48" r="42" fill="none" stroke="#0B444B" stroke-width="2"/>
+</svg>
