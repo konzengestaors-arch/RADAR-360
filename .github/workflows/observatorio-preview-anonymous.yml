@@ -11,6 +11,8 @@ jobs:
   acesso-anonimo:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      PREVIEW_ORIGIN: https://radar-360-homologacao-isolada-mkhia0b54-konzengestaors-2191.vercel.app
     steps:
       - uses: actions/checkout@v4
         with:
