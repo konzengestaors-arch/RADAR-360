@@ -16,7 +16,7 @@ const routes=['/','/observatorio.html','/empresas-catalogo-222.json','/api/notic
    const r=await fetch(origin+route,{redirect:'manual',signal:AbortSignal.timeout(12000),credentials:'omit'});
    const location=r.headers.get('location')||'';
    const dest=location?new URL(location,origin):null;
-   const authRedirect=dest && /(^|\\.)vercel\\.(?:com|app)$/i.test(dest.hostname) && /(login|sso|authentication|auth)/i.test(dest.pathname+dest.search);
+   const authRedirect=dest && /(^|\.)vercel\.(?:com|app)$/i.test(dest.hostname) && /(login|sso|authentication|auth)/i.test(dest.pathname+dest.search);
    const blocked=[401,403].includes(r.status)||Boolean(authRedirect);
    outcomes.push({route,status:r.status,blocked,redirectHost:dest?.hostname||null,redirectPath:dest?.pathname?.slice(0,120)||null});
   }catch(e){outcomes.push({route,status:null,blocked:false,reason:String(e.name||'network_error')})}
