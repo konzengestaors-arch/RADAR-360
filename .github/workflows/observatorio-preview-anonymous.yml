@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'scripts/check-preview-anonymous.cjs'
+      - 'scripts/check-preview-anonymous.test.cjs'
       - '.github/workflows/observatorio-preview-anonymous.yml'
   workflow_dispatch:
 permissions:
@@ -20,5 +21,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Regressão isolada do gate (sete cenários)
+        run: node --test scripts/check-preview-anonymous.test.cjs
       - name: Verificar cinco rotas sem autenticação e sem bypass
         run: node scripts/check-preview-anonymous.cjs
