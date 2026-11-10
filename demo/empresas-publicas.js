@@ -190,7 +190,7 @@ function showMatches(items){
  const count=found.length;
  target.innerHTML='<div class="radar-company-subtitle">'+(count?count+' notícia(s) com correspondência textual por nome':'Nenhuma correspondência textual por nome nas notícias atualmente disponíveis')+'</div>'+
  (found.length?'<div class="radar-company-results">'+found.slice(0,10).map(x=>
- '<article class="radar-company-hit"><span class="radar-company-tag">Correspondência por texto — requer conferência</span><strong>'+escape(x.empresas.join(' · '))+'</strong>'+
+ '<article class="radar-company-hit"><span class="radar-company-tag">'+(x.empresas.length>1?'Múltiplas empresas citadas — revisar individualmente':'Menção textual — vínculo não confirmado')+'</span><strong>'+escape(x.empresas.join(' · '))+'</strong>'+
  '<a target="_blank" rel="noopener noreferrer" href="'+escape(x.url)+'">'+escape(x.title)+'</a><small>'+escape(x.fonte)+' · '+escape(x.data)+'</small></article>').join('')+'</div>':
  '<p class="radar-company-empty">As menções são avaliadas somente nos títulos consultados. Ausência de correspondência não significa ausência de notícias sobre a empresa.</p>');
 }
