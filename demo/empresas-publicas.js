@@ -115,6 +115,19 @@ function safeName(name){
  if(n.length<9||tokens.length<2&&n.length<13||/^(GRUPO|INDUSTRIA|COOPERATIVA|BRASIL|COMERCIO|SERVICOS)$/.test(n))return '';
  return n;
 }
+function classifyNews(items){
+ if(!Array.isArray(items))return [];
+ const pending=identityReview();
+ const eligible=entries.filter(row=>!pending.has(normalize(row.nome)));
+ return items.map(news=>{
+  const title=normalize(news?.titulo||news?.title||'');
+  const matches=title?eligible.filter(row=>{
+   const name=safeName(row.nome);
+   return name&&(' '+title+' ').includes(' '+name+' ');
+  }):[];
+  return {titulo:String(news?.titulo||news?.title||''),status:matches.length>1?'ambigua':matches.length===1?'candidata_revisao':'nao_identificada',empresas:matches.map(x=>x.nome),motivo:matches.length>1?'multiplas_empresas':matches.length===1?'mencao_no_titulo':'sem_correspondencia_forte'};
+ });
+}
 function matchesFor(items){
  if(!Array.isArray(items))return [];
  const result=[];
@@ -179,5 +192,5 @@ load();
 loadPrivateStagingCatalog();
 document.addEventListener('input',e=>{if(e.target?.id==='radarCompanySearch'){directoryQuery=e.target.value;updateDirectory();}});
 document.addEventListener('change',e=>{if(e.target?.id==='radarCompanyFile'){const file=e.target.files?.[0];importFile(file);e.target.value='';}});
-window.RadarCompanies={panel,showMatches,matchesFor,importFile,read:()=>entries.map(x=>({...x})),setOnUpdate:fn=>{onUpdate=fn}};
+window.RadarCompanies={panel,showMatches,matchesFor,classifyNews,importFile,read:()=>entries.map(x=>({...x})),setOnUpdate:fn=>{onUpdate=fn}};
 })();
