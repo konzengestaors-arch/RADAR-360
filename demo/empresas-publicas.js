@@ -64,7 +64,8 @@ async function loadPrivateStagingCatalog(){
     }
    }catch(_){candidate=null;}
   }
-  if(!candidate){
+  // Uma resposta gzip sintaticamente válida, mas incompleta, também exige fallback.
+  if(!Array.isArray(candidate)||candidate.length!==222){
    const response=await fetch('/empresas-catalogo-222.json',{cache:'no-store',headers:{Accept:'application/json'}});
    if(!response.ok)throw Error('Catálogo hospedado não disponível (HTTP '+response.status+')');
    candidate=await response.json();
