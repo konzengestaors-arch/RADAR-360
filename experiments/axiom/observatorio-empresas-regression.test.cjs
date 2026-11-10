@@ -96,3 +96,10 @@ test('notícia com campo title aparece na associação e preserva a manchete',()
  assert.equal(found.length,1);
  assert.equal(found[0].title,news[0].title);
 });
+
+test('lote com entradas nulas não interrompe associação de notícias válidas',()=>{
+ const api=load(companies);
+ const found=api.matchesFor([null,{title:'Alvorada Energia inaugura',url:'https://example.org/noticia'},undefined]);
+ assert.equal(found.length,1);
+ assert.equal(found[0].title,'Alvorada Energia inaugura');
+});
