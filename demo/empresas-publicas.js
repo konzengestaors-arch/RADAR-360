@@ -64,7 +64,12 @@ async function loadPrivateStagingCatalog(){
     }
    }catch(_){candidate=null;}
   }
-  // Uma resposta gzip sintaticamente válida, mas incompleta, também exige fallback.
+  // Valida o conteúdo compactado antes de aceitá-lo; registros malformados
+  // devem acionar a alternativa JSON, sem afetar listas importadas localmente.
+  if(Array.isArray(candidate)&&candidate.length===222){
+   try{candidate=parse(JSON.stringify(candidate),'catalogo.json');}
+   catch(_){candidate=null;}
+  }
   if(!Array.isArray(candidate)||candidate.length!==222){
    const response=await fetch('/empresas-catalogo-222.json',{cache:'no-store',headers:{Accept:'application/json'}});
    if(!response.ok)throw Error('Catálogo hospedado não disponível (HTTP '+response.status+')');
