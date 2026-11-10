@@ -21,8 +21,14 @@ function run(extraEnv={}){
 }
 test('SHA do checkout aceito sem metadados privados',()=>{
  const sha=gitSha();
- const r=run({VERCEL_GIT_COMMIT_SHA:sha,BUILD_INFO_DIR:os.tmpdir()});
- assert.notEqual(r.status,0,'diretorio externo deve ser bloqueado');
+ const r=run({VERCEL_GIT_COMMIT_SHA:sha});
+ assert.equal(r.status,0,r.stderr);
+ const info=JSON.parse(fs.readFileSync(path.join(repoRoot,'build-info.json'),'utf8'));
+ assert.equal(info.sha,sha);
+ assert.equal(info.catalogo.estado,'nao_verificado_em_build');
+ assert.equal(info.catalogo.esperado_total,222);
+ assert.equal('total_empresas' in info,false);
+ fs.unlinkSync(path.join(repoRoot,'build-info.json'));
 });
 test('SHA divergente bloqueia a geracao',()=>{
  const sha=gitSha();
