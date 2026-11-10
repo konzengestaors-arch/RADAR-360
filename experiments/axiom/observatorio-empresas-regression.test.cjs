@@ -87,3 +87,12 @@ test('quatro empresas na mesma manchete preservam contagem de ambiguidade',()=>{
  assert.equal(classified[0].status,'ambigua');
  assert.equal(classified[0].empresas.length,4);
 });
+
+test('notícia com campo title aparece na associação e preserva a manchete',()=>{
+ const api=load(companies);
+ const news=[{title:'Alvorada Energia inaugura',url:'https://example.org/noticia'}];
+ assert.equal(api.classifyNews(news)[0].status,'candidata_revisao');
+ const found=api.matchesFor(news);
+ assert.equal(found.length,1);
+ assert.equal(found[0].title,news[0].title);
+});
