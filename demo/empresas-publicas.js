@@ -147,7 +147,7 @@ function matchesFor(items){
  // Evita revalidar todos os CNPJs e nomes para cada manchete.
  const pending=identityReview();
  for(const news of items){
-  const title=normalize(news.titulo||'');
+  const title=normalize(news.titulo||news.title||'');
   if(!title)continue;
   const matched=entries.filter(x=>{
    if(pending.has(normalize(x.nome)))return false;
@@ -155,7 +155,7 @@ function matchesFor(items){
    return !!name&&(' '+title+' ').includes(' '+name+' ');
   });
   if(matched.length&&/^https:\/\/[^\s]+$/i.test(String(news.url||'')))
-   result.push({title:String(news.titulo),url:String(news.url),fonte:String(news.fonte||''),data:String(news.publicadoEm||''),empresas:matched.map(x=>x.nome)});
+   result.push({title:String(news.titulo||news.title||''),url:String(news.url),fonte:String(news.fonte||''),data:String(news.publicadoEm||''),empresas:matched.map(x=>x.nome)});
  }
  return result;
 }
