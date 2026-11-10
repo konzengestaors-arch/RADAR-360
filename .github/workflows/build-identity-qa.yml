@@ -1,0 +1,27 @@
+name: Observatorio 360 - Build identity QA isolated
+on:
+  push:
+    branches:
+      - qa/build-identity-isolado-20261110
+    paths:
+      - 'scripts/build-info.cjs'
+      - 'tests/build-info.test.cjs'
+      - '.github/workflows/build-identity-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-identity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate build identity and output isolation
+        run: node --test tests/build-info.test.cjs
+      - name: Validate generator syntax
+        run: node --check scripts/build-info.cjs
