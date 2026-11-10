@@ -4,7 +4,7 @@ const norm = s => String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '
 const digits = s => String(s ?? '').replace(/\D/g, '');
 const legal = new Set(['sa','s','a','ltda','eireli','holding','holdings','participacoes','grupo','companhia','cia']);
 function validCNPJ(c){
- if(!/^\\d{14}$/.test(c)||/^(\\d)\\1{13}$/.test(c))return false;
+ if(!/^\d{14}$/.test(c)||/^(\d)\1{13}$/.test(c))return false;
  const digit=(len,w)=>{let sum=0;for(let i=0;i<len;i++)sum+=Number(c[i])*w[i];const d=sum%11;return d<2?0:11-d;};
  return digit(12,[5,4,3,2,9,8,7,6,5,4,3,2])===Number(c[12])&&digit(13,[6,5,4,3,2,9,8,7,6,5,4,3,2])===Number(c[13]);
 }
