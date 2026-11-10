@@ -79,3 +79,23 @@ test('gzip com 222 registros malformados recorre ao JSON íntegro',async()=>{
  assert.equal(urls.length,2);
  assert.equal(window.RadarCompanies.read()[0].nome,catalog[0].nome);
 });
+
+test('importação local durante carregamento remoto nunca é substituída',async()=>{
+ const storage=new Map();
+ const local=[{nome:'Empresa Local Ficticia',cnpj:''}];
+ let release;
+ const pending=new Promise(resolve=>{release=resolve;});
+ const window={};
+ const ctx={window,document:{addEventListener(){}},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},fetch:async(url)=>{
+  if(url.endsWith('.json')){await pending;return {ok:true,json:async()=>catalog};}
+  throw Error('unexpected fetch');
+ },URL,TextDecoder,Blob,Response,console};
+ vm.runInNewContext(script,ctx,{filename:'empresas-publicas.js',timeout:1000});
+ await window.RadarCompanies.importFile({name:'empresas.json',size:100,text:async()=>JSON.stringify(local)});
+ assert.equal(window.RadarCompanies.read()[0].nome,local[0].nome);
+ release();
+ for(let i=0;i<10;i++)await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(window.RadarCompanies.read().length,1);
+ assert.equal(window.RadarCompanies.read()[0].nome,local[0].nome);
+ assert.equal(JSON.parse(storage.get('radar_empresas_publicas_nome_cnpj_v1'))[0].nome,local[0].nome);
+});
