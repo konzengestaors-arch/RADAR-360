@@ -51,14 +51,14 @@ async function loadPrivateStagingCatalog(){
  try{
   let candidate;
   const zip=await fetch('/empresas-catalogo-222.json.gz',{cache:'no-store'});
-  if(zip.ok){
+  if(zip.ok && typeof DecompressionStream==='function'){
    const bytes=await zip.arrayBuffer(),magic=new Uint8Array(bytes);
    if(magic[0]===0x1f&&magic[1]===0x8b){
-    if(typeof DecompressionStream!=='function')throw Error('Compactação não suportada neste navegador');
     const decompressed=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
     candidate=await new Response(decompressed).json();
    }else candidate=JSON.parse(new TextDecoder('utf-8').decode(bytes));
   }else{
+   // Fallback para Android/WebView sem DecompressionStream e para gzip indisponível.
    const response=await fetch('/empresas-catalogo-222.json',{cache:'no-store',headers:{Accept:'application/json'}});
    if(!response.ok)throw Error('Catálogo hospedado não disponível (HTTP '+response.status+')');
    candidate=await response.json();
