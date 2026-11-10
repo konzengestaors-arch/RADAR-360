@@ -118,10 +118,12 @@ function safeName(name){
 function matchesFor(items){
  if(!Array.isArray(items))return [];
  const result=[];
+ // Identidade do catálogo não muda durante a análise de um lote de notícias.
+ // Evita revalidar todos os CNPJs e nomes para cada manchete.
+ const pending=identityReview();
  for(const news of items){
   const title=normalize(news.titulo||'');
   if(!title)continue;
-  const pending=identityReview();
   const matched=entries.filter(x=>{
    if(pending.has(normalize(x.nome)))return false;
    const name=safeName(x.nome);
