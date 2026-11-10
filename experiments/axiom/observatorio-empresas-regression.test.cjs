@@ -52,3 +52,26 @@ test('identidade duplicada não vira candidata na triagem',()=>{
  const api=load([companies[0],companies[0]]);
  assert.equal(api.classifyNews([{titulo:'Alvorada Energia inaugura'}])[0].status,'nao_identificada');
 });
+
+test('interface sinaliza ambiguidade sem afirmar vínculo empresarial',()=>{
+ const api=load(companies);
+ const element={innerHTML:''};
+ const storage=new Map([['radar_empresas_publicas_nome_cnpj_v1',JSON.stringify(companies)]]);
+ const win={};
+ const ctx={window:win,document:{addEventListener(){},getElementById:id=>id==='radarCompanyMatches'?element:null},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},fetch:async()=>({ok:false,status:404}),URL,TextDecoder,Blob,Response,DecompressionStream,console};
+ vm.runInNewContext(script,ctx,{timeout:1000});
+ win.RadarCompanies.showMatches([{titulo:'Alvorada Energia e Horizonte Logistica anunciam',url:'https://example.org/noticia'}]);
+ assert.match(element.innerHTML,/Múltiplas empresas citadas/);
+ assert.match(element.innerHTML,/revisar individualmente/);
+ assert.doesNotMatch(element.innerHTML,/vínculo confirmado/);
+});
+test('manchetes são escapadas no HTML exibido',()=>{
+ const element={innerHTML:''};
+ const storage=new Map([['radar_empresas_publicas_nome_cnpj_v1',JSON.stringify(companies)]]);
+ const win={};
+ const ctx={window:win,document:{addEventListener(){},getElementById:id=>id==='radarCompanyMatches'?element:null},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},fetch:async()=>({ok:false,status:404}),URL,TextDecoder,Blob,Response,DecompressionStream,console};
+ vm.runInNewContext(script,ctx,{timeout:1000});
+ win.RadarCompanies.showMatches([{titulo:'Alvorada Energia <img src=x onerror=alert(1)>',url:'https://example.org/noticia'}]);
+ assert.match(element.innerHTML,/&lt;img/);
+ assert.doesNotMatch(element.innerHTML,/<img/);
+});
