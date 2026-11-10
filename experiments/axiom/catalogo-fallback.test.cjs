@@ -48,3 +48,18 @@ test('gzip com conteúdo inválido usa JSON alternativo',async()=>{
  assert.equal(window.RadarCompanies.read().length,222);
  assert.equal(urls.length,2);
 });
+
+test('gzip JSON válido com menos de 222 registros recorre ao JSON íntegro',async()=>{
+ const urls=[];
+ const window={};
+ const incomplete=JSON.stringify(catalog.slice(0,20));
+ const ctx={window,document:{addEventListener(){}},localStorage:{getItem:()=>null,setItem(){}},fetch:async(url)=>{
+  urls.push(url);
+  if(url.endsWith('.gz'))return {ok:true,arrayBuffer:async()=>new TextEncoder().encode(incomplete).buffer};
+  return {ok:true,json:async()=>catalog};
+ },DecompressionStream:class{},URL,TextDecoder,TextEncoder,Blob,Response,console};
+ vm.runInNewContext(script,ctx,{filename:'empresas-publicas.js',timeout:1000});
+ for(let i=0;i<20&&window.RadarCompanies.read().length!==222;i++)await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(window.RadarCompanies.read().length,222);
+ assert.equal(urls.length,2);
+});
