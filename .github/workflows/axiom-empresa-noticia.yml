@@ -5,6 +5,7 @@ on:
       - feature/axiom-empresa-noticia-poc-20261109
     paths:
       - 'experiments/axiom/**'
+      - 'demo/empresas-publicas.js'
       - '.github/workflows/axiom-empresa-noticia.yml'
   workflow_dispatch:
 permissions:
@@ -19,4 +20,4 @@ jobs:
         with:
           node-version: '22'
       - name: Run synthetic classification tests
-        run: node --test experiments/axiom/empresa-noticia.test.cjs
+        run: node --test experiments/axiom/*.test.cjs
