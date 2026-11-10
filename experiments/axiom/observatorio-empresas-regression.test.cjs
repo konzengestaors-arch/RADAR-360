@@ -36,3 +36,19 @@ test('lote de várias notícias mantém as correspondências',()=>{
  const found=api.matchesFor([{titulo:'Alvorada Energia inaugura',url:'https://example.org/1'},{titulo:'Horizonte Logistica amplia',url:'https://example.org/2'}]);
  assert.equal(found.length,2);
 });
+
+test('triagem preserva as três categorias e não modifica o catálogo',()=>{
+ const api=load(companies);
+ const before=JSON.stringify(api.read());
+ const rows=api.classifyNews([
+  {titulo:'Alvorada Energia inaugura'},
+  {titulo:'Alvorada Energia e Horizonte Logistica anunciam'},
+  {titulo:'Mercado regional cresce'}
+ ]);
+ assert.deepEqual(Array.from(rows,r=>r.status),['candidata_revisao','ambigua','nao_identificada']);
+ assert.equal(JSON.stringify(api.read()),before);
+});
+test('identidade duplicada não vira candidata na triagem',()=>{
+ const api=load([companies[0],companies[0]]);
+ assert.equal(api.classifyNews([{titulo:'Alvorada Energia inaugura'}])[0].status,'nao_identificada');
+});
