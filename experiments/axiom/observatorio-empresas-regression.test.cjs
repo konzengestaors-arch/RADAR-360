@@ -75,3 +75,15 @@ test('manchetes são escapadas no HTML exibido',()=>{
  assert.match(element.innerHTML,/&lt;img/);
  assert.doesNotMatch(element.innerHTML,/<img/);
 });
+
+test('quatro empresas na mesma manchete preservam contagem de ambiguidade',()=>{
+ const rows=Array.from({length:4},(_,i)=>({nome:'Companhia Ficticia '+['Alfa','Beta','Gama','Delta'][i],cnpj:''}));
+ const api=load(rows);
+ const title=rows.map(x=>x.nome).join(' e ');
+ const found=api.matchesFor([{titulo:title,url:'https://example.org/4'}]);
+ assert.equal(found.length,1);
+ assert.equal(found[0].empresas.length,4);
+ const classified=api.classifyNews([{titulo:title}]);
+ assert.equal(classified[0].status,'ambigua');
+ assert.equal(classified[0].empresas.length,4);
+});
