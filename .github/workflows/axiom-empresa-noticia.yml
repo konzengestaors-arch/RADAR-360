@@ -1,0 +1,22 @@
+name: AXION empresa-noticia experiment
+on:
+  push:
+    branches:
+      - feature/axiom-empresa-noticia-poc-20261109
+    paths:
+      - 'experiments/axiom/**'
+      - '.github/workflows/axiom-empresa-noticia.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run synthetic classification tests
+        run: node --test experiments/axiom/empresa-noticia.test.cjs
