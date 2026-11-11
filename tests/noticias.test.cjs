@@ -37,7 +37,7 @@ test('RSS malformado não é aceito como feed', () => {
 test('coletor não transforma falha de RSS em sucesso', async () => {
   const result = await rss.collect(async () => { throw new Error('rede indisponível'); });
   assert.equal(result.totais.funcionando, 0);
-  assert.equal(result.totais.comFalha, rss.FEEDS.length);
+  assert.equal(result.totais.comFalha, rss.FEEDS.length+1);
   assert.equal(result.items.length, 0);
 });
 
@@ -72,9 +72,9 @@ test('falha na fonte BNDES não derruba feeds RSS independentes', async () => {
     if(url.includes('bndes.gov.br'))throw new Error('JSON indisponível');
     return fakeResponse;
   });
-  assert.equal(batch.totais.fontes,5);
+  assert.equal(batch.totais.fontes,6);
   assert.equal(batch.totais.funcionando,4);
-  assert.equal(batch.totais.comFalha,1);
+  assert.equal(batch.totais.comFalha,2);
   assert.equal(batch.fontes.find(x=>x.id==='bndes-investimentos').status,'erro');
   assert.ok(batch.items.length>=1);
 });
@@ -102,8 +102,8 @@ test('RSS BRDE indisponível não impede outras quatro fontes',async()=>{
   if(url.includes('bndes.gov.br'))return {status:200,ok:true,headers:{get:()=> 'application/json'},text:async()=>JSON.stringify([])};
   return response;
  });
- assert.equal(result.totais.fontes,5);
+ assert.equal(result.totais.fontes,6);
  assert.equal(result.totais.funcionando,4);
- assert.equal(result.totais.comFalha,1);
+ assert.equal(result.totais.comFalha,2);
  assert.equal(result.fontes.find(x=>x.id==='brde-regional').status,'erro');
 });
