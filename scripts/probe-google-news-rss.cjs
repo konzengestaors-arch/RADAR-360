@@ -15,12 +15,12 @@ const {buildGoogleNewsUrl,parseGoogleNewsRss}=require('../experiments/axiom/goog
   if(length>120000)throw Error('response_too_large');
   const body=await response.text();result.bytes=Buffer.byteLength(body,'utf8');
   if(result.bytes>120000)throw Error('response_too_large');
-  const head=body.replace(/^\\uFEFF/,'').trimStart().slice(0,500);
-  result.format=/<(?:\\?xml\\b|rss\\b|rdf:RDF\\b|feed\\b)/i.test(head)?'xml':/^<(?:!doctype\\s+html|html\\b)/i.test(head)?'html':'other';
+  const head=body.replace(/^\uFEFF/,'').trimStart().slice(0,500);
+  result.format=/<(?:\?xml\b|rss\b|rdf:RDF\b|feed\b)/i.test(head)?'xml':/^<(?:!doctype\s+html|html\b)/i.test(head)?'html':'other';
   if(result.format==='html')throw Error('html_instead_of_rss');
   if(result.format!=='xml')throw Error('non_xml_response');
   if(!/(xml|rss)/i.test(result.contentType))throw Error('unexpected_content_type');
-  const items=parseGoogleNewsRss(body.replace(/^\\uFEFF/,''));
+  const items=parseGoogleNewsRss(body.replace(/^\uFEFF/,''));
   result.items=items.length;result.usable=items.length>0;
   if(!result.usable)result.error='empty_feed';
  }catch(e){result.error=String(e.message||e).slice(0,120);}
