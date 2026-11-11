@@ -4,6 +4,23 @@
 const handler=require('../api/noticias.js');
 (async()=>{
  const {collect,GOOGLE_FEED}=handler._test;
+ const {requestGoogleNews,classify}=handler._test;
+ const {parseGoogleNewsRss}=require('../experiments/axiom/google-news-rss.cjs');
+ const feed=GOOGLE_FEED;
+ const googleDiag={query:new URL(feed.url).searchParams.get('q'),httpStatus:null,contentType:null,bytes:0,parsed:0,rejected:{missingDate:0,economicOrTerritorial:0,invalidUrl:0},selected:0,samples:[]};
+ try{
+  const response=await fetch(feed.url,{signal:AbortSignal.timeout(7000),redirect:'manual',headers:{Accept:'application/rss+xml,application/xml,text/xml;q=0.9'}});
+  googleDiag.httpStatus=response.status;googleDiag.contentType=response.headers.get('content-type');
+  const data=await response.arrayBuffer();googleDiag.bytes=data.byteLength;
+  if(response.ok&&data.byteLength<=262144&&/(xml|rss)/i.test(googleDiag.contentType||'')){
+   const parsed=parseGoogleNewsRss(Buffer.from(data).toString('utf8'));googleDiag.parsed=parsed.length;
+   for(const item of parsed){let reason='selected';if(!item.publishedAt)reason='missingDate';else if(!classify(feed,item.title))reason='economicOrTerritorial';else if(!item.link||new URL(item.link).hostname!=='news.google.com')reason='invalidUrl';
+    if(reason==='selected')googleDiag.selected++;else googleDiag.rejected[reason]++;
+    if(googleDiag.samples.length<6)googleDiag.samples.push({title:item.title.slice(0,110),reason});
+   }
+  }
+ }catch(e){googleDiag.error=String(e.message||e).slice(0,120)}
+ console.log('GOOGLE_DIAGNOSTIC '+JSON.stringify(googleDiag));
  const collected=await collect();
  const counts=Object.fromEntries(collected.fontes.map(f=>[f.id,{status:f.status,selecionadas:f.selecionadas,erro:f.erro}]));
  const google=collected.fontes.find(f=>f.id===GOOGLE_FEED.id);
