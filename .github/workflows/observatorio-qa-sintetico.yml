@@ -74,7 +74,7 @@ jobs:
           npm install --no-audit --no-fund
           npx playwright install --with-deps chromium
       - name: Validar capa em Android e desktop
-        run: npx playwright test browser-tests/capa-news-first-qa.spec.cjs
+        run: npx playwright test browser-tests/capa-news-first-qa.spec.cjs browser-tests/noticias-visiveis.spec.cjs browser-tests/catalogo-privado-222.spec.cjs
       - name: Evidencias visuais
         if: always()
         uses: actions/upload-artifact@v4
