@@ -103,7 +103,7 @@ test('catálogo com 222 registros inválidos é rejeitado sem persistência',asy
   await page.goto('/demo/observatorio.html');
   await expect(page.locator('.radar-company-panel')).toHaveAttribute('data-catalog-source','none');
   await expect(page.locator('.radar-company-count')).toHaveText('0');
-  await expect(page.locator('#radarCompanyMessage')).toContainText('não pôde ser carregado');
+  await expect(page.locator('#radarCompanyMessage')).toContainText('Nome ou CNPJ com formato inválido no registro 18.');
   expect(await page.evaluate(()=>localStorage.getItem('radar_empresas_publicas_nome_cnpj_v1'))).toBeNull();
  }finally{await ctx.close();}
 });
