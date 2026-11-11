@@ -14,7 +14,7 @@ async function requestGoogleNews(feed,fetcher){
   try{for(;;){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>262144)throw Error('Feed muito grande');chunks.push(Buffer.from(value))}}
   catch(e){await reader.cancel().catch(()=>{});throw e}finally{reader.releaseLock()}
   const xml=Buffer.concat(chunks).toString('utf8');
-  if(!/<\\/rss\\s*>/i.test(xml))throw Error('XML RSS incompleto');
+  if(!/<\/rss\s*>/i.test(xml))throw Error('XML RSS incompleto');
   const parsed=parseGoogleNewsRss(xml);const selected=[];
   for(const item of parsed){if(!item.publishedAt)continue;const classification=classify(feed,item.title);if(!classification)continue;
    const url=safeUrl(item.link);if(!url||new URL(url).hostname!=='news.google.com')continue;
