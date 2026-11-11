@@ -40,3 +40,24 @@ jobs:
           name: observatorio-fontes-publicas
           path: resultado-fontes-publicas.json
           if-no-files-found: warn
+  google-news-rss:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Consulta Google Noticias RSS
+        continue-on-error: true
+        run: node scripts/probe-google-news-rss.cjs > resultado-google-news.json
+      - name: Mostrar resultado
+        if: always()
+        run: cat resultado-google-news.json
+      - name: Arquivar evidencia
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: observatorio-google-news-rss
+          path: resultado-google-news.json
+          if-no-files-found: warn
