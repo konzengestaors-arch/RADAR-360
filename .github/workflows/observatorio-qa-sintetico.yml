@@ -61,3 +61,24 @@ jobs:
           name: observatorio-google-news-rss
           path: resultado-google-news.json
           if-no-files-found: warn
+  capa-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Dependencias e Chromium
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Validar capa em Android e desktop
+        run: npx playwright test browser-tests/capa-news-first-qa.spec.cjs
+      - name: Evidencias visuais
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: observatorio-capa-android
+          path: test-results/
+          if-no-files-found: warn
