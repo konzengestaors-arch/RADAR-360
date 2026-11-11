@@ -1,7 +1,7 @@
 /* RADAR Observatório v1.9 — coletor RSS sob demanda. Sem dados privados, sem cron,
    sem scraping de páginas HTML e sem URLs fornecidas pelo cliente. */
 const {buildGoogleNewsUrl,parseGoogleNewsRss}=require('../experiments/axiom/google-news-rss.cjs');
-const GOOGLE_FEED={id:'google-news-economia',nome:'Google Notícias · Economia e investimentos',url:buildGoogleNewsUrl('investimento industria Rio Grande do Sul'),area:'RS'};
+const GOOGLE_FEED={id:'google-news-economia',nome:'Google Notícias · Economia e investimentos',url:buildGoogleNewsUrl('Rio Grande do Sul'),area:'Brasil'};
 async function requestGoogleNews(feed,fetcher){
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),7000);
  try{
