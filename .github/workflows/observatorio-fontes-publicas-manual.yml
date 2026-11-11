@@ -1,0 +1,16 @@
+name: Observatorio 360 — APIs publicas (sonda manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Consultar fontes publicas sem dados do catalogo
+        run: node scripts/probe-fontes-publicas.cjs
