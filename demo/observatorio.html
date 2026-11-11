@@ -377,6 +377,10 @@ html,body{font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;backgr
  body[data-current-tab="investimentos"] .top-actions,body[data-current-tab="noticias"] .top-actions,body[data-current-tab="indicadores"] .top-actions{margin-left:auto}
 }
 @media(min-width:721px) and (max-width:1100px){.editorial-indicator-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* AXIOM cover layout QA: news first, executive summary second, directory third */
+@media (min-width: 800px){.radar-edition-cover{margin-top:18px}.radar-cover-intel{margin-top:24px}.radar-command-strip{margin-top:24px}}
+@media (max-width: 799px){.radar-issue-lead{padding-bottom:16px}.radar-issue-lead h2{font-size:clamp(1.65rem,7vw,2.5rem);line-height:1.12}.radar-issue-lead p{max-width:58ch}.radar-edition-cover{margin-top:12px}.radar-cover-intel{margin-top:18px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}.radar-cover-reading,.radar-cover-economy{min-width:0}.radar-command-strip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}.radar-command-metric{min-width:0;overflow-wrap:anywhere}.radar-command-metric:first-child{grid-column:1/-1}.radar-directory-feature{margin-top:24px}.radar-analytical-appendix{margin-top:28px}}
 </style>
 
 <link rel="stylesheet" href="editorial-portal.css" id="radar-portal-editorial"><link rel="stylesheet" href="design-system.css"><link rel="stylesheet" href="brand-observatorio.css"></head><body><p id="environmentNotice" class="sr-only">HOMOLOGAÇÃO PRIVADA — CATÁLOGO EMPRESARIAL SEPARADO DOS DADOS COMERCIAIS. Cadastros ainda não validados individualmente. Não utilize informações confidenciais.</p>
@@ -650,7 +654,10 @@ function panorama(moves){
  </header>
  ${storageWarning?`<div class="notice danger">${E(storageWarning)}</div>`:''}
 
- <section class="radar-cover-intel" aria-label="Síntese da edição">
+ <section class="radar-edition-cover" aria-label="Notícias em primeiro plano">
+   ${liveNewsSection()}
+ </section>
+ <section class="radar-cover-intel" aria-label="Leitura executiva e contexto econômico">
    <div class="radar-cover-economy">
      <span class="radar-cover-label">CONTEXTO ECONÔMICO</span>
      <h3>Referências do mercado</h3>
@@ -665,9 +672,6 @@ function panorama(moves){
      <ol id="radarCoverTopics" class="radar-cover-topics"><li>Aguardando notícias das fontes públicas.</li></ol>
      <p class="radar-cover-caption">Síntese baseada somente em manchetes. Não substitui a leitura da publicação original.</p>
    </div>
- </section>
- <section class="radar-edition-cover" aria-label="Caderno de notícias">
-   ${liveNewsSection()}
  </section>
  <section class="radar-command-strip" aria-label="Atalhos para as listas do Observatório">
   <button type="button" class="radar-command-metric radar-command-link" data-quick-target="empresas" aria-label="Abrir lista de empresas monitoradas"><span>EMPRESAS NO CATÁLOGO</span><strong id="radarTopCompanies">${window.RadarCompanies.read().length}</strong><small>Consultar empresas <span aria-hidden="true">↗</span></small></button>
