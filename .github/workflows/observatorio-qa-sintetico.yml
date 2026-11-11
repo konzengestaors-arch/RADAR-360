@@ -61,6 +61,17 @@ jobs:
           name: observatorio-google-news-rss
           path: resultado-google-news.json
           if-no-files-found: warn
+  integracao-real:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Executar coletor real e API
+        continue-on-error: true
+        run: node scripts/qa-noticias-integracao-real.cjs
   capa-android:
     runs-on: ubuntu-24.04
     timeout-minutes: 8
