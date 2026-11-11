@@ -32,3 +32,21 @@ for(const width of [320,390,1440]){
   }finally{await ctx.close()}
  });
 }
+
+test('catálogo local divergente mantém 50 empresas e mostra alerta no Android',async({browser})=>{
+ const ctx=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+ try{
+  await ctx.addInitScript(()=>{
+   const rows=Array.from({length:50},(_,i)=>({nome:'Empresa Local '+i,cnpj:''}));
+   localStorage.setItem('radar_empresas_publicas_nome_cnpj_v1',JSON.stringify(rows));
+  });
+  const page=await ctx.newPage();
+  await page.route('**/api/noticias',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(fixture)}));
+  await page.goto('/demo/observatorio.html');
+  const diagnostic=page.locator('[data-catalog-diagnostic="true"]');
+  await expect(diagnostic).toBeVisible();
+  await expect(diagnostic).toContainText('ATENÇÃO: lista local com 50 registros');
+  await expect(page.locator('.radar-company-panel')).toHaveAttribute('data-catalog-source','local');
+  await expect(page.locator('.radar-company-count')).toHaveText('50');
+ }finally{await ctx.close();}
+});
