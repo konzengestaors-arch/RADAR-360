@@ -1,5 +1,28 @@
 /* RADAR Observatório v1.9 — coletor RSS sob demanda. Sem dados privados, sem cron,
    sem scraping de páginas HTML e sem URLs fornecidas pelo cliente. */
+const {buildGoogleNewsUrl,parseGoogleNewsRss}=require('../experiments/axiom/google-news-rss.cjs');
+const GOOGLE_FEED={id:'google-news-economia',nome:'Google Notícias · Economia e investimentos',url:buildGoogleNewsUrl('investimento industria Rio Grande do Sul'),area:'RS'};
+async function requestGoogleNews(feed,fetcher){
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),7000);
+ try{
+  const r=await fetcher(feed.url,{signal:controller.signal,redirect:'manual',headers:{Accept:'application/rss+xml,application/xml,text/xml;q=0.9','User-Agent':'RADAR-Observatorio/1.9 RSS reader'}});
+  if(r.status>=300&&r.status<400)throw Error('Redirecionamento não autorizado');
+  if(!r.ok)throw Error('HTTP '+r.status);
+  const ct=r.headers.get('content-type')||'';if(!/(?:xml|rss)/i.test(ct))throw Error('Tipo de conteúdo incompatível');
+  if(Number(r.headers.get('content-length')||0)>262144)throw Error('Feed muito grande');
+  const reader=r.body.getReader(),chunks=[];let size=0;
+  try{for(;;){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>262144)throw Error('Feed muito grande');chunks.push(Buffer.from(value))}}
+  catch(e){await reader.cancel().catch(()=>{});throw e}finally{reader.releaseLock()}
+  const xml=Buffer.concat(chunks).toString('utf8');
+  if(!/<\\/rss\\s*>/i.test(xml))throw Error('XML RSS incompleto');
+  const parsed=parseGoogleNewsRss(xml);const selected=[];
+  for(const item of parsed){if(!item.publishedAt)continue;const classification=classify(feed,item.title);if(!classification)continue;
+   const url=safeUrl(item.link);if(!url||new URL(url).hostname!=='news.google.com')continue;
+   selected.push({titulo:item.title.slice(0,260),url,publicadoEm:item.publishedAt.slice(0,10),fonte:feed.nome,territorio:classification.territorio,setor:classification.setor,resumo:'Sugestão do Google Notícias baseada em título e metadados RSS; não verificada documentalmente. Consulte a publicação original antes de associar a uma empresa.'});
+  }
+  return selected;
+ }finally{clearTimeout(timer)}
+}
 const FEEDS = Object.freeze([
   {id:'ebc-economia',nome:'Agência Brasil · Economia',url:'https://agenciabrasil.ebc.com.br/rss/economia/feed.xml',area:'Brasil'},
   {id:'g1-rs',nome:'g1 · Rio Grande do Sul',url:'https://g1.globo.com/rss/g1/rs/rio-grande-do-sul/',area:'RS'},
@@ -96,9 +119,9 @@ async function requestFeed(feed,fetcher){const controller=new AbortController();
  }throw Error('Redirecionamento excessivo')}
  finally{clearTimeout(id)}
 }
-async function collect(fetcher=fetch){let results=await Promise.all(FEEDS.map(async feed=>{try{const items=feed.kind==='json'?await requestOfficialBndes(feed,fetcher):await requestFeed(feed,fetcher);return {feed,items,status:'ok',error:''}}catch(e){return {feed,items:[],status:'erro',error:String(e.message||e).slice(0,140)}}}));const seen=new Set();const items=[];for(const result of results){for(const x of result.items){if(seen.has(x.url))continue;seen.add(x.url);items.push(x)}}items.sort((a,b)=>(b.publicadoEm||'').localeCompare(a.publicadoEm||''));const limited=items.slice(0,70);
- return {schema:'radar-observatorio-feed/1',consultadoEm:new Date().toISOString(),items:limited,totais:{fontes:FEEDS.length,funcionando:results.filter(x=>x.status==='ok').length,comFalha:results.filter(x=>x.status!=='ok').length,candidatos:limited.length},fontes:results.map(x=>({id:x.feed.id,nome:x.feed.nome,url:x.feed.url,status:x.status,selecionadas:x.items.length,erro:x.error})),aviso:'Sugestões automáticas baseadas em títulos e metadados RSS; nenhuma foi verificada documentalmente.'};}
+async function collect(fetcher=fetch){let results=await Promise.all([...FEEDS,GOOGLE_FEED].map(async feed=>{try{const items=feed.id===GOOGLE_FEED.id?await requestGoogleNews(feed,fetcher):feed.kind==='json'?await requestOfficialBndes(feed,fetcher):await requestFeed(feed,fetcher);return {feed,items,status:'ok',error:''}}catch(e){return {feed,items:[],status:'erro',error:String(e.message||e).slice(0,140)}}}));const seen=new Set();const items=[];for(const result of results){for(const x of result.items){if(seen.has(x.url))continue;seen.add(x.url);items.push(x)}}items.sort((a,b)=>(b.publicadoEm||'').localeCompare(a.publicadoEm||''));const limited=items.slice(0,70);
+ return {schema:'radar-observatorio-feed/1',consultadoEm:new Date().toISOString(),items:limited,totais:{fontes:results.length,funcionando:results.filter(x=>x.status==='ok').length,comFalha:results.filter(x=>x.status!=='ok').length,candidatos:limited.length},fontes:results.map(x=>({id:x.feed.id,nome:x.feed.nome,url:x.feed.url,status:x.status,selecionadas:x.items.length,erro:x.error})),aviso:'Sugestões automáticas baseadas em títulos e metadados RSS; nenhuma foi verificada documentalmente.'};}
 async function handler(req,res){res.setHeader('Cache-Control','private, no-store');res.setHeader('X-Content-Type-Options','nosniff');if(req.method!=='GET'){res.setHeader('Allow','GET');res.status(405).json({erro:'Método não permitido'});return}
  try{const result=await collect();res.status(result.totais.funcionando?200:503).json(result)}catch(e){res.status(502).json({erro:'Falha na coleta de fontes',mensagem:String(e.message||e).slice(0,160)})}}
 module.exports=handler;
-module.exports._test={collect,parseFeed,parseOfficialBndes,requestFeed,requestOfficialBndes,classify,safeUrl,unescapeXML,FEEDS};
+module.exports._test={collect,parseFeed,parseOfficialBndes,requestFeed,requestOfficialBndes,requestGoogleNews,classify,safeUrl,unescapeXML,FEEDS,GOOGLE_FEED};
