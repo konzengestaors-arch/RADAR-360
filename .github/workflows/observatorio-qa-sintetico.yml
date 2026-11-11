@@ -1,0 +1,19 @@
+name: Observatorio 360 — QA sintetico isolado
+on:
+  push:
+    branches:
+      - qa/observatorio-dados-sinteticos-20261110
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  node22:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Sintaxe e regressao Node
+        run: npm run check
