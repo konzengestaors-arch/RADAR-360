@@ -17,3 +17,26 @@ jobs:
           node-version: '22'
       - name: Sintaxe e regressao Node
         run: npm run check
+  fontes-publicas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Sonda externa (resultado nao bloqueia regressao)
+        id: probe
+        continue-on-error: true
+        run: node scripts/probe-fontes-publicas.cjs > resultado-fontes-publicas.json
+      - name: Mostrar resultado da sonda
+        if: always()
+        run: |
+          if test -f resultado-fontes-publicas.json; then cat resultado-fontes-publicas.json; else echo '{"error":"probe_no_output"}'; fi
+      - name: Arquivar evidencia
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: observatorio-fontes-publicas
+          path: resultado-fontes-publicas.json
+          if-no-files-found: warn
