@@ -1,0 +1,9 @@
+'use strict';
+const test=require('node:test');const assert=require('node:assert/strict');
+const {ReadableStream}=require('node:stream/web');
+const {collect,GOOGLE_FEED,FEEDS}=require('../api/noticias.js')._test;
+const xml='<rss><channel><item><title>Investimento em indústria no Rio Grande do Sul</title><link>https://news.google.com/rss/articles/test1</link><pubDate>Tue, 10 Nov 2026 12:00:00 GMT</pubDate></item><item><title>Partida de futebol</title><link>https://news.google.com/rss/articles/test2</link><pubDate>Tue, 10 Nov 2026 12:00:00 GMT</pubDate></item></channel></rss>';
+function response(body=xml){return {ok:true,status:200,headers:new Headers({'content-type':'application/xml'}),body:new ReadableStream({start(c){c.enqueue(new TextEncoder().encode(body));c.close()}})}}
+test('sexta fonte mantém cinco anteriores e contrato da API',async()=>{assert.equal(FEEDS.length,5);const result=await collect(async url=>{if(url===GOOGLE_FEED.url)return response();throw Error('offline')});assert.equal(result.totais.fontes,6);assert.equal(result.totais.funcionando,1);assert.equal(result.totais.comFalha,5);assert.equal(result.items.length,1);assert.equal(result.items[0].fonte,GOOGLE_FEED.nome);assert.equal(result.items[0].publicadoEm,'2026-11-10');assert.match(result.items[0].resumo,/não verificada/);});
+test('falha individual Google não derruba outras fontes',async()=>{const result=await collect(async()=>{throw Error('offline')});assert.equal(result.totais.fontes,6);assert.equal(result.totais.comFalha,6);assert.equal(result.items.length,0)});
+test('HTML 200 não é aceito como notícia',async()=>{const result=await collect(async url=>url===GOOGLE_FEED.url?{...response('<html>erro</html>'),headers:new Headers({'content-type':'text/html'})}:Promise.reject(Error('offline')));assert.equal(result.totais.funcionando,0)});
