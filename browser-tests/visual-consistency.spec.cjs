@@ -66,3 +66,29 @@ test('catálogo privado simulado carrega 222 sem persistir no navegador',async({
   expect(persisted).toBeNull();
  }finally{await ctx.close();}
 });
+
+test('222 empresas locais não equivalem a catálogo privado validado',async({browser})=>{
+ const ctx=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+ try{
+  await ctx.addInitScript(()=>localStorage.setItem('radar_empresas_publicas_nome_cnpj_v1',JSON.stringify(Array.from({length:222},(_,i)=>({nome:'Empresa Local '+i,cnpj:''})))));
+  const page=await ctx.newPage();
+  await page.route('**/api/noticias',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(fixture)}));
+  await page.goto('/demo/observatorio.html');
+  await expect(page.locator('.radar-company-panel')).toHaveAttribute('data-catalog-source','local');
+  await expect(page.locator('.radar-company-count')).toHaveText('222');
+  await expect(page.locator('[data-catalog-diagnostic="true"]')).toContainText('identidade e atualização não verificadas');
+ }finally{await ctx.close();}
+});
+test('catálogo privado indisponível não inventa empresas',async({browser})=>{
+ const ctx=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+ try{
+  const page=await ctx.newPage();
+  await page.route('**/api/noticias',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(fixture)}));
+  await page.route('**/empresas-catalogo-222.json.gz',route=>route.fulfill({status:404,body:'not found'}));
+  await page.route('**/empresas-catalogo-222.json',route=>route.fulfill({status:503,body:'unavailable'}));
+  await page.goto('/demo/observatorio.html');
+  await expect(page.locator('.radar-company-panel')).toHaveAttribute('data-catalog-source','none');
+  await expect(page.locator('.radar-company-count')).toHaveText('0');
+  await expect(page.locator('[data-catalog-diagnostic="true"]')).toContainText('Catálogo indisponível ou vazio');
+ }finally{await ctx.close();}
+});
