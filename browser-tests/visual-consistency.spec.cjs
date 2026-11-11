@@ -50,3 +50,19 @@ test('catálogo local divergente mantém 50 empresas e mostra alerta no Android'
   await expect(page.locator('.radar-company-count')).toHaveText('50');
  }finally{await ctx.close();}
 });
+
+test('catálogo privado simulado carrega 222 sem persistir no navegador',async({browser})=>{
+ const ctx=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+ try{
+  const page=await ctx.newPage();
+  await page.route('**/api/noticias',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(fixture)}));
+  await page.route('**/empresas-catalogo-222.json.gz',route=>route.fulfill({status:404,body:'not found'}));
+  await page.route('**/empresas-catalogo-222.json',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(Array.from({length:222},(_,i)=>({nome:'Empresa Simulada '+i,cnpj:''})))}));
+  await page.goto('/demo/observatorio.html');
+  await expect(page.locator('.radar-company-panel')).toHaveAttribute('data-catalog-source','staging');
+  await expect(page.locator('.radar-company-count')).toHaveText('222');
+  await expect(page.locator('[data-catalog-diagnostic="true"]')).toContainText('Identidade não verificada individualmente');
+  const persisted=await page.evaluate(()=>localStorage.getItem('radar_empresas_publicas_nome_cnpj_v1'));
+  expect(persisted).toBeNull();
+ }finally{await ctx.close();}
+});
