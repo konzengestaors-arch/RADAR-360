@@ -176,6 +176,7 @@ function updateDirectory(){
  if(node)node.innerHTML=directoryList();
 }
 function panel(){
+ const catalogDiagnostic=source==='local'?(entries.length===222?'Lista local: 222 registros. Quantidade coincidente, mas identidade e atualização não verificadas.':'ATENÇÃO: lista local com '+entries.length+' registros; referência de homologação: 222. As análises usam apenas a lista local.'):(source==='staging'?'Catálogo privado de homologação: 222 registros carregados. Identidade não verificada individualmente.':'Catálogo indisponível ou vazio.');
  const filled=entries.filter(x=>x.cnpj).length;
  const riskyNames=identityReview();
  const pending=entries.filter(row=>riskyNames.has(normalize(row.nome))).length;
@@ -186,6 +187,7 @@ function panel(){
  '<span class="radar-company-meta">'+(entries.length?filled+' registros com CNPJ informado · '+pending+' registro(s) em conferência de identidade.':'Nenhuma lista importada neste navegador.')+'</span></div>'+
  '<p class="radar-company-warning">Importações manuais são locais. O catálogo inicial, quando disponível, contém apenas nomes/CNPJs e é servido pelo ambiente privado; carteira, prioridades, ações e outros campos são excluídos. Registros com CNPJ inválido, repetido ou nome duplicado são excluídos das sugestões de notícias até conferência. Correspondências exibidas são apenas indícios.</p>'+
  '<details class="radar-company-directory" open><summary>Consultar empresas do catálogo</summary><div class="radar-directory-inside"><label for="radarCompanySearch">Pesquisar nome ou CNPJ</label><input id="radarCompanySearch" type="search" autocomplete="off" placeholder="Digite o nome da empresa..." value="'+escape(directoryQuery)+'"><div id="radarCompanyDirectoryList">'+directoryList()+'</div></div></details>'+
+ '<p class="radar-company-message" role="status" data-catalog-diagnostic="true">'+escape(catalogDiagnostic)+'</p>'+
  '<p id="radarCompanyMessage" class="radar-company-message" role="status">'+escape(stateMessage)+'</p>'+
  '<div id="radarCompanyMatches" aria-live="polite"></div></section>';
 }
