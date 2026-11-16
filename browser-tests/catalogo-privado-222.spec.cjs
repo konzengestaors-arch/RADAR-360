@@ -1,50 +1,42 @@
 const {test,expect}=require('@playwright/test');
-const rows=Array.from({length:222},(_,i)=>({nome:'Empresa Fictícia Número '+String(i+1).padStart(3,'0'),cnpj:''}));
-const FEED={schema:'radar-observatorio-feed/1',items:[{titulo:'Empresa Fictícia Número 003 anuncia fábrica',url:'https://example.org/news/003',fonte:'Fonte de teste',publicadoEm:'2026-11-07'}],totais:{fontes:1,funcionando:1,comFalha:0,candidatos:1}};
-test('carrega 222 empresas da URL privada opcional sem persistir catálogo no navegador',async({page})=>{
- await page.route('**/empresas-catalogo-222.json',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(rows)}));
+const rows=Array.from({length:217},(_,i)=>({nome:'Empresa Fictícia Número '+String(i+1).padStart(3,'0'),cnpj:i<96?'11222333000181':'',conflito:i<8}));
+const FEED={schema:'radar-observatorio-feed/1',items:[{titulo:'Empresa Fictícia Número 011 anuncia fábrica',url:'https://example.org/news/011',fonte:'Fonte de teste',publicadoEm:'2026-11-16'}],totais:{fontes:1,funcionando:1,comFalha:0,candidatos:1}};
+async function mock(page,body={schema:'observatorio-empresas/1',total:217,items:rows},code=200){
+ await page.route('**/api/empresas',r=>r.fulfill({status:code,contentType:'application/json',body:JSON.stringify(body)}));
  await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(FEED)}));
- await page.goto('/demo/observatorio.html');
- await expect(page.locator('.radar-company-count')).toHaveText('222');
- await expect(page.locator('.radar-company-panel')).toHaveAttribute('data-catalog-source','staging');
- await expect(page.locator('#radarCompanyMessage')).toContainText('222 empresas carregadas');
- await expect(page.locator('.radar-company-hit')).toHaveCount(1);
- await expect(page.locator('.radar-company-hit')).toContainText('Empresa Fictícia Número 003');
+}
+test('217 empresas autenticadas são exibidas sem localStorage',async({page})=>{
+ await mock(page);await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.radar-company-count')).toHaveText('217');
+ await expect(page.locator('#radarCompanyMessage')).toContainText('217 empresas reais');
+ await expect(page.locator('.radar-directory-list li')).toHaveCount(24);
+ await page.locator('#radarCompanySearch').fill('Número 011');
+ await expect(page.locator('.radar-directory-list li')).toHaveCount(1);
  expect(await page.evaluate(()=>localStorage.getItem('radar_empresas_publicas_nome_cnpj_v1'))).toBeNull();
 });
-test('importação local nunca é substituída pelo catálogo do deployment',async({page})=>{
- await page.route('**/empresas-catalogo-222.json',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(rows)}));
- await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(FEED)}));
- await page.addInitScript(()=>localStorage.setItem('radar_empresas_publicas_nome_cnpj_v1',JSON.stringify([{nome:'Empresa Local Fictícia',cnpj:''}])));
+test('lista local permanece salva, mas a sessão exibe o catálogo privado',async({page})=>{
+ await mock(page);await page.addInitScript(()=>localStorage.setItem('radar_empresas_publicas_nome_cnpj_v1',JSON.stringify([{nome:'Empresa Local Antiga',cnpj:''}])));
  await page.goto('/demo/observatorio.html');
- await expect(page.locator('.radar-company-count')).toHaveText('1');
- await expect(page.locator('.radar-company-panel')).toHaveAttribute('data-catalog-source','local');
- await expect(page.locator('#radarCompanyMessage')).toContainText('Lista local preservada');
- expect(await page.evaluate(()=>window.RadarCompanies.read())).toEqual([{nome:'Empresa Local Fictícia',cnpj:''}]);
+ await expect(page.locator('.radar-company-count')).toHaveText('217');
+ expect(await page.evaluate(()=>localStorage.getItem('radar_empresas_publicas_nome_cnpj_v1'))).toContain('Empresa Local Antiga');
 });
-test('erro de catálogo remoto não impede observatório nem notícias',async({page})=>{
- await page.route('**/empresas-catalogo-222.json',r=>r.fulfill({status:404,body:'not found'}));
- await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(FEED)}));
+test('401 ou 503 nunca expõem dados locais ou fictícios no catálogo privado',async({page})=>{
+ await mock(page,{erro:'Não autorizado'},401);
+ await page.addInitScript(()=>localStorage.setItem('radar_empresas_publicas_nome_cnpj_v1',JSON.stringify([{nome:'Empresa Local Antiga',cnpj:''}])));
  await page.goto('/demo/observatorio.html');
  await expect(page.locator('.radar-company-count')).toHaveText('0');
- await expect(page.locator('#radarCompanyMessage')).toContainText('Catálogo de homologação indisponível');
+ await expect(page.locator('#radarCompanyMessage')).toContainText('Acesso não autorizado');
+ expect(await page.evaluate(()=>window.RadarCompanies.read())).toEqual([]);
+});
+test('catálogo de 222 empresas é rejeitado e notícias públicas continuam',async({page})=>{
+ await mock(page,{schema:'observatorio-empresas/1',total:222,items:rows.concat(rows.slice(0,5))});
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.radar-company-count')).toHaveText('0');
  await expect(page.locator('.news-live-card')).toHaveCount(1);
 });
-
-test('catálogo privado compactado de 222 empresas carrega sem persistir a lista',async({page})=>{
- const {gzipSync}=require('node:zlib');
- const gz=gzipSync(Buffer.from(JSON.stringify(rows),'utf8'));
- await page.route('**/empresas-catalogo-222.json.gz',r=>r.fulfill({status:200,contentType:'application/gzip',body:gz}));
- await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(FEED)}));
- await page.goto('/demo/observatorio.html');
- await expect(page.locator('.radar-company-count')).toHaveText('222');
- await expect(page.locator('.radar-company-hit')).toHaveCount(1);
- await expect(page.locator('.radar-company-directory')).toHaveAttribute('open','');
- await expect(page.locator('.radar-directory-list li')).toHaveCount(24);
- await page.locator('#radarCompanySearch').fill('Número 003');
- await expect(page.locator('.radar-directory-list li')).toHaveCount(1);
- await expect(page.locator('.radar-directory-list')).toContainText('Empresa Fictícia Número 003');
- await page.locator('#radarCompanySearch').fill('Inexistente');
- await expect(page.locator('.radar-directory-list li')).toHaveCount(0);
- expect(await page.evaluate(()=>localStorage.getItem('radar_empresas_publicas_nome_cnpj_v1'))).toBeNull();
+test('registros com conflito são excluídos do vínculo automático com notícia',async({page})=>{
+ await mock(page);await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.radar-company-count')).toHaveText('217');
+ const result=await page.evaluate(()=>window.RadarCompanies.classifyNews([{titulo:'Empresa Fictícia Número 003 anuncia fábrica'},{titulo:'Empresa Fictícia Número 011 anuncia fábrica'}]));
+ expect(result[0].empresas).toHaveLength(0);expect(result[1].empresas).toHaveLength(1);
 });
