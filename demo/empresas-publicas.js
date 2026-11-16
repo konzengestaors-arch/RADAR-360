@@ -5,7 +5,7 @@
 const KEY='radar_empresas_publicas_nome_cnpj_v1',MAX_BYTES=1024*1024,MAX_ROWS=500;
 const normalize=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').replace(/\s+/g,' ').trim();
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let entries=[],stateMessage='Consultando o catálogo de empresas…',onUpdate=null,source='none';
+let entries=[],stateMessage='Consultando o catálogo de empresas…',onUpdate=null,source='none',latestNews=[];
 function notifyStatus(){if(typeof onUpdate==='function')onUpdate()}
 function setStatus(message){stateMessage=message;notifyStatus()}
 
@@ -154,7 +154,7 @@ function directoryList(){
  const subset=matching.slice(0,24);
  return '<p class="radar-directory-meta">'+matching.length+' empresa(s) encontradas. '+(matching.length>24?'Exibindo as primeiras 24.':'')+'</p>'+
  (subset.length?'<ul class="radar-directory-list">'+subset.map(x=>
- '<li><strong>'+escape(x.nome)+'</strong><small>'+(x.cnpj?'CNPJ: '+escape(x.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,'$1.$2.$3/$4-$5')):'CNPJ não informado')+'</small></li>').join('')+'</ul>':
+ '<li><strong>'+escape(x.nome)+'</strong><small>'+(x.cnpj?'CNPJ: '+escape(x.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,'$1.$2.$3/$4-$5')):'CNPJ não informado')+'</small><button type="button" data-obs-company-index="'+entries.indexOf(x)+'" style="background:#f1faf6;color:#0a7369;border:1px solid #bfded2;border-radius:9px;padding:8px 11px;min-height:42px;cursor:pointer;font-weight:700">Abrir dossiê</button></li>').join('')+'</ul>':
  '<p class="radar-company-empty">Nenhuma empresa corresponde à busca.</p>');
 }
 let directoryQuery='';
@@ -168,17 +168,17 @@ function panel(){
  const pending=entries.filter(row=>riskyNames.has(normalize(row.nome))).length;
  return '<section class="radar-company-panel" aria-label="Empresas monitoradas" data-catalog-source="'+source+'">'+
  '<div class="radar-company-heading"><div><span class="eyebrow">INTELIGÊNCIA EMPRESARIAL</span><h2>Empresas monitoradas <span class="radar-company-count">'+entries.length+'</span></h2><p>Nomes de empresas e CNPJs, associados a menções em notícias públicas.</p></div></div>'+
- '<div class="radar-company-actions"><label class="radar-company-import" for="radarCompanyFile">Importar lista local (.html ou .json)</label>'+
- '<input type="file" id="radarCompanyFile" accept=".html,.json,text/html,application/json" aria-label="Selecionar arquivo de empresas">'+
- '<span class="radar-company-meta">'+(entries.length?filled+' registros com CNPJ informado · '+pending+' registro(s) em conferência de identidade.':'Nenhuma lista importada neste navegador.')+'</span></div>'+
- '<p class="radar-company-warning">Importações manuais são locais. O catálogo inicial, quando disponível, contém apenas nomes/CNPJs e é servido pelo ambiente privado; carteira, prioridades, ações e outros campos são excluídos. Registros com CNPJ inválido, repetido ou nome duplicado são excluídos das sugestões de notícias até conferência. Correspondências exibidas são apenas indícios.</p>'+
+ '<div class="radar-company-actions">'+
+ '<span class="radar-company-meta">'+(entries.length?filled+' registros com CNPJ informado · '+pending+' registro(s) em conferência de identidade.':'Sem dados privados disponíveis nesta sessão. Acesso exige autenticação na Vercel.')+'</span></div>'+
+ '<p class="radar-company-warning">Catálogo consultado em servidor privado, sem persistência local. As fichas contêm somente identificação informada, resultado da checagem matemática e possíveis menções textuais em notícias públicas. Registros em conferência não recebem associações automáticas. CNPJ com dígitos válidos não comprova cadastro ativo.</p>'+
  '<details class="radar-company-directory" open><summary>Consultar empresas do catálogo</summary><div class="radar-directory-inside"><label for="radarCompanySearch">Pesquisar nome ou CNPJ</label><input id="radarCompanySearch" type="search" autocomplete="off" placeholder="Digite o nome da empresa..." value="'+escape(directoryQuery)+'"><div id="radarCompanyDirectoryList">'+directoryList()+'</div></div></details>'+
  '<p id="radarCompanyMessage" class="radar-company-message" role="status">'+escape(stateMessage)+'</p>'+
  '<div id="radarCompanyMatches" aria-live="polite"></div></section>';
 }
 function showMatches(items){
+ latestNews=Array.isArray(items)?items.filter(x=>x&&typeof x==='object'):[];
  const target=document.getElementById('radarCompanyMatches');if(!target)return;
- if(!entries.length){target.innerHTML='<div class="radar-company-empty">Importe a lista original para verificar menções de empresas nas matérias disponíveis.</div>';return;}
+ if(!entries.length){target.innerHTML='<div class="radar-company-empty">Entre na prévia protegida para consultar as empresas e suas menções.</div>';return;}
  const found=matchesFor(items);
  const count=found.length;
  target.innerHTML='<div class="radar-company-subtitle">'+(count?count+' notícia(s) com correspondência textual por nome':'Nenhuma correspondência textual por nome nas notícias atualmente disponíveis')+'</div>'+
@@ -187,9 +187,55 @@ function showMatches(items){
  '<a target="_blank" rel="noopener noreferrer" href="'+escape(x.url)+'">'+escape(x.title)+'</a><small>'+escape(x.fonte)+' · '+escape(x.data)+'</small></article>').join('')+'</div>':
  '<p class="radar-company-empty">As menções são avaliadas somente nos títulos consultados. Ausência de correspondência não significa ausência de notícias sobre a empresa.</p>');
 }
+
+// Restaura a leitura de dossiê da P4.1, sem acrescentar campos que não existem
+// no catálogo canônico e sem enviar o nome empresarial a buscadores externos.
+function openDossier(index){
+ const i=Number(index);if(!Number.isInteger(i)||i<0||i>=entries.length||source!=='staging')return;
+ const company=entries[i];
+ let dialog=document.getElementById('radarCompanyDossier');
+ if(!dialog){
+  dialog=document.createElement('dialog');dialog.id='radarCompanyDossier';
+  dialog.setAttribute('aria-label','Dossiê empresarial');
+  dialog.style.cssText='border:0;border-radius:18px;padding:0;max-width:min(92vw,560px);max-height:85vh;width:100%;box-shadow:0 25px 80px #001c3070;color:#163747';
+  document.body.appendChild(dialog);
+ }
+ const related=company.conflito?[]:matchesFor(latestNews).filter(hit=>hit.empresas.includes(company.nome)).slice(0,8);
+ const status=company.conflito
+  ?'Identidade em conferência — não associar automaticamente a notícias'
+  :company.cnpj?'Dígitos do CNPJ consistentes; cadastro oficial não verificado':'CNPJ não informado';
+ const motive=company.conflito?String(company.motivoConferencia||'Verificação cadastral necessária'):'';
+ const cnpj=company.cnpj?company.cnpj.replace(/^(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})$/,'$1.$2.$3/$4-$5'):'Não informado';
+ dialog.innerHTML='<div style="padding:21px 21px 25px;overflow-y:auto;max-height:84vh">'+
+  '<div style="display:flex;justify-content:space-between;align-items:start;gap:8px">'+
+  '<div><span style="font-size:11px;color:#087e69;font-weight:800;letter-spacing:.09em">DOSSIÊ PRIVADO · IDENTIDADE</span>'+
+  '<h2 style="margin:8px 0;font-size:22px;line-height:1.25">'+escape(company.nome)+'</h2></div>'+
+  '<button type="button" id="radarCloseDossier" aria-label="Fechar dossiê" style="min-width:44px;min-height:44px;border-radius:9px;border:1px solid #cbdcde;background:#fff">Fechar ×</button></div>'+
+  '<p style="margin:8px 0"><strong>CNPJ:</strong> '+escape(cnpj)+'</p>'+
+  '<p style="font-size:13px;color:#526b77"><strong>Situação:</strong> '+escape(status)+'</p>'+
+  (motive?'<p style="font-size:13px;color:#945d16"><strong>Motivo:</strong> '+escape(motive)+'</p>':'')+
+  '<hr style="border:0;border-top:1px solid #dce7e8;margin:20px 0">'+
+  '<h3 style="font-size:16px;margin:0 0 12px">Menções nas notícias consultadas</h3>'+
+  (related.length?related.map(hit=>'<article style="padding:12px 0;border-bottom:1px solid #e1eded">'+
+   '<a target="_blank" rel="noopener noreferrer" href="'+escape(hit.url)+'" style="color:#0a7369;font-weight:750">'+escape(hit.title)+'</a>'+
+   '<p style="color:#647985;font-size:12px;margin:5px 0">'+escape(hit.fonte)+' · '+escape(hit.data)+'</p>'+
+   '</article>').join(''):'<p style="color:#647985;font-size:13px">Nenhuma menção textual elegível neste lote. Isso não significa ausência de notícias.</p>')+
+  '<p style="font-size:12px;color:#647985;margin-top:17px">As menções são indícios textuais, não confirmação de vínculo ou impacto. Fontes originais devem ser conferidas.</p></div>';
+ if(typeof dialog.showModal==='function'){if(!dialog.open)dialog.showModal();}
+ else dialog.setAttribute('open','');
+}
+
 load();
 loadPrivateStagingCatalog();
 document.addEventListener('input',e=>{if(e.target?.id==='radarCompanySearch'){directoryQuery=e.target.value;updateDirectory();}});
 document.addEventListener('change',e=>{if(e.target?.id==='radarCompanyFile'){const file=e.target.files?.[0];importFile(file);e.target.value='';}});
+document.addEventListener('click',e=>{
+ const trigger=e.target?.closest?.('[data-obs-company-index]');
+ if(trigger){openDossier(trigger.getAttribute('data-obs-company-index'));return;}
+ if(e.target?.closest?.('#radarCloseDossier')){
+  const dialog=document.getElementById('radarCompanyDossier');
+  if(dialog?.close)dialog.close();else dialog?.removeAttribute('open');
+ }
+});
 window.RadarCompanies={panel,showMatches,matchesFor,classifyNews,importFile,read:()=>entries.map(x=>({...x})),setOnUpdate:fn=>{onUpdate=fn}};
 })();
