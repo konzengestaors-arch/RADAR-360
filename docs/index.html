@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>RADAR-360 · Licitações RS/SC</title>
+<style>
+  :root {
+    --bg: #f5f6f8; --card: #ffffff; --text: #17202e; --muted: #5d6878; --line: #dfe3ea;
+    --accent: #0b5cad; --a: #0f7a4d; --a-bg: #dff3e9; --b: #96650a; --b-bg: #fbefd3; --c: #5d6878; --c-bg: #e9ecf1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10151d; --card: #19212d; --text: #e7ecf3; --muted: #9aa6b8; --line: #2b3646;
+      --accent: #6fb1f5; --a: #6fdca7; --a-bg: #143a2a; --b: #f0c66a; --b-bg: #40300d; --c: #9aa6b8; --c-bg: #263040;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 48px; }
+  h1 { font-size: 22px; margin: 0; }
+  .sub { color: var(--muted); margin: 4px 0 18px; font-size: 13px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 16px; }
+  .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .kpi b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; }
+  .kpi span { color: var(--muted); font-size: 12px; }
+  .filtros { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .filtros input, .filtros select, .filtros a {
+    font: inherit; color: var(--text); background: var(--card); border: 1px solid var(--line);
+    border-radius: 8px; padding: 8px 10px; min-height: 40px;
+  }
+  .filtros input[type=search] { flex: 1 1 220px; min-width: 0; }
+  .filtros a { text-decoration: none; color: var(--accent); font-weight: 600; display: inline-flex; align-items: center; }
+  .item { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
+  .topo { display: flex; gap: 10px; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; }
+  .nome { font-weight: 650; font-size: 16px; overflow-wrap: anywhere; }
+  .valor { font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .meta { color: var(--muted); font-size: 13px; margin-top: 2px; overflow-wrap: anywhere; }
+  .objeto { margin: 8px 0; overflow-wrap: anywhere; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag { font-size: 12px; padding: 3px 8px; border-radius: 999px; background: var(--c-bg); color: var(--text); }
+  .pri { font-weight: 700; font-size: 12px; padding: 3px 9px; border-radius: 999px; margin-right: 8px; white-space: nowrap; }
+  .pri.A { background: var(--a-bg); color: var(--a); } .pri.B { background: var(--b-bg); color: var(--b); } .pri.C { background: var(--c-bg); color: var(--c); }
+  .item a { color: var(--accent); }
+  .vazio { text-align: center; color: var(--muted); padding: 40px 12px; }
+  footer { color: var(--muted); font-size: 12px; margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>RADAR-360 · Licitações RS/SC</h1>
+  <p class="sub" id="sub">Carregando…</p>
+
+  <section class="kpis" id="kpis"></section>
+
+  <div class="filtros">
+    <input type="search" id="busca" placeholder="Buscar empresa, cidade, objeto, órgão…" aria-label="Buscar">
+    <select id="uf" aria-label="UF"><option value="">RS + SC</option><option>RS</option><option>SC</option></select>
+    <select id="pri" aria-label="Prioridade"><option value="">Toda prioridade</option><option value="A">Só A</option><option value="AB">A e B</option></select>
+    <select id="cat" aria-label="Categoria"><option value="">Toda categoria</option></select>
+    <select id="vmin" aria-label="Valor mínimo">
+      <option value="0">Qualquer valor</option><option value="500000">≥ R$ 500 mil</option>
+      <option value="1000000">≥ R$ 1 mi</option><option value="5000000">≥ R$ 5 mi</option>
+    </select>
+    <a href="data/oportunidades.csv" download>Baixar CSV</a>
+  </div>
+
+  <div id="lista"></div>
+
+  <footer>
+    Fonte: Portal Nacional de Contratações Públicas (PNCP) e cadastro público de CNPJ. Garantia estimada = 5% do valor do contrato;
+    o percentual real está no edital. A publicação do contrato pode ocorrer depois da emissão da garantia daquele contrato.
+  </footer>
+</main>
+
+<script>
+const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+const dataBR = s => s ? s.slice(8, 10) + '/' + s.slice(5, 7) + '/' + s.slice(0, 4) : '—';
+const $ = id => document.getElementById(id);
+const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+let dados = [];
+
+function cartao(o) {
+  const c = el('article', 'item');
+  const topo = el('div', 'topo');
+  const esq = el('div');
+  const nome = el('div', 'nome');
+  nome.append(el('span', 'pri ' + o.prioridade, o.prioridade + ' · ' + o.score), document.createTextNode(o.fornecedor));
+  const partes = [[o.municipio, o.uf].filter(Boolean).join('/'), 'CNPJ ' + o.cnpj, o.porte, o.telefone].filter(Boolean);
+  esq.append(nome, el('div', 'meta', partes.join(' · ')));
+  if (o.atividade) esq.append(el('div', 'meta', o.atividade));
+  const dir = el('div');
+  dir.append(el('div', 'valor', brl(o.valor)), el('div', 'meta', 'Garantia est. ' + brl(o.garantia_estimada)));
+  topo.append(esq, dir);
+
+  const meta = el('div', 'meta');
+  meta.textContent = `${o.orgao} (${[o.orgao_municipio, o.orgao_uf].filter(Boolean).join('/')}) · ${o.categoria || o.tipo} · ` +
+    `assinado ${dataBR(o.assinatura)} · vigência até ${dataBR(o.vigencia_fim)} · `;
+  if (typeof o.link === 'string' && o.link.startsWith('https://pncp.gov.br/')) {
+    const a = el('a', null, 'ver no PNCP'); a.href = o.link; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    meta.append(a);
+  }
+  const tags = el('div', 'tags');
+  (o.produtos || []).forEach(p => tags.append(el('span', 'tag', p)));
+  c.append(topo, el('div', 'objeto', o.objeto), meta, tags);
+  return c;
+}
+
+function filtrar() {
+  const q = $('busca').value.trim().toLowerCase(), uf = $('uf').value, pri = $('pri').value, cat = $('cat').value, vmin = +$('vmin').value;
+  return dados.filter(o =>
+    (!uf || o.uf === uf) && (!pri || pri.includes(o.prioridade)) && (!cat || o.categoria === cat) && o.valor >= vmin &&
+    (!q || [o.fornecedor, o.fantasia, o.municipio, o.objeto, o.orgao, o.cnpj, o.atividade].join(' ').toLowerCase().includes(q)));
+}
+
+function desenhar() {
+  const itens = filtrar();
+  const empresas = new Set(itens.map(o => o.cnpj)).size;
+  const total = itens.reduce((s, o) => s + o.valor, 0), gar = itens.reduce((s, o) => s + o.garantia_estimada, 0);
+  $('kpis').replaceChildren(...[
+    [itens.length, 'contratos'], [empresas, 'empresas'], [brl(total), 'valor contratado'], [brl(gar), 'garantia estimada (5%)'],
+    [itens.filter(o => o.prioridade === 'A').length, 'prioridade A'],
+  ].map(([v, r]) => { const k = el('div', 'kpi'); k.append(el('b', null, String(v)), el('span', null, r)); return k; }));
+  const lista = $('lista');
+  lista.replaceChildren(...itens.slice(0, 300).map(cartao));
+  if (!itens.length) lista.append(el('div', 'vazio', dados.length ? 'Nenhum contrato com esses filtros.' : 'Ainda sem dados. A lista aparece após a primeira execução do radar.'));
+  else if (itens.length > 300) lista.append(el('div', 'vazio', `Mostrando os 300 primeiros de ${itens.length}. Use os filtros ou baixe o CSV.`));
+}
+
+fetch('data/oportunidades.json', { cache: 'no-store' }).then(r => r.json()).then(j => {
+  dados = j.oportunidades || [];
+  const quando = j.atualizado_em ? new Date(j.atualizado_em).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : 'nunca';
+  $('sub').textContent = `Fornecedores com sede em ${(j.ufs_alvo || []).join(' e ')} que assinaram contratos públicos a partir de ${brl(j.valor_minimo || 0)}. Atualizado: ${quando}.`;
+  [...new Set(dados.map(o => o.categoria).filter(Boolean))].sort().forEach(c => $('cat').append(el('option', null, c)));
+  desenhar();
+}).catch(() => { $('sub').textContent = 'Não foi possível carregar os dados.'; });
+
+['busca', 'uf', 'pri', 'cat', 'vmin'].forEach(id => $(id).addEventListener('input', desenhar));
+</script>
+</body>
+</html>
