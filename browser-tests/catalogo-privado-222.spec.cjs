@@ -46,3 +46,35 @@ test('registros com conflito são excluídos do vínculo automático com notíci
  const result=await page.evaluate(()=>window.RadarCompanies.classifyNews([{titulo:'Empresa Fictícia Número 003 anuncia fábrica'},{titulo:'Empresa Fictícia Número 011 anuncia fábrica'}]));
  expect(result[0].empresas).toHaveLength(0);expect(result[1].empresas).toHaveLength(1);
 });
+
+test('dossiê de empresa sem conflito abre e mostra apenas fatos disponíveis',async({page})=>{
+ await mock(page);await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.radar-company-count')).toHaveText('217');
+ await page.locator('#radarCompanySearch').fill('Número 011');
+ await page.locator('[data-obs-company-index="10"]').click();
+ const dialog=page.locator('#radarCompanyDossier');
+ await expect(dialog).toBeVisible();
+ await expect(dialog).toContainText('Empresa Fictícia Número 011');
+ await expect(dialog).toContainText('Dígitos do CNPJ consistentes');
+ await expect(dialog).toContainText('cadastro oficial não verificado');
+ await expect(dialog.locator('#radarCloseDossier')).toBeVisible();
+ await dialog.locator('#radarCloseDossier').click();
+ await expect(dialog).not.toBeVisible();
+});
+test('dossiê com conflito sinaliza conferência e não atribui notícias automaticamente',async({page})=>{
+ await mock(page);await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.radar-company-count')).toHaveText('217');
+ await page.locator('#radarCompanySearch').fill('Número 003');
+ await page.locator('[data-obs-company-index="2"]').click();
+ const dialog=page.locator('#radarCompanyDossier');
+ await expect(dialog).toBeVisible();
+ await expect(dialog).toContainText('Identidade em conferência');
+ await expect(dialog).toContainText('Nenhuma menção textual elegível');
+ await expect(dialog).not.toContainText('Empresa Fictícia Número 011 anuncia fábrica');
+});
+test('QA privado não oferece importação de planilha inoperante',async({page})=>{
+ await mock(page);await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.radar-company-count')).toHaveText('217');
+ await expect(page.locator('#radarCompanyFile')).toHaveCount(0);
+ await expect(page.locator('.radar-company-import')).toHaveCount(0);
+});
