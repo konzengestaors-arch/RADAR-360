@@ -205,7 +205,7 @@ function openDossier(index){
   ?'Identidade em conferência — não associar automaticamente a notícias'
   :company.cnpj?'Dígitos do CNPJ consistentes; cadastro oficial não verificado':'CNPJ não informado';
  const motive=company.conflito?String(company.motivoConferencia||'Verificação cadastral necessária'):'';
- const cnpj=company.cnpj?company.cnpj.replace(/^(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})$/,'$1.$2.$3/$4-$5'):'Não informado';
+ const cnpj=company.cnpj?company.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/,'$1.$2.$3/$4-$5'):'Não informado';
  dialog.innerHTML='<div style="padding:21px 21px 25px;overflow-y:auto;max-height:84vh">'+
   '<div style="display:flex;justify-content:space-between;align-items:start;gap:8px">'+
   '<div><span style="font-size:11px;color:#087e69;font-weight:800;letter-spacing:.09em">DOSSIÊ PRIVADO · IDENTIDADE</span>'+
