@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - qa/observatorio-dados-sinteticos-20261110
+      - qa/observatorio-catalogo-privado-https-20261116
   workflow_dispatch:
 permissions:
   contents: read
