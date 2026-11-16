@@ -1,1 +1,1461 @@
-{}
+{
+ "00748212000151": {
+  "uf": "PR"
+ },
+ "02156313000169": {
+  "uf": "GO"
+ },
+ "26631473000180": {
+  "uf": "GO"
+ },
+ "06034228000189": {
+  "uf": "AL"
+ },
+ "01240688000140": {
+  "uf": "GO"
+ },
+ "11595396000183": {
+  "uf": "MT"
+ },
+ "04050750000129": {
+  "uf": "RJ"
+ },
+ "16908600000192": {
+  "uf": "MG"
+ },
+ "18322925000114": {
+  "uf": "MG"
+ },
+ "33641663000144": {
+  "uf": "RJ"
+ },
+ "18627195000160": {
+  "uf": "SP"
+ },
+ "23572314000164": {
+  "uf": "BA"
+ },
+ "06981176000158": {
+  "uf": "MG"
+ },
+ "06146321000185": {
+  "uf": "SP"
+ },
+ "00584628000181": {
+  "uf": "CE"
+ },
+ "07502330000124": {
+  "uf": "SC",
+  "municipio": "Florianopolis",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Serviços de organização de feiras, congressos, exposições e festas",
+  "telefone": "(48) 3333-3060",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Engenharia De Eventos"
+ },
+ "24603917000149": {
+  "uf": "RS",
+  "municipio": "Porto Alegre",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Desenvolvimento e licenciamento de programas de computador customizáveis",
+  "telefone": "(51) 3343-3443",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "37732173000457": {
+  "uf": "SC",
+  "municipio": "Indaial",
+  "porte": "DEMAIS",
+  "cnae": "Serviços de diagnóstico por imagem com uso de radiação ionizante, exceto tomografia",
+  "telefone": "(48) 9174-6303",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "00059307000168": {
+  "uf": "MT"
+ },
+ "14776040000134": {
+  "uf": "SP"
+ },
+ "42977540000170": {
+  "uf": "SP"
+ },
+ "69034668000156": {
+  "uf": "SP"
+ },
+ "23893643000107": {
+  "uf": "GO"
+ },
+ "19934982000117": {
+  "uf": "GO"
+ },
+ "03958504000107": {
+  "uf": "MG"
+ },
+ "26886266000258": {
+  "uf": "RS",
+  "municipio": "Gravatai",
+  "porte": "DEMAIS",
+  "cnae": "Atividades de vigilância e segurança privada",
+  "telefone": "(11) 2366-7941",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "13552152000149": {
+  "uf": "MT"
+ },
+ "32550980000192": {
+  "uf": "RJ"
+ },
+ "03220219000356": {
+  "uf": "RJ"
+ },
+ "21271706000168": {
+  "uf": "GO"
+ },
+ "69776132000106": {
+  "uf": "??"
+ },
+ "06198597000107": {
+  "uf": "RN"
+ },
+ "69884874000155": {
+  "uf": "??"
+ },
+ "10944071000104": {
+  "uf": "SP"
+ },
+ "53313146000153": {
+  "uf": "SP"
+ },
+ "14173369000100": {
+  "uf": "SP"
+ },
+ "41634619000135": {
+  "uf": "CE"
+ },
+ "03419902000155": {
+  "uf": "SP"
+ },
+ "92559830000171": {
+  "uf": "RS",
+  "municipio": "Porto Alegre",
+  "porte": "DEMAIS",
+  "cnae": "Emissão de vales-alimentação, vales-transporte e similares",
+  "telefone": "(51) 3226-8999",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Green Card"
+ },
+ "06344497000141": {
+  "uf": "SP"
+ },
+ "00635202000100": {
+  "uf": "DF"
+ },
+ "10642145000140": {
+  "uf": "PR"
+ },
+ "39121678000168": {
+  "uf": "RJ"
+ },
+ "58426628000800": {
+  "uf": "SP"
+ },
+ "01181242000272": {
+  "uf": "SC",
+  "municipio": "Florianopolis",
+  "porte": "DEMAIS",
+  "cnae": "Consultoria em tecnologia da informação",
+  "telefone": "(41) 3083-2558",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Compwire Informatica Florianopolis"
+ },
+ "15516097000167": {
+  "uf": "SP"
+ },
+ "03608944000134": {
+  "uf": "PE"
+ },
+ "08237585000170": {
+  "uf": "CE"
+ },
+ "28631058000152": {
+  "uf": "PE"
+ },
+ "34028316000103": {
+  "uf": "DF"
+ },
+ "35542612000190": {
+  "uf": "PE"
+ },
+ "00336234000104": {
+  "uf": "SC",
+  "municipio": "Itajai",
+  "porte": "DEMAIS",
+  "cnae": "Obras de terraplenagem",
+  "telefone": "(47) 3246-5277",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "A J Potter & Cia Ltda"
+ },
+ "40546633000114": {
+  "uf": "CE"
+ },
+ "08230083000117": {
+  "uf": "BA"
+ },
+ "22871754000150": {
+  "uf": "AM"
+ },
+ "73442360000389": {
+  "uf": "ES"
+ },
+ "59959338000118": {
+  "uf": "SP"
+ },
+ "61457941000143": {
+  "uf": "SP"
+ },
+ "40980914000180": {
+  "uf": "PB"
+ },
+ "85907251000107": {
+  "uf": "SC",
+  "municipio": "Rio Negrinho",
+  "porte": "DEMAIS",
+  "cnae": "Atividades de atendimento hospitalar, exceto pronto-socorro e unidades para atendimento a urgências",
+  "telefone": "(47) 3646-2000",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "67031700000114": {
+  "uf": "MS"
+ },
+ "12947501000169": {
+  "uf": "RS",
+  "municipio": "Gravatai",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Construção de edifícios",
+  "telefone": "(51) 3106-2311",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Prevencao Brasil"
+ },
+ "36519791000108": {
+  "uf": "RJ"
+ },
+ "37977389000130": {
+  "uf": "PR"
+ },
+ "04645099000130": {
+  "uf": "AM"
+ },
+ "10293515000180": {
+  "uf": "DF"
+ },
+ "14707364000110": {
+  "uf": "MG"
+ },
+ "57933804000160": {
+  "uf": "BA"
+ },
+ "34048494000104": {
+  "uf": "SC",
+  "municipio": "Ponte Serrada",
+  "porte": "DEMAIS",
+  "cnae": "Atividades de atendimento em pronto-socorro e unidades hospitalares para atendimento a urgências",
+  "telefone": "(49) 3435-0220",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "18882626000134": {
+  "uf": "PI"
+ },
+ "12532358000144": {
+  "uf": "MG"
+ },
+ "07901391000164": {
+  "uf": "SP"
+ },
+ "04750207000134": {
+  "uf": "MA"
+ },
+ "04251091000199": {
+  "uf": "RN"
+ },
+ "48809782000130": {
+  "uf": "PR"
+ },
+ "18125445000163": {
+  "uf": "PR"
+ },
+ "23171332000134": {
+  "uf": "MA"
+ },
+ "57143368000126": {
+  "uf": "PA"
+ },
+ "12533412000176": {
+  "uf": "MG"
+ },
+ "24157800000189": {
+  "uf": "PA"
+ },
+ "25405921000165": {
+  "uf": "PA"
+ },
+ "07969686000172": {
+  "uf": "CE"
+ },
+ "18395252000122": {
+  "uf": "PE"
+ },
+ "40432544006269": {
+  "uf": "RJ"
+ },
+ "23041360000137": {
+  "uf": "MG"
+ },
+ "01204150000180": {
+  "uf": "CE"
+ },
+ "02357251001630": {
+  "uf": "SP"
+ },
+ "04078841000172": {
+  "uf": "PB"
+ },
+ "01234848000148": {
+  "uf": "GO"
+ },
+ "18224783000152": {
+  "uf": "MA"
+ },
+ "13373898000438": {
+  "uf": "RO"
+ },
+ "60215087000146": {
+  "uf": "GO"
+ },
+ "36485708000127": {
+  "uf": "PR"
+ },
+ "10533299000101": {
+  "uf": "RS",
+  "municipio": "Canoas",
+  "porte": "DEMAIS",
+  "cnae": "Atividades de vigilância e segurança privada",
+  "telefone": "(51) 3471-3777",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "43208232000142": {
+  "uf": "SP"
+ },
+ "14533049000203": {
+  "uf": "SP"
+ },
+ "09420147000105": {
+  "uf": "CE"
+ },
+ "54906897000146": {
+  "uf": "MG"
+ },
+ "16873469000175": {
+  "uf": "DF"
+ },
+ "46087803000126": {
+  "uf": "PR"
+ },
+ "55869857000134": {
+  "uf": "GO"
+ },
+ "10593378000108": {
+  "uf": "BA"
+ },
+ "03768202000176": {
+  "uf": "CE"
+ },
+ "11808305000140": {
+  "uf": "MS"
+ },
+ "58325120000149": {
+  "uf": "MG"
+ },
+ "09206625000189": {
+  "uf": "BA"
+ },
+ "48096044000193": {
+  "uf": "SP"
+ },
+ "01346561000100": {
+  "uf": "PE"
+ },
+ "02048521000144": {
+  "uf": "BA"
+ },
+ "17086556000145": {
+  "uf": "CE"
+ },
+ "12202444000199": {
+  "uf": "GO"
+ },
+ "54826367000511": {
+  "uf": "PA"
+ },
+ "73107948000114": {
+  "uf": "SP"
+ },
+ "22513518000161": {
+  "uf": "DF"
+ },
+ "44097355000116": {
+  "uf": "PR"
+ },
+ "32011465000134": {
+  "uf": "MG"
+ },
+ "30117627000198": {
+  "uf": "RS",
+  "municipio": "Gravatai",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Construção de edifícios",
+  "telefone": "(51) 9263-3030",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "18353528000100": {
+  "uf": "PR"
+ },
+ "09687900000204": {
+  "uf": "SC",
+  "municipio": "Joinville",
+  "porte": "DEMAIS",
+  "cnae": "Desenvolvimento de programas de computador sob encomenda",
+  "telefone": "(48) 3251-0022",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Personal Net"
+ },
+ "10580317000106": {
+  "uf": "PR"
+ },
+ "27260149000166": {
+  "uf": "BA"
+ },
+ "34028316002823": {
+  "uf": "SC",
+  "municipio": "Sao Jose",
+  "porte": "DEMAIS",
+  "cnae": "Atividades do Correio Nacional",
+  "telefone": "(48) 3954-4081",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Superintendencia Estadual Sc"
+ },
+ "50349726000102": {
+  "uf": "PR"
+ },
+ "43459615000193": {
+  "uf": "PR"
+ },
+ "24496565000170": {
+  "uf": "BA"
+ },
+ "55251339000152": {
+  "uf": "PR"
+ },
+ "29543796000100": {
+  "uf": "MG"
+ },
+ "17805524000152": {
+  "uf": "MG"
+ },
+ "13164747000127": {
+  "uf": "RN"
+ },
+ "54093155000149": {
+  "uf": "PR"
+ },
+ "01573082000126": {
+  "uf": "MG"
+ },
+ "62577929000135": {
+  "uf": "SP"
+ },
+ "09674089000146": {
+  "uf": "SP"
+ },
+ "02124877000110": {
+  "uf": "BA"
+ },
+ "02694924000160": {
+  "uf": "PE"
+ },
+ "36758622000120": {
+  "uf": "ES"
+ },
+ "15417433000114": {
+  "uf": "SP"
+ },
+ "58670268000110": {
+  "uf": "PR"
+ },
+ "29383128000163": {
+  "uf": "RN"
+ },
+ "29288327000192": {
+  "uf": "SC",
+  "municipio": "Camboriu",
+  "porte": "DEMAIS",
+  "cnae": "Gestão e administração da propriedade imobiliária",
+  "telefone": "(47) 3367-7400",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Donna Administradora"
+ },
+ "27068666000138": {
+  "uf": "CE"
+ },
+ "10268439000153": {
+  "uf": "GO"
+ },
+ "09399257000132": {
+  "uf": "RS",
+  "municipio": "Pontao",
+  "porte": "DEMAIS",
+  "cnae": "Fabricação de laticínios",
+  "telefone": "(54) 9905-5361",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Cooperlat"
+ },
+ "13380364000196": {
+  "uf": "MG"
+ },
+ "47531706000143": {
+  "uf": "RS",
+  "municipio": "Flores Da Cunha",
+  "porte": "DEMAIS",
+  "cnae": "Comércio varejista de móveis",
+  "telefone": "(54) 8100-2122",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "45717678000128": {
+  "uf": "PR"
+ },
+ "43696631000108": {
+  "uf": "MG"
+ },
+ "90051160000152": {
+  "uf": "RS",
+  "municipio": "Garibaldi",
+  "porte": "DEMAIS",
+  "cnae": "Fabricação de móveis com predominância de madeira",
+  "telefone": "(54) 3433-2500",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Bortolini Moveis"
+ },
+ "28585882000113": {
+  "uf": "MG"
+ },
+ "31549845000164": {
+  "uf": "CE"
+ },
+ "41428781000105": {
+  "uf": "RS",
+  "municipio": "Glorinha",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Serviços de tradução, interpretação e similares",
+  "telefone": "(51) 9443-3808",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Gestalk Conecta"
+ },
+ "04308836000109": {
+  "uf": "AL"
+ },
+ "13761170000130": {
+  "uf": "MG"
+ },
+ "62121323000190": {
+  "uf": "SP"
+ },
+ "41806544000122": {
+  "uf": "MA"
+ },
+ "61083414000116": {
+  "uf": "PR"
+ },
+ "53568298000105": {
+  "uf": "PR"
+ },
+ "40282584000150": {
+  "uf": "RJ"
+ },
+ "13369421000136": {
+  "uf": "PR"
+ },
+ "87654547000199": {
+  "uf": "RS",
+  "municipio": "Porto Alegre",
+  "porte": "DEMAIS",
+  "cnae": "Transporte rodoviário de carga, exceto produtos perigosos e mudanças, intermunicipal, interestadual e internacional",
+  "telefone": "(51) 3365-5533",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "05099538000119": {
+  "uf": "RO"
+ },
+ "03121930000191": {
+  "uf": "PA"
+ },
+ "60860110000155": {
+  "uf": "PR"
+ },
+ "61382655000166": {
+  "uf": "PR"
+ },
+ "61365447000159": {
+  "uf": "PR"
+ },
+ "60750929000160": {
+  "uf": "PR"
+ },
+ "58930170000155": {
+  "uf": "PR"
+ },
+ "58374332000116": {
+  "uf": "PR"
+ },
+ "51082259000160": {
+  "uf": "PR"
+ },
+ "59676954000161": {
+  "uf": "PR"
+ },
+ "61416470000125": {
+  "uf": "PR"
+ },
+ "63390912000137": {
+  "uf": "PR"
+ },
+ "59333741000137": {
+  "uf": "PR"
+ },
+ "60931421000168": {
+  "uf": "PR"
+ },
+ "32810983000118": {
+  "uf": "PR"
+ },
+ "61600928000100": {
+  "uf": "PR"
+ },
+ "49795997000102": {
+  "uf": "PR"
+ },
+ "48417823000143": {
+  "uf": "PR"
+ },
+ "61308673000106": {
+  "uf": "PR"
+ },
+ "69154055000152": {
+  "uf": "PR"
+ },
+ "60025232000126": {
+  "uf": "PR"
+ },
+ "25254524000130": {
+  "uf": "PR"
+ },
+ "60526629000100": {
+  "uf": "PR"
+ },
+ "36723508000165": {
+  "uf": "PR"
+ },
+ "64675102000190": {
+  "uf": "PR"
+ },
+ "55823802000193": {
+  "uf": "PR"
+ },
+ "65557077000102": {
+  "uf": "PR"
+ },
+ "60644380000129": {
+  "uf": "PR"
+ },
+ "60942514000198": {
+  "uf": "PR"
+ },
+ "61530695000108": {
+  "uf": "PR"
+ },
+ "53660047000148": {
+  "uf": "PR"
+ },
+ "63897266000107": {
+  "uf": "PR"
+ },
+ "59656480000196": {
+  "uf": "PR"
+ },
+ "57623857000185": {
+  "uf": "PR"
+ },
+ "60483693000142": {
+  "uf": "PR"
+ },
+ "35157507000138": {
+  "uf": "PR"
+ },
+ "32454879000138": {
+  "uf": "PR"
+ },
+ "46695791000112": {
+  "uf": "PR"
+ },
+ "61416355000150": {
+  "uf": "PR"
+ },
+ "59677869000118": {
+  "uf": "PR"
+ },
+ "68597452000136": {
+  "uf": "PR"
+ },
+ "65265105000118": {
+  "uf": "PR"
+ },
+ "63992926000120": {
+  "uf": "PR"
+ },
+ "85070068001503": {
+  "uf": "PR"
+ },
+ "69626349000130": {
+  "uf": "PI"
+ },
+ "47825555000136": {
+  "uf": "SP"
+ },
+ "02971907000123": {
+  "uf": "SP"
+ },
+ "92081926000177": {
+  "uf": "RS",
+  "municipio": "Gramado",
+  "porte": "DEMAIS",
+  "cnae": "Serviços de organização de feiras, congressos, exposições e festas",
+  "telefone": "(54) 3286-3313",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Rossi & Zorzanello Feiras E Empreendimentos"
+ },
+ "08325231000772": {
+  "uf": "PR"
+ },
+ "84260405000159": {
+  "uf": "PA"
+ },
+ "25109467000103": {
+  "uf": "MG"
+ },
+ "44342626000151": {
+  "uf": "ES"
+ },
+ "47348256000158": {
+  "uf": "MG"
+ },
+ "11790782000126": {
+  "uf": "MG"
+ },
+ "03984242000155": {
+  "uf": "MS"
+ },
+ "04602789000101": {
+  "uf": "BA"
+ },
+ "28152650000171": {
+  "uf": "ES"
+ },
+ "65295172000185": {
+  "uf": "MG"
+ },
+ "42927435000126": {
+  "uf": "MA"
+ },
+ "09484316000170": {
+  "uf": "SC",
+  "municipio": "Fraiburgo",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Reparação e manutenção de computadores e de equipamentos periféricos",
+  "telefone": "(49) 3246-4351",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Revolucion Servicos De Informatica"
+ },
+ "28993311000118": {
+  "uf": "SP"
+ },
+ "39566141000101": {
+  "uf": "SP"
+ },
+ "51223253000165": {
+  "uf": "SP"
+ },
+ "04023381000185": {
+  "uf": "PE"
+ },
+ "29412494000101": {
+  "uf": "MG"
+ },
+ "00435662000194": {
+  "uf": "PE"
+ },
+ "53267879000107": {
+  "uf": "MA"
+ },
+ "12039966000111": {
+  "uf": "SP"
+ },
+ "87189106000163": {
+  "uf": "RS",
+  "municipio": "Novo Hamburgo",
+  "porte": "DEMAIS",
+  "cnae": "Serviços de organização de feiras, congressos, exposições e festas",
+  "telefone": "(51) 3584-7200",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Fenac"
+ },
+ "50255949000100": {
+  "uf": "BA"
+ },
+ "48951304000160": {
+  "uf": "MA"
+ },
+ "35653016000188": {
+  "uf": "SP"
+ },
+ "06133168000151": {
+  "uf": "MG"
+ },
+ "05799092000135": {
+  "uf": "BA"
+ },
+ "05056181000191": {
+  "uf": "SP"
+ },
+ "15438854000121": {
+  "uf": "PI"
+ },
+ "81243735000903": {
+  "uf": "BA"
+ },
+ "04296047000103": {
+  "uf": "BA"
+ },
+ "14919623000177": {
+  "uf": "PA"
+ },
+ "00081160000102": {
+  "uf": "MT"
+ },
+ "08878462000118": {
+  "uf": "RJ"
+ },
+ "22948445000130": {
+  "uf": "PR"
+ },
+ "32014717000189": {
+  "uf": "SP"
+ },
+ "02213325000501": {
+  "uf": "ES"
+ },
+ "21606986000118": {
+  "uf": "PB"
+ },
+ "16509262000116": {
+  "uf": "RJ"
+ },
+ "03605534000130": {
+  "uf": "RJ"
+ },
+ "36262845000100": {
+  "uf": "CE"
+ },
+ "65103366000131": {
+  "uf": "RS",
+  "municipio": "Pouso Novo",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Serviços de borracharia para veículos automotores",
+  "telefone": "(51) 9888-8888",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "77863223011907": {
+  "uf": "PR"
+ },
+ "07333111000169": {
+  "uf": "PE"
+ },
+ "47840097000104": {
+  "uf": "SP"
+ },
+ "81599359000129": {
+  "uf": "SC",
+  "municipio": "Navegantes",
+  "porte": "DEMAIS",
+  "cnae": "Fabricação de conservas de peixes, crustáceos e moluscos",
+  "telefone": "(47) 2103-3000",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "55117430000180": {
+  "uf": "MG"
+ },
+ "26400031000123": {
+  "uf": "PR"
+ },
+ "14594006000149": {
+  "uf": "RO"
+ },
+ "47494169000109": {
+  "uf": "BA"
+ },
+ "11920102000222": {
+  "uf": "SC",
+  "municipio": "Itajai",
+  "porte": "DEMAIS",
+  "cnae": "Comércio atacadista de máquinas, equipamentos para terraplenagem, mineração e construção; partes e peças",
+  "telefone": "(51) 3061-2221",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "02478800000148": {
+  "uf": "RJ"
+ },
+ "20882762000176": {
+  "uf": "PI"
+ },
+ "09238496000100": {
+  "uf": "MS"
+ },
+ "46039003000130": {
+  "uf": "SP"
+ },
+ "07967959000140": {
+  "uf": "MA"
+ },
+ "46963352000143": {
+  "uf": "RS",
+  "municipio": "Dois Irmaos",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Construção de edifícios",
+  "telefone": "",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "I.A Gerlach Construcoes"
+ },
+ "07275920000161": {
+  "uf": "SP"
+ },
+ "40565375000113": {
+  "uf": "RO"
+ },
+ "17992979000124": {
+  "uf": "SP"
+ },
+ "48750173000153": {
+  "uf": "PR"
+ },
+ "53269982000188": {
+  "uf": "PR"
+ },
+ "61306126000183": {
+  "uf": "PR"
+ },
+ "58422865000126": {
+  "uf": "PR"
+ },
+ "58740401000168": {
+  "uf": "PR"
+ },
+ "58472991000195": {
+  "uf": "PR"
+ },
+ "64839076000198": {
+  "uf": "PR"
+ },
+ "52831614000119": {
+  "uf": "PR"
+ },
+ "46663858000137": {
+  "uf": "PR"
+ },
+ "16757964000119": {
+  "uf": "PR"
+ },
+ "11862905000197": {
+  "uf": "RO"
+ },
+ "24829055000177": {
+  "uf": "CE"
+ },
+ "22105176000140": {
+  "uf": "MA"
+ },
+ "54844192000141": {
+  "uf": "RS",
+  "municipio": "Coronel Bicaco",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Construção de obras de arte especiais",
+  "telefone": "(55) 9908-7536",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Silva Construcoes"
+ },
+ "15091778000120": {
+  "uf": "PB"
+ },
+ "18867389000132": {
+  "uf": "PR"
+ },
+ "08968386000131": {
+  "uf": "AM"
+ },
+ "27437738000177": {
+  "uf": "BA"
+ },
+ "10249046000100": {
+  "uf": "SC",
+  "municipio": "Biguacu",
+  "porte": "DEMAIS",
+  "cnae": "Outras obras de instalações em construções não especificadas anteriormente",
+  "telefone": "(48) 3066-1853",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Construcoes Schoroeder"
+ },
+ "00437311000112": {
+  "uf": "PB"
+ },
+ "14842809000175": {
+  "uf": "AL"
+ },
+ "21693445000174": {
+  "uf": "MG"
+ },
+ "97549823000102": {
+  "uf": "SP"
+ },
+ "27328922000189": {
+  "uf": "RN"
+ },
+ "25404421000109": {
+  "uf": "RJ"
+ },
+ "18387904000187": {
+  "uf": "SP"
+ },
+ "08240183000124": {
+  "uf": "PR"
+ },
+ "26722490000123": {
+  "uf": "CE"
+ },
+ "12667012000153": {
+  "uf": "PR"
+ },
+ "55117804000167": {
+  "uf": "MG"
+ },
+ "26220441000192": {
+  "uf": "MA"
+ },
+ "36446012000191": {
+  "uf": "BA"
+ },
+ "11820090000183": {
+  "uf": "RS",
+  "municipio": "Porto Alegre",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Atividades veterinárias",
+  "telefone": "(51) 3347-4643",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Zoomed"
+ },
+ "43438620000110": {
+  "uf": "RJ"
+ },
+ "19282194000193": {
+  "uf": "CE"
+ },
+ "04571726000135": {
+  "uf": "PR"
+ },
+ "04239179000195": {
+  "uf": "MA"
+ },
+ "42168526000125": {
+  "uf": "PR"
+ },
+ "26784016000126": {
+  "uf": "PB"
+ },
+ "18127470000186": {
+  "uf": "PB"
+ },
+ "93527794000631": {
+  "uf": "RS",
+  "municipio": "Passo Fundo",
+  "porte": "DEMAIS",
+  "cnae": "Comércio por atacado de ônibus e microônibus novos e usados",
+  "telefone": "(54) 3289-9500",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "07734903000145": {
+  "uf": "RS",
+  "municipio": "Vila Maria",
+  "porte": "DEMAIS",
+  "cnae": "Comércio atacadista de máquinas, equipamentos para terraplenagem, mineração e construção; partes e peças",
+  "telefone": "(54) 3359-1286",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Mpm Tratores"
+ },
+ "57013636000195": {
+  "uf": "ES"
+ },
+ "88611835001877": {
+  "uf": "RS",
+  "municipio": "Caxias Do Sul",
+  "porte": "DEMAIS",
+  "cnae": "Fabricação de caminhões e ônibus",
+  "telefone": "(54) 2101-4000",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Marcopolo"
+ },
+ "44492704000102": {
+  "uf": "PA"
+ },
+ "18727832000170": {
+  "uf": "PA"
+ },
+ "34348652000133": {
+  "uf": "AL"
+ },
+ "54372597000124": {
+  "uf": "SP"
+ },
+ "20662255000127": {
+  "uf": "PE"
+ },
+ "93741726000247": {
+  "uf": "SP"
+ },
+ "32059301000187": {
+  "uf": "MG"
+ },
+ "26389754000179": {
+  "uf": "PA"
+ },
+ "12066524000164": {
+  "uf": "BA"
+ },
+ "43131976000106": {
+  "uf": "PB"
+ },
+ "18284407000153": {
+  "uf": "DF"
+ },
+ "13003590000158": {
+  "uf": "ES"
+ },
+ "45167140000197": {
+  "uf": "PI"
+ },
+ "19207352000140": {
+  "uf": "ES"
+ },
+ "44180474000138": {
+  "uf": "MG"
+ },
+ "56605824000140": {
+  "uf": "CE"
+ },
+ "12209727000162": {
+  "uf": "MG"
+ },
+ "09440071000180": {
+  "uf": "SE"
+ },
+ "19013506000163": {
+  "uf": "PR"
+ },
+ "15839921000110": {
+  "uf": "PR"
+ },
+ "05342580000119": {
+  "uf": "CE"
+ },
+ "90467424000153": {
+  "uf": "RS",
+  "municipio": "Caxias Do Sul",
+  "porte": "DEMAIS",
+  "cnae": "Transporte rodoviário coletivo de passageiros, com itinerário fixo, municipal",
+  "telefone": "",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Visate"
+ },
+ "39316666000199": {
+  "uf": "ES"
+ },
+ "14147098000119": {
+  "uf": "MS"
+ },
+ "83472803000176": {
+  "uf": "SC",
+  "municipio": "Florianopolis",
+  "porte": "DEMAIS",
+  "cnae": "Desenvolvimento e licenciamento de programas de computador customizáveis",
+  "telefone": "(48) 3281-7242",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Digitro"
+ },
+ "47326875000141": {
+  "uf": "PR"
+ },
+ "23984241000118": {
+  "uf": "PA"
+ },
+ "00349280000148": {
+  "uf": "MG"
+ },
+ "10227671000143": {
+  "uf": "ES"
+ },
+ "15079514000151": {
+  "uf": "PR"
+ },
+ "66260415000102": {
+  "uf": "MG"
+ },
+ "22257109000141": {
+  "uf": "MG"
+ },
+ "17234256000166": {
+  "uf": "MG"
+ },
+ "79788766000132": {
+  "uf": "PR"
+ },
+ "19518765000146": {
+  "uf": "MG"
+ },
+ "61532037000155": {
+  "uf": "GO"
+ },
+ "19850311000178": {
+  "uf": "PR"
+ },
+ "64718934000146": {
+  "uf": "PR"
+ },
+ "68824246000111": {
+  "uf": "PR"
+ },
+ "63944831000131": {
+  "uf": "PR"
+ },
+ "66169515000128": {
+  "uf": "PR"
+ },
+ "62422194000170": {
+  "uf": "PR"
+ },
+ "27674539000182": {
+  "uf": "PR"
+ },
+ "54341569000140": {
+  "uf": "PR"
+ },
+ "62112415000104": {
+  "uf": "PR"
+ },
+ "64094787000180": {
+  "uf": "PR"
+ },
+ "48645376000180": {
+  "uf": "PR"
+ },
+ "59759511000134": {
+  "uf": "PR"
+ },
+ "61447409000145": {
+  "uf": "PR"
+ },
+ "65897309000171": {
+  "uf": "PR"
+ },
+ "64803500000144": {
+  "uf": "PR"
+ },
+ "46188939000122": {
+  "uf": "PR"
+ },
+ "67805817000108": {
+  "uf": "PR"
+ },
+ "65147525000108": {
+  "uf": "PR"
+ },
+ "49327809000111": {
+  "uf": "PR"
+ },
+ "66704483000113": {
+  "uf": "PR"
+ },
+ "66040375000193": {
+  "uf": "PR"
+ },
+ "65280483000170": {
+  "uf": "PR"
+ },
+ "64977223000196": {
+  "uf": "PR"
+ },
+ "65804513000109": {
+  "uf": "PR"
+ },
+ "65419501000152": {
+  "uf": "PR"
+ },
+ "67921819000162": {
+  "uf": "PR"
+ },
+ "65480098000177": {
+  "uf": "PR"
+ },
+ "19989439000117": {
+  "uf": "PR"
+ },
+ "64721588000155": {
+  "uf": "PR"
+ },
+ "67917959000167": {
+  "uf": "PR"
+ },
+ "65493359000193": {
+  "uf": "PR"
+ },
+ "65492610000103": {
+  "uf": "PR"
+ },
+ "65719083000119": {
+  "uf": "PR"
+ },
+ "66167678000171": {
+  "uf": "PR"
+ },
+ "64165617000140": {
+  "uf": "PR"
+ },
+ "67016134000171": {
+  "uf": "PR"
+ },
+ "67244747000166": {
+  "uf": "PR"
+ },
+ "66688804000133": {
+  "uf": "PR"
+ },
+ "66363111000170": {
+  "uf": "PR"
+ },
+ "69209012000127": {
+  "uf": "PR"
+ },
+ "66703566000198": {
+  "uf": "PR"
+ },
+ "65454591000112": {
+  "uf": "PR"
+ },
+ "63975761000189": {
+  "uf": "PR"
+ },
+ "64293296000169": {
+  "uf": "PR"
+ },
+ "46610485000136": {
+  "uf": "PR"
+ },
+ "18717757000166": {
+  "uf": "PI"
+ },
+ "07600561000170": {
+  "uf": "GO"
+ },
+ "46477685000162": {
+  "uf": "RS",
+  "municipio": "Casca",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Construção de edifícios",
+  "telefone": "(54) 9180-2992",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Bellarq Engenharia"
+ },
+ "19703791000144": {
+  "uf": "PE"
+ },
+ "41676616000164": {
+  "uf": "BA"
+ },
+ "10950573000130": {
+  "uf": "GO"
+ },
+ "22380625000169": {
+  "uf": "RS",
+  "municipio": "Nova Bassano",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Construção de edifícios",
+  "telefone": "(54) 9946-3374",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "05620064000109": {
+  "uf": "BA"
+ }
+}
