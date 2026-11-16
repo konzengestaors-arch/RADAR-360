@@ -15,7 +15,7 @@ function load(){
   if(raw){const x=JSON.parse(raw);if(!Array.isArray(x)||x.length>MAX_ROWS)throw Error('catálogo incompatível');
    entries=x.map(row=>({nome:String(row.nome||'').trim(),cnpj:String(row.cnpj||'').replace(/\D/g,'')}))
     .filter(row=>row.nome.length>=3&&row.nome.length<=160&&(!row.cnpj||row.cnpj.length===14));
-   if(entries.length){source='local';stateMessage='Lista local preservada neste navegador ('+entries.length+' registros). Ela tem prioridade sobre o catálogo de 222 empresas da homologação; não há substituição automática.';}
+   if(entries.length){source='local';stateMessage='Lista local preservada neste navegador ('+entries.length+' registros). A cópia local permanece armazenada, mas a prévia privada exige o catálogo canônico remoto.';}
   }
  }catch(e){entries=[];stateMessage='O catálogo local não pôde ser lido. A base original foi preservada; não importe sem verificar o armazenamento.'}
 }
@@ -47,44 +47,31 @@ function parse(text,name){
    não faz parte do repositório GitHub público, não grava em localStorage
    e nunca substitui uma lista que o usuário importou manualmente. */
 async function loadPrivateStagingCatalog(){
- if(entries.length)return;
+ // O catálogo de QA vem exclusivamente do backend autenticado na Vercel.
+ // Uma lista antiga no localStorage NÃO é enviada nem apagada, mas não pode
+ // sobrepor silenciosamente as 217 empresas canônicas nesta prévia.
+ entries=[];source='none';setStatus('Consultando catálogo privado de 217 empresas…');
  try{
-  let candidate;
-  // A versão compactada é opcional: falha de rede, gzip inválido ou WebView
-  // incompatível não podem impedir a tentativa do JSON protegido.
-  if(typeof DecompressionStream==='function'){
-   try{
-    const zip=await fetch('/empresas-catalogo-222.json.gz',{cache:'no-store'});
-    if(zip.ok){
-     const bytes=await zip.arrayBuffer(),magic=new Uint8Array(bytes);
-     if(magic[0]===0x1f&&magic[1]===0x8b){
-      const decompressed=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
-      candidate=await new Response(decompressed).json();
-     }else candidate=JSON.parse(new TextDecoder('utf-8').decode(bytes));
-    }
-   }catch(_){candidate=null;}
-  }
-  // Valida o conteúdo compactado antes de aceitá-lo; registros malformados
-  // devem acionar a alternativa JSON, sem afetar listas importadas localmente.
-  if(Array.isArray(candidate)&&candidate.length===222){
-   try{candidate=parse(JSON.stringify(candidate),'catalogo.json');}
-   catch(_){candidate=null;}
-  }
-  if(!Array.isArray(candidate)||candidate.length!==222){
-   const response=await fetch('/empresas-catalogo-222.json',{cache:'no-store',headers:{Accept:'application/json'}});
-   if(!response.ok)throw Error('Catálogo hospedado não disponível (HTTP '+response.status+')');
-   candidate=await response.json();
-  }
-  if(!Array.isArray(candidate)||candidate.length!==222)throw Error('Catálogo hospedado incompleto ou inválido');
-  const sanitized=parse(JSON.stringify(candidate),'catalogo.json');
-  if(entries.length)return;
-  entries=sanitized;
-  source='staging';
-  setStatus('Catálogo de homologação: 222 empresas carregadas do servidor privado. Nomes e CNPJs ainda não foram validados individualmente em bases oficiais.');
- }catch(e){if(!entries.length)setStatus('Catálogo de homologação indisponível. Nenhuma lista local carregada. Confira a conexão ou importe sua lista. Motivo: '+String(e.message||e).slice(0,110));}
+  const response=await fetch('/api/empresas',{cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'}});
+  if(!response.ok)throw Error(response.status===401||response.status===403?'Acesso não autorizado (SSO necessário)':'Serviço indisponível (HTTP '+response.status+')');
+  const payload=await response.json();
+  if(payload.schema!=='observatorio-empresas/1'||payload.total!==217||
+     !Array.isArray(payload.items)||payload.items.length!==217)throw Error('Contagem do catálogo não confirmada');
+  const validated=parse(JSON.stringify(payload.items),'catalogo.json');
+  const checked=validated.map((row,i)=>({...row,
+    conflito:payload.items[i].conflito===true,
+    motivoConferencia:String(payload.items[i].motivoConferencia||''),
+    validadeMatematicaCnpj:String(payload.items[i].validadeMatematicaCnpj||'')
+  }));
+  if(checked.filter(x=>x.cnpj).length!==96||checked.filter(x=>x.conflito).length!==8)
+     throw Error('Indicadores de integridade não correspondem à base homologada');
+  entries=checked;source='staging';
+  setStatus('Base privada: 217 empresas reais carregadas via sessão HTTPS protegida. 96 CNPJs informados, 121 ausentes, 8 registros em conferência. Dígitos de CNPJ não equivalem a consulta oficial.');
+ }catch(e){entries=[];source='none';setStatus('Não foi possível acessar o catálogo privado. Os dados não foram substituídos por conteúdo fictício. '+String(e.message||e).slice(0,130));}
 }
 async function importFile(file){
  if(!file)return;
+ setStatus('Para proteger a fonte canônica, a importação está desabilitada nesta prévia de QA. Nenhum arquivo foi alterado.');return;
  try{
   if(file.size>MAX_BYTES)throw Error('Arquivo acima do limite de 1 MB.');
   const rows=parse(await file.text(),file.name);
@@ -118,7 +105,7 @@ function identityReview(){
  }
  return new Set(entries.filter(row=>{
   const n=normalize(row.nome);
-  return (row.cnpj&&(!validCNPJ(row.cnpj)||countsCNPJ.get(row.cnpj)>1))||countsName.get(n)>1;
+  return row.conflito===true||(row.cnpj&&(!validCNPJ(row.cnpj)||countsCNPJ.get(row.cnpj)>1))||countsName.get(n)>1;
  }).map(row=>normalize(row.nome)));
 }
 function safeName(name){
