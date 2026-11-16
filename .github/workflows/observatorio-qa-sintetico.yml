@@ -94,3 +94,24 @@ jobs:
           name: observatorio-capa-android
           path: test-results/
           if-no-files-found: warn
+
+  rotas-privadas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Anônimo não acessa o catálogo Supabase nem a API Vercel
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase_code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 \
+            'https://dulbmxowopxahvfgswou.supabase.co/functions/v1/observatorio360-bridge-qa')"
+          case "$supabase_code" in
+            401|403) echo "Supabase: acesso anônimo negado" ;;
+            *) echo "::error::Supabase não bloqueou acesso anônimo ($supabase_code)"; exit 1 ;;
+          esac
+          vercel_code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 \
+            'https://radar-360-homologacao-isolada-pxjw193b8-konzengestaors-2191.vercel.app/api/empresas')"
+          case "$vercel_code" in
+            401|403|302|303|307|308) echo "Vercel SSO: acesso anônimo negado" ;;
+            *) echo "::error::Vercel não confirmou bloqueio por SSO ($vercel_code)"; exit 1 ;;
+          esac
