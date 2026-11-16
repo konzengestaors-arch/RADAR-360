@@ -1457,5 +1457,791 @@
  },
  "05620064000109": {
   "uf": "BA"
+ },
+ "21409922000127": {
+  "uf": "PR"
+ },
+ "50192849000182": {
+  "uf": "BA"
+ },
+ "50615423000194": {
+  "uf": "GO"
+ },
+ "18887184000119": {
+  "uf": "PB"
+ },
+ "40050948000176": {
+  "uf": "PA"
+ },
+ "17119265000106": {
+  "uf": "AM"
+ },
+ "45837310000101": {
+  "uf": "SP"
+ },
+ "04640295000111": {
+  "uf": "PR"
+ },
+ "46353696000130": {
+  "uf": "SP"
+ },
+ "00970175000121": {
+  "uf": "MS"
+ },
+ "57462185000173": {
+  "uf": "CE"
+ },
+ "04251374000130": {
+  "uf": "GO"
+ },
+ "19464256000188": {
+  "uf": "SP"
+ },
+ "29973832000176": {
+  "uf": "PR"
+ },
+ "28924018000107": {
+  "uf": "SP"
+ },
+ "19813396000114": {
+  "uf": "SC",
+  "municipio": "Sideropolis",
+  "porte": "DEMAIS",
+  "cnae": "Provedores de voz sobre protocolo internet - VOIP",
+  "telefone": "(49) 3521-0453",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "09456650000110": {
+  "uf": "BA"
+ },
+ "09405797000343": {
+  "uf": "PE"
+ },
+ "36634255000153": {
+  "uf": "RS",
+  "municipio": "Sapucaia Do Sul",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Construção de edifícios",
+  "telefone": "(51) 3474-2288",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Dimensao20 Projetos E Obras"
+ },
+ "24824195000152": {
+  "uf": "MG"
+ },
+ "46423434000103": {
+  "uf": "RS",
+  "municipio": "Erechim",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Comércio varejista de ferragens e ferramentas",
+  "telefone": "(54) 3015-2661",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Atrium"
+ },
+ "26176174000101": {
+  "uf": "GO"
+ },
+ "22968511000134": {
+  "uf": "BA"
+ },
+ "15204281000171": {
+  "uf": "MA"
+ },
+ "52986459000100": {
+  "uf": "MA"
+ },
+ "10407128000128": {
+  "uf": "GO"
+ },
+ "09079590000164": {
+  "uf": "AC"
+ },
+ "48323342000179": {
+  "uf": "SP"
+ },
+ "50979185000104": {
+  "uf": "MG"
+ },
+ "09228128000181": {
+  "uf": "MG"
+ },
+ "07079259000119": {
+  "uf": "PR"
+ },
+ "03594211000198": {
+  "uf": "BA"
+ },
+ "18309569000107": {
+  "uf": "PE"
+ },
+ "02804729000146": {
+  "uf": "PR"
+ },
+ "13157376000156": {
+  "uf": "BA"
+ },
+ "26805520000165": {
+  "uf": "PI"
+ },
+ "51780468000268": {
+  "uf": "SP"
+ },
+ "08890405000154": {
+  "uf": "SC",
+  "municipio": "Florianopolis",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Serviços de engenharia",
+  "telefone": "(48) 9167-5454",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Hidraulica Engenharia"
+ },
+ "41388091000161": {
+  "uf": "CE"
+ },
+ "00103498000118": {
+  "uf": "PR"
+ },
+ "48850782000184": {
+  "uf": "RS",
+  "municipio": "Bom Principio",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Construção de rodovias e ferrovias",
+  "telefone": "(51) 8037-2368",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "27799059000148": {
+  "uf": "AC"
+ },
+ "40503160000178": {
+  "uf": "SP"
+ },
+ "11524957000153": {
+  "uf": "SP"
+ },
+ "97467856000103": {
+  "uf": "PR"
+ },
+ "12149810000193": {
+  "uf": "PR"
+ },
+ "43554300000125": {
+  "uf": "MG"
+ },
+ "02144357000179": {
+  "uf": "RJ"
+ },
+ "36099392000135": {
+  "uf": "PE"
+ },
+ "03575238000133": {
+  "uf": "RS",
+  "municipio": "Porto Alegre",
+  "porte": "DEMAIS",
+  "cnae": "Serviços de assistência social sem alojamento",
+  "telefone": "(51) 3375-7969",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Sesc-Rs"
+ },
+ "15267097000170": {
+  "uf": "SP"
+ },
+ "64755253000158": {
+  "uf": "PE"
+ },
+ "26770255000127": {
+  "uf": "MT"
+ },
+ "05266324000351": {
+  "uf": "MG"
+ },
+ "09181832000126": {
+  "uf": "RN"
+ },
+ "01425676000351": {
+  "uf": "ES"
+ },
+ "23903848000126": {
+  "uf": "SP"
+ },
+ "24661345000154": {
+  "uf": "RS",
+  "municipio": "Passo Fundo",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Extração e britamento de pedras e outros materiais para construção e beneficiamento associado",
+  "telefone": "(54) 2103-1100",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "05476456000146": {
+  "uf": "PB"
+ },
+ "27107363000187": {
+  "uf": "SC",
+  "municipio": "Blumenau",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Obras de alvenaria",
+  "telefone": "(47) 9114-4949",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Fumagalli Maquinas"
+ },
+ "23704936000107": {
+  "uf": "PA"
+ },
+ "13272645000125": {
+  "uf": "PA"
+ },
+ "03338574000162": {
+  "uf": "SP"
+ },
+ "11061153000165": {
+  "uf": "CE"
+ },
+ "70141189000118": {
+  "uf": "RN"
+ },
+ "37743827000103": {
+  "uf": "ES"
+ },
+ "54310773000101": {
+  "uf": "MA"
+ },
+ "11323668000196": {
+  "uf": "MG"
+ },
+ "12990434000408": {
+  "uf": "ES"
+ },
+ "28977416000183": {
+  "uf": "SP"
+ },
+ "22473605000132": {
+  "uf": "PR"
+ },
+ "42764435000152": {
+  "uf": "MA"
+ },
+ "33247743004450": {
+  "uf": "RJ"
+ },
+ "55670139000134": {
+  "uf": "SP"
+ },
+ "03703102000161": {
+  "uf": "RS",
+  "municipio": "Pelotas",
+  "porte": "DEMAIS",
+  "cnae": "Atividades de apoio à educação, exceto caixas escolares",
+  "telefone": "(53) 3026-6900",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Fundacao Delfim Mendes Silveira"
+ },
+ "21238738000161": {
+  "uf": "MG"
+ },
+ "77935567000184": {
+  "uf": "PR"
+ },
+ "28214459000107": {
+  "uf": "PE"
+ },
+ "35874560000150": {
+  "uf": "SP"
+ },
+ "25252364000190": {
+  "uf": "SC",
+  "municipio": "Ararangua",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Construção de edifícios",
+  "telefone": "(48) 9150-1171",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Zferas Construcoes E Pinturas"
+ },
+ "58583459000145": {
+  "uf": "PA"
+ },
+ "96826375000184": {
+  "uf": "BA"
+ },
+ "07259712000179": {
+  "uf": "SP"
+ },
+ "61758667000142": {
+  "uf": "SC",
+  "municipio": "Canelinha",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Comércio atacadista de embalagens",
+  "telefone": "(48) 9169-6563",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "De Sousa Distribuidora"
+ },
+ "30607801000180": {
+  "uf": "CE"
+ },
+ "07681440000109": {
+  "uf": "PB"
+ },
+ "35386916000106": {
+  "uf": "SP"
+ },
+ "33131079000734": {
+  "uf": "SC",
+  "municipio": "Itajai",
+  "porte": "DEMAIS",
+  "cnae": "Comércio atacadista de instrumentos e materiais para uso médico, cirúrgico, hospitalar e de laboratórios",
+  "telefone": "(11) 5693-1044",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "24324166000121": {
+  "uf": "PR"
+ },
+ "19088859000122": {
+  "uf": "MA"
+ },
+ "26710821000105": {
+  "uf": "GO"
+ },
+ "10243854000152": {
+  "uf": "RJ"
+ },
+ "30042027000108": {
+  "uf": "GO"
+ },
+ "18319768000198": {
+  "uf": "BA"
+ },
+ "07169379000107": {
+  "uf": "SE"
+ },
+ "29345698000169": {
+  "uf": "PB"
+ },
+ "20821452000141": {
+  "uf": "SP"
+ },
+ "73887424000193": {
+  "uf": "SP"
+ },
+ "47815990000180": {
+  "uf": "PR"
+ },
+ "26990812000115": {
+  "uf": "DF"
+ },
+ "19353932000146": {
+  "uf": "RJ"
+ },
+ "52059578000117": {
+  "uf": "SC",
+  "municipio": "Chapeco",
+  "porte": "DEMAIS",
+  "cnae": "Serviços de ressonância magnética",
+  "telefone": "(49) 3421-0500",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Digimax Chapeco"
+ },
+ "48020095000131": {
+  "uf": "AL"
+ },
+ "22645916000131": {
+  "uf": "SP"
+ },
+ "01912731000176": {
+  "uf": "PR"
+ },
+ "01531962000130": {
+  "uf": "PA"
+ },
+ "00190659000158": {
+  "uf": "SP"
+ },
+ "14159893000127": {
+  "uf": "AC"
+ },
+ "46360649000114": {
+  "uf": "PA"
+ },
+ "23694923000196": {
+  "uf": "PR"
+ },
+ "46368471000158": {
+  "uf": "SC",
+  "municipio": "Florianopolis",
+  "porte": "DEMAIS",
+  "cnae": "Consultoria em tecnologia da informação",
+  "telefone": "(48) 9102-9135",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Produto Digital"
+ },
+ "78583648000125": {
+  "uf": "PR"
+ },
+ "37495676000103": {
+  "uf": "GO"
+ },
+ "40259945000147": {
+  "uf": "CE"
+ },
+ "65320785000125": {
+  "uf": "GO"
+ },
+ "05982200000100": {
+  "uf": "PR"
+ },
+ "07674744000130": {
+  "uf": "SC",
+  "municipio": "Florianopolis",
+  "porte": "DEMAIS",
+  "cnae": "Desenvolvimento e licenciamento de programas de computador customizáveis",
+  "telefone": "(48) 3024-7777",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Stelatek Tecnologias Avancadas"
+ },
+ "42140147000127": {
+  "uf": "MG"
+ },
+ "13292885000191": {
+  "uf": "PE"
+ },
+ "93336030000154": {
+  "uf": "RS",
+  "municipio": "Santa Rosa",
+  "porte": "DEMAIS",
+  "cnae": "Construção de rodovias e ferrovias",
+  "telefone": "(55) 3512-6194",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "57142978000105": {
+  "uf": "SP"
+ },
+ "40454732000176": {
+  "uf": "CE"
+ },
+ "52833496000188": {
+  "uf": "PR"
+ },
+ "11430224000150": {
+  "uf": "RS",
+  "municipio": "Lajeado",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Aluguel de máquinas e equipamentos para construção sem operador, exceto andaimes",
+  "telefone": "(51) 3707-0707",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "22444454000194": {
+  "uf": "MG"
+ },
+ "66455593000199": {
+  "uf": "MG"
+ },
+ "26570963000114": {
+  "uf": "SC",
+  "municipio": "Joinville",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Obras de urbanização - ruas, praças e calçadas",
+  "telefone": "(47) 9182-7736",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Csf Pavimentacao"
+ },
+ "20031950000190": {
+  "uf": "SP"
+ },
+ "43942358000146": {
+  "uf": "SP"
+ },
+ "04674247000144": {
+  "uf": "PR"
+ },
+ "03754776000195": {
+  "uf": "MG"
+ },
+ "48565324000101": {
+  "uf": "PR"
+ },
+ "62651189000130": {
+  "uf": "SC",
+  "municipio": "Pinhalzinho",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Serviços de organização de feiras, congressos, exposições e festas",
+  "telefone": "(49) 8822-5750",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Tremix Eventos"
+ },
+ "06611446000139": {
+  "uf": "PI"
+ },
+ "10578355000116": {
+  "uf": "AL"
+ },
+ "02846704000105": {
+  "uf": "MG"
+ },
+ "17063632000105": {
+  "uf": "PR"
+ },
+ "02777319000153": {
+  "uf": "SC",
+  "municipio": "Ascurra",
+  "porte": "DEMAIS",
+  "cnae": "Confecção de roupas profissionais, exceto sob medida",
+  "telefone": "(47) 3383-0209",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "09298794000196": {
+  "uf": "ES"
+ },
+ "00602864000183": {
+  "uf": "MA"
+ },
+ "59104422002446": {
+  "uf": "SP"
+ },
+ "22379611000125": {
+  "uf": "RS",
+  "municipio": "Erechim",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Obras de terraplenagem",
+  "telefone": "(53) 9941-7343",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Makmar Terraplenagem E Infraestrutura"
+ },
+ "04617192000130": {
+  "uf": "SP"
+ },
+ "07346478000117": {
+  "uf": "MG"
+ },
+ "04408009000197": {
+  "uf": "SP"
+ },
+ "26066250000118": {
+  "uf": "PR"
+ },
+ "00278912000120": {
+  "uf": "MG"
+ },
+ "46884097000143": {
+  "uf": "PR"
+ },
+ "49054672000179": {
+  "uf": "PE"
+ },
+ "09315971000103": {
+  "uf": "BA"
+ },
+ "65012235000149": {
+  "uf": "PI"
+ },
+ "10807948000107": {
+  "uf": "MT"
+ },
+ "35741144000183": {
+  "uf": "SP"
+ },
+ "43793950000123": {
+  "uf": "GO"
+ },
+ "14750885000150": {
+  "uf": "SP"
+ },
+ "34729047000102": {
+  "uf": "ES"
+ },
+ "72074396000122": {
+  "uf": "PR"
+ },
+ "23184664000153": {
+  "uf": "MA"
+ },
+ "43421931000176": {
+  "uf": "DF"
+ },
+ "49273945000176": {
+  "uf": "BA"
+ },
+ "13086758000136": {
+  "uf": "SP"
+ },
+ "19854079000146": {
+  "uf": "PB"
+ },
+ "27054162000169": {
+  "uf": "ES"
+ },
+ "12606404000102": {
+  "uf": "SP"
+ },
+ "29802085000103": {
+  "uf": "MA"
+ },
+ "47267001000160": {
+  "uf": "SE"
+ },
+ "21099836000165": {
+  "uf": "PI"
+ },
+ "00499505000142": {
+  "uf": "CE"
+ },
+ "12132073000116": {
+  "uf": "SP"
+ },
+ "31471770000227": {
+  "uf": "SC",
+  "municipio": "Balneario Camboriu",
+  "porte": "DEMAIS",
+  "cnae": "Comércio a varejo de automóveis, camionetas e utilitários novos",
+  "telefone": "(47) 3390-5858",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Breitkopf"
+ },
+ "51773516000100": {
+  "uf": "RJ"
+ },
+ "27499627000195": {
+  "uf": "PA"
+ },
+ "89472377000157": {
+  "uf": "RS",
+  "municipio": "Nova Prata",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Transporte rodoviário de carga, exceto produtos perigosos e mudanças, intermunicipal, interestadual e internacional",
+  "telefone": "",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "12482939000119": {
+  "uf": "PR"
+ },
+ "01107391001263": {
+  "uf": "MG"
+ },
+ "44478911000102": {
+  "uf": "SP"
+ },
+ "61336456000111": {
+  "uf": "MA"
+ },
+ "07038870000107": {
+  "uf": "CE"
+ },
+ "45315776000139": {
+  "uf": "RJ"
+ },
+ "26420558000110": {
+  "uf": "PR"
+ },
+ "08648188000190": {
+  "uf": "MG"
+ },
+ "52359927000116": {
+  "uf": "SP"
+ },
+ "66606971000198": {
+  "uf": "SP"
+ },
+ "46728700000106": {
+  "uf": "ES"
+ },
+ "41038492000191": {
+  "uf": "DF"
+ },
+ "59992294000128": {
+  "uf": "SP"
+ },
+ "08221047000197": {
+  "uf": "MG"
+ },
+ "83675413000101": {
+  "uf": "SC",
+  "municipio": "Sao Jose",
+  "porte": "DEMAIS",
+  "cnae": "Comércio varejista de outros produtos não especificados anteriormente",
+  "telefone": "(48) 3257-1555",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "30891106000193": {
+  "uf": "MS"
+ },
+ "53254670000109": {
+  "uf": "CE"
+ },
+ "04681823000342": {
+  "uf": "CE"
+ },
+ "29012672000107": {
+  "uf": "MG"
+ },
+ "22733276000111": {
+  "uf": "PA"
+ },
+ "22514283000122": {
+  "uf": "DF"
+ },
+ "47435654000101": {
+  "uf": "GO"
+ },
+ "11604059000105": {
+  "uf": "MG"
+ },
+ "63568864000124": {
+  "uf": "GO"
+ },
+ "26991097000135": {
+  "uf": "MG"
+ },
+ "04929322000170": {
+  "uf": "DF"
+ },
+ "37489919000109": {
+  "uf": "BA"
+ },
+ "70081680000109": {
+  "uf": "??"
+ },
+ "62881796000196": {
+  "uf": "PR"
+ },
+ "43343391000150": {
+  "uf": "SP"
+ },
+ "21553177000276": {
+  "uf": "MG"
+ },
+ "57548161000131": {
+  "uf": "PR"
+ },
+ "03463784000182": {
+  "uf": "RJ"
  }
 }
