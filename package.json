@@ -5,7 +5,7 @@
   "description": "RADAR 360 — integração controlada e testes",
   "scripts": {
     "test": "node --test tests/*.test.cjs",
-    "check": "node --check api/noticias.js && node --test tests/*.test.cjs",
+    "check": "node --check api/noticias.js && node --check api/empresas.js && node --test tests/*.test.cjs",
     "test:browser": "playwright test"
   },
   "engines": {
