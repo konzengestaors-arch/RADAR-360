@@ -1,0 +1,9 @@
+{
+  "ufs_alvo": ["RS", "SC"],
+  "valor_minimo": 300000,
+  "dias_busca": 3,
+  "dias_historico": 120,
+  "max_consultas_cnpj": 400,
+  "percentual_garantia": 0.05,
+  "excluir_mei": true
+}

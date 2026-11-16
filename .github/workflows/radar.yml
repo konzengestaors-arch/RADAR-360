@@ -1,0 +1,45 @@
+name: Radar de licitações
+
+on:
+  schedule:
+    - cron: "17 9 * * *"   # todo dia às 06:17 (horário de Brasília)
+  workflow_dispatch:
+    inputs:
+      dias:
+        description: "Quantos dias para trás buscar (vazio = padrão do config.json)"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: radar
+  cancel-in-progress: false
+
+jobs:
+  coletar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Testes
+        run: python -m unittest discover -s tests
+      - name: Coletar
+        env:
+          DIAS: ${{ inputs.dias }}
+        run: |
+          if [ -n "$DIAS" ]; then python radar/coletar.py --dias "$DIAS"; else python radar/coletar.py; fi
+      - name: Publicar dados
+        run: |
+          git config user.name "radar-360"
+          git config user.email "actions@users.noreply.github.com"
+          git add data docs/data
+          if git diff --cached --quiet; then
+            echo "Sem novidades."
+          else
+            git commit -m "Atualiza radar ($(date -u +%Y-%m-%d))"
+            git push
+          fi
