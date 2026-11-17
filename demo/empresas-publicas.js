@@ -276,5 +276,5 @@ document.addEventListener('click',e=>{
   if(dialog?.close)dialog.close();else dialog?.removeAttribute('open');
  }
 });
-window.RadarCompanies={panel,showMatches,matchesFor,classifyNews,importFile,read:()=>entries.map(x=>({...x})),setOnUpdate:fn=>{onUpdate=fn}};
+window.RadarCompanies={panel,showMatches,matchesFor,classifyNews,importFile,read:()=>entries.map(x=>({...x})),getStatus:()=>({source,sessionState,total:source==='staging'?entries.length:null,pendentes:source==='staging'?entries.filter(x=>x.conflito).length:null}),setOnUpdate:fn=>{onUpdate=fn}};
 })();
