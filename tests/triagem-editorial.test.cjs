@@ -1,7 +1,7 @@
 'use strict';
 const test=require('node:test');
 const assert=require('node:assert/strict');
-const {classify,prioritize}=require('../demo/triagem-editorial.js');
+const {classify,prioritize,nextQuestion}=require('../demo/triagem-editorial.js');
 const news=(titulo,url='https://example.org/noticia')=>({titulo,url,publicadoEm:'2026-11-16',fonte:'Fonte de teste'});
 test('dólar, inflação, ranking regional e PIB são contexto, não oportunidade empresarial',()=>{
  const headlines=[
@@ -50,4 +50,17 @@ test('triagem coloca sinais na frente, preserva ordem entre macro e indica vínc
 test('múltiplas empresas ambíguas não são apresentadas como vínculo confirmado',()=>{
  const p=prioritize([news('Empresa Alfa anuncia nova fábrica')],[{status:'ambigua',empresas:['Empresa Alfa','Empresa Beta']}]);
  assert.equal(p[0].mention,'');
+});
+
+test('Canoas: parque de inovação com previsão de novos empregos é hipótese comercial, não contrato',()=>{
+ const title='Canoas: Parque de Inovação dobra empresas e prevê 250 empregos no RS';
+ const a=classify(news(title));
+ assert.equal(a.kind,'empresarial');
+ const question=nextQuestion(news(title));
+ assert.match(question,/seguros e garantias/);
+ assert.doesNotMatch(question,/contrato confirmado|seguro contratado/i);
+});
+test('pergunta de seguros diferencia riscos operacionais de notícias macroeconômicas',()=>{
+ assert.match(nextQuestion(news('Incêndio paralisa fábrica industrial em Chapecó')),/interrupção de atividades/);
+ assert.equal(nextQuestion(news('Durigan explica no Senado alíquota de 11,3% da CBS')),'');
 });
