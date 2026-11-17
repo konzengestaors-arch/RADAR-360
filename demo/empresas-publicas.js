@@ -276,5 +276,13 @@ document.addEventListener('click',e=>{
   if(dialog?.close)dialog.close();else dialog?.removeAttribute('open');
  }
 });
-window.RadarCompanies={panel,showMatches,matchesFor,classifyNews,importFile,read:()=>entries.map(x=>({...x})),getStatus:()=>({source,sessionState,total:source==='staging'?entries.length:null,pendentes:source==='staging'?entries.filter(x=>x.conflito).length:null}),setOnUpdate:fn=>{onUpdate=fn}};
+// Um vínculo só pode abrir um dossiê após autenticação e checagem de identidade.
+function openDossierByName(name){
+ if(source!=='staging'||sessionState!=='open')return false;
+ const exact=entries.map((company,index)=>({company,index})).filter(x=>normalize(x.company.nome)===normalize(name));
+ if(exact.length!==1||exact[0].company.conflito||identityReview().has(normalize(name)))return false;
+ openDossier(exact[0].index);
+ return true;
+}
+window.RadarCompanies={panel,showMatches,matchesFor,classifyNews,openDossierByName,importFile,read:()=>entries.map(x=>({...x})),getStatus:()=>({source,sessionState,total:source==='staging'?entries.length:null,pendentes:source==='staging'?entries.filter(x=>x.conflito).length:null}),setOnUpdate:fn=>{onUpdate=fn}};
 })();
