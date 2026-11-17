@@ -115,3 +115,15 @@ jobs:
             401|403|302|303|307|308) echo "Vercel SSO: acesso anônimo negado" ;;
             *) echo "::error::Vercel não confirmou bloqueio por SSO ($vercel_code)"; exit 1 ;;
           esac
+          new_edge_code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 \
+            'https://dulbmxowopxahvfgswou.supabase.co/functions/v1/observatorio360-private-p4-qa')"
+          case "$new_edge_code" in
+            401|403) echo "Nova API de sessões: acesso anônimo negado" ;;
+            *) echo "::error::Nova API de sessões aceitou acesso anônimo ($new_edge_code)"; exit 1 ;;
+          esac
+          current_preview_code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 \
+            'https://radar-360-homologacao-isolada-q4158n1wy-konzengestaors-2191.vercel.app/api/sessao')"
+          case "$current_preview_code" in
+            401|403|302|303|307|308) echo "Prévia atual: sessão anônima negada por SSO" ;;
+            *) echo "::error::Prévia atual não está protegida ($current_preview_code)"; exit 1 ;;
+          esac
