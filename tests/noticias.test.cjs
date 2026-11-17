@@ -207,3 +207,30 @@ test('coleta integra notícias locais de Canoas e Chapecó sem duplicar URLs',as
  assert.ok(batch.items.some(x=>x.titulo.includes('Canoas')));
  assert.ok(batch.items.some(x=>x.titulo.includes('Chapecó')));
 });
+
+test('janela empresarial considera sete dias civis, sem datas futuras ou inválidas',()=>{
+ const ref=new Date('2026-11-17T12:00:00Z');
+ assert.equal(rss.withinPreviousDays('2026-11-17',ref),true);
+ assert.equal(rss.withinPreviousDays('2026-11-11',ref),true);
+ assert.equal(rss.withinPreviousDays('2026-11-10',ref),false);
+ assert.equal(rss.withinPreviousDays('2026-11-18',ref),false);
+ assert.equal(rss.withinPreviousDays('sem data',ref),false);
+});
+test('boletim só exibe notícias do dia enquanto radar preserva publicações dos últimos 7 dias',async()=>{
+ const now=new Date(),ago=d=>new Date(now.getTime()-d*86400000).toUTCString();
+ const rssXml='<rss><channel>'+
+ '<item><title>Indústria anuncia expansão de fábrica em Porto Alegre</title><link>https://example.org/today</link><pubDate>'+ago(0)+'</pubDate></item>'+
+ '<item><title>Empresa anuncia obra industrial no Rio Grande do Sul</title><link>https://example.org/three-days</link><pubDate>'+ago(3)+'</pubDate></item>'+
+ '<item><title>Empresa anuncia outra obra no Rio Grande do Sul</title><link>https://example.org/eight-days</link><pubDate>'+ago(8)+'</pubDate></item>'+
+ '</channel></rss>';
+ const batch=await rss.collect(async url=>{
+  if(url.includes('g1.globo.com'))return new Response(rssXml,{headers:{'Content-Type':'application/xml'}});
+  throw Error('fonte fora do ar');
+ });
+ assert.equal(batch.items.length,1);
+ assert.equal(batch.radar7d.length,2);
+ assert.equal(batch.radar7d[0].url,'https://example.org/today');
+ assert.equal(batch.radar7d[1].url,'https://example.org/three-days');
+ assert.equal(batch.totais.radar7d,2);
+ assert.equal(batch.items.every(x=>x.publicadoEm===batch.dataReferencia),true);
+});
