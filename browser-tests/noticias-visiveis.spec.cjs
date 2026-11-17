@@ -80,3 +80,50 @@ test('sem notícias de hoje, não recicla manchetes históricas',async({page})=>
  await page.locator('.nav [data-nav="investimentos"]').click();
  await expect(page.locator('#radarInvestmentSignals')).toContainText('Nenhum sinal de investimento empresarial publicado hoje');
 });
+
+test('triagem editorial separa sinais empresariais das notícias macro no Android',async({browser})=>{
+ const ctx=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+ try{
+  const page=await ctx.newPage();
+  const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+  const articles=[
+   {titulo:'Dólar sobe para R$ 5,77 e fecha no maior valor desde abril',url:'https://example.org/dolar',publicadoEm:today,fonte:'Economia fictícia'},
+   {titulo:'Empresa anuncia expansão de fábrica industrial em Porto Alegre',url:'https://example.org/empresa',publicadoEm:today,fonte:'Noticiário fictício'},
+   {titulo:'Mercado reduz projeções para inflação e PIB',url:'https://example.org/ipca',publicadoEm:today,fonte:'Economia fictícia'}
+  ];
+  await page.route('**/api/noticias',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+   schema:'radar-observatorio-feed/1',dataReferencia:today,consultadoEm:new Date().toISOString(),
+   totals:{},totais:{fontes:6,funcionando:6,comFalha:0,candidatos:3},items:articles})}));
+  await page.goto('/demo/observatorio.html');
+  const lead=page.locator('.radar-cover-reading');
+  await expect(lead).toContainText('Movimentos empresariais para investigar');
+  await expect(lead.locator('#radarCoverTopics li')).toHaveCount(1);
+  await expect(lead.locator('#radarCoverTopics')).toContainText('expansão de fábrica');
+  await expect(lead.locator('#radarCoverMacro li')).toHaveCount(2);
+  await expect(lead.locator('#radarCoverTopics')).not.toContainText('Dólar sobe');
+  await lead.locator('summary').click();
+  await expect(lead.locator('#radarCoverMacro')).toBeVisible();
+  await expect(lead.locator('#radarCoverMacro')).toContainText('Dólar sobe');
+  const cards=page.locator('#radarLiveNews .news-live-card');
+  await expect(cards).toHaveCount(3);
+  await expect(cards.first()).toContainText('expansão de fábrica');
+  const financial=page.locator('.radar-cover-economy');
+  await expect(financial).toContainText('Não é o fechamento do dólar comercial');
+  const width=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth}));
+  expect(width.scroll).toBeLessThanOrEqual(width.client+2);
+ }finally{await ctx.close()}
+});
+test('somente câmbio e inflação não simulam oportunidades ou vínculos com empresas',async({page})=>{
+ const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+ await page.route('**/api/noticias',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+  schema:'radar-observatorio-feed/1',dataReferencia:today,consultadoEm:new Date().toISOString(),
+  totais:{fontes:6,funcionando:6,comFalha:0,candidatos:2},
+  items:[
+   {titulo:'Dólar sobe e fecha em alta no Brasil',url:'https://example.org/dolar',publicadoEm:today,fonte:'Fonte 1'},
+   {titulo:'Mercado projeta inflação e PIB',url:'https://example.org/inflacao',publicadoEm:today,fonte:'Fonte 2'}
+  ]})}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('#radarCoverTopics')).toContainText('Nenhum movimento empresarial identificado');
+ await expect(page.locator('#radarCoverMacro li')).toHaveCount(2);
+ await expect(page.locator('.news-live-card')).toHaveCount(2);
+});
