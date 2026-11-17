@@ -111,3 +111,25 @@ test('aplicação não consulta catálogo enquanto sessão não for confirmada',
  await expect(page.locator('.radar-company-count')).toHaveText('0');
  expect(called).toBe(0);
 });
+
+test('catálogo real de 217 não é contabilizado como apuração manual zerada',async({page})=>{
+ await mock(page);
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.radar-company-count')).toHaveText('217');
+ await expect(page.locator('#radarTopCompanies')).toHaveText('217');
+ await expect(page.locator('#radarTopSignals')).toHaveText('1');
+ await expect(page.locator('.radar-manual-records')).toBeVisible();
+ await expect(page.locator('.radar-manual-records')).toContainText('ainda sem registros nesta prévia');
+ await expect(page.locator('.radar-manual-records .stats')).toHaveCount(0);
+ await page.locator('.radar-manual-records > summary').click();
+ await expect(page.locator('[data-observatorio-local-state="empty"]')).toBeVisible();
+ await expect(page.locator('[data-observatorio-local-state="empty"]')).toContainText('Não são a contagem de empresas');
+ await expect(page.locator('.quick-updates')).toContainText('Nenhuma publicação enviada à revisão manual');
+});
+test('falha da API de empresas não informa catálogo vazio por engano',async({page})=>{
+ await mock(page,{erro:'Acesso não autorizado'},401);
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('#radarCompanyMessage')).toContainText('Acesso não autorizado');
+ await expect(page.locator('#radarTopCompanies')).toHaveText('🔒');
+ await expect(page.locator('.radar-manual-records')).toBeVisible();
+});
