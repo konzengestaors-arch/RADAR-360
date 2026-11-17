@@ -1,7 +1,14 @@
 /* RADAR Observatório v1.9 — coletor RSS sob demanda. Sem dados privados, sem cron,
    sem scraping de páginas HTML e sem URLs fornecidas pelo cliente. */
 const {buildGoogleNewsUrl,parseGoogleNewsRss}=require('../experiments/axiom/google-news-rss.cjs');
-const GOOGLE_FEED={id:'google-news-economia',nome:'Google Notícias · Economia e investimentos',url:buildGoogleNewsUrl('Rio Grande do Sul'),area:'Brasil'};
+const GOOGLE_FEED={id:'google-news-economia',nome:'Google Notícias · Economia e investimentos',url:buildGoogleNewsUrl('Rio Grande do Sul'),area:'Brasil',kind:'google'};
+/* Ampliação geográfica de fontes PÚBLICAS: nunca enviar empresas do catálogo
+   privado a mecanismos de busca externos. Três buscas gratuitas, regionais. */
+const GOOGLE_FEEDS=Object.freeze([
+ GOOGLE_FEED,
+ {id:'google-news-canoas',nome:'Google Notícias · Canoas e Região Metropolitana',url:buildGoogleNewsUrl('Canoas'),area:'RS',kind:'google'},
+ {id:'google-news-chapeco',nome:'Google Notícias · Chapecó e Oeste SC',url:buildGoogleNewsUrl('Chapecó'),area:'SC',kind:'google'}
+]);
 async function requestGoogleNews(feed,fetcher){
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),7000);
  try{
@@ -133,9 +140,9 @@ async function requestFeed(feed,fetcher){const controller=new AbortController();
  }throw Error('Redirecionamento excessivo')}
  finally{clearTimeout(id)}
 }
-async function collect(fetcher=fetch){let results=await Promise.all([...FEEDS,GOOGLE_FEED].map(async feed=>{try{const items=feed.id===GOOGLE_FEED.id?await requestGoogleNews(feed,fetcher):feed.kind==='json'?await requestOfficialBndes(feed,fetcher):await requestFeed(feed,fetcher);return {feed,items,publicacoesLidas:items.publicacoesLidas??items.length,status:'ok',error:''}}catch(e){return {feed,items:[],publicacoesLidas:0,status:'erro',error:String(e.message||e).slice(0,140)}}}));const seen=new Set();const items=[];for(const result of results){for(const x of result.items){if(seen.has(x.url)||!isBusinessNewsToday(x))continue;seen.add(x.url);items.push(x)}}items.sort((a,b)=>(b.publicadoEm||'').localeCompare(a.publicadoEm||''));const limited=items.slice(0,70);
+async function collect(fetcher=fetch){let results=await Promise.all([...FEEDS,...GOOGLE_FEEDS].map(async feed=>{try{const items=feed.kind==='google'?await requestGoogleNews(feed,fetcher):feed.kind==='json'?await requestOfficialBndes(feed,fetcher):await requestFeed(feed,fetcher);return {feed,items,publicacoesLidas:items.publicacoesLidas??items.length,status:'ok',error:''}}catch(e){return {feed,items:[],publicacoesLidas:0,status:'erro',error:String(e.message||e).slice(0,140)}}}));const seen=new Set();const items=[];for(const result of results){for(const x of result.items){if(seen.has(x.url)||!isBusinessNewsToday(x))continue;seen.add(x.url);items.push(x)}}items.sort((a,b)=>(b.publicadoEm||'').localeCompare(a.publicadoEm||''));const limited=items.slice(0,70);
  return {schema:'radar-observatorio-feed/1',consultadoEm:new Date().toISOString(),dataReferencia:businessDate(new Date()),criterio:'Somente publicações do dia em America/Sao_Paulo e com indicação de data',items:limited,totais:{fontes:results.length,funcionando:results.filter(x=>x.status==='ok').length,comFalha:results.filter(x=>x.status!=='ok').length,publicacoesLidas:results.reduce((n,x)=>n+x.publicacoesLidas,0),elegiveisPeloTema:results.reduce((n,x)=>n+x.items.length,0),candidatos:limited.length},fontes:results.map(x=>({id:x.feed.id,nome:x.feed.nome,url:x.feed.url,status:x.status,publicacoesLidas:x.publicacoesLidas,elegiveisPeloTema:x.items.length,publicadasHoje:x.items.filter(item=>isBusinessNewsToday(item)).length,selecionadas:x.items.length,erro:x.error})),aviso:'Fontes acessíveis não garantem notícias elegíveis. Somente publicações datadas de hoje no horário de Brasília e classificadas pelo título são exibidas. Nenhum fato ou vínculo empresarial foi confirmado documentalmente.'};}
 async function handler(req,res){res.setHeader('Cache-Control','private, no-store');res.setHeader('X-Content-Type-Options','nosniff');if(req.method!=='GET'){res.setHeader('Allow','GET');res.status(405).json({erro:'Método não permitido'});return}
  try{const result=await collect();res.status(result.totais.funcionando?200:503).json(result)}catch(e){res.status(502).json({erro:'Falha na coleta de fontes',mensagem:String(e.message||e).slice(0,160)})}}
 module.exports=handler;
-module.exports._test={collect,parseFeed,parseOfficialBndes,requestFeed,requestOfficialBndes,requestGoogleNews,classify,safeUrl,unescapeXML,FEEDS,GOOGLE_FEED,businessDate,isBusinessNewsToday};
+module.exports._test={collect,parseFeed,parseOfficialBndes,requestFeed,requestOfficialBndes,requestGoogleNews,classify,safeUrl,unescapeXML,FEEDS,GOOGLE_FEED,GOOGLE_FEEDS,businessDate,isBusinessNewsToday};
