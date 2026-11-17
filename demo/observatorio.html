@@ -836,7 +836,7 @@ function renderCoverBrief(){
  const relevant=ranked.filter(x=>x.kind!=='contexto');
  const general=ranked.filter(x=>x.kind==='contexto');
  status.textContent=relevant.length+' sinal(is) empresarial(is) a conferir · '+general.length+' manchete(s) de contexto · '+(total.funcionando??'?')+'/'+(total.fontes??'?')+' fontes acessíveis · '+(total.publicacoesLidas??'?')+' publicações recebidas · Consulta '+stamp;
- const itemLink=x=>'<li><span style="display:block;font:700 11px/1.5 system-ui;color:#087e69;margin-bottom:3px">'+E(x.label)+(x.mention?' · Menção textual a '+E(x.mention):'')+'</span><a href="'+E(x.item.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.item.titulo)+'</a><small>'+E(x.item.fonte||'Fonte não informada')+' · '+E(x.item.publicadoEm||'Data não informada')+'</small></li>';
+ const itemLink=x=>'<li><span style="display:block;font:700 11px/1.5 system-ui;color:#087e69;margin-bottom:3px">'+E(x.label)+(x.mention?' · Menção textual a '+E(x.mention):'')+'</span><a href="'+E(x.item.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.item.titulo)+'</a><small>'+E(x.item.fonte||'Fonte não informada')+' · '+E(x.item.publicadoEm||'Data não informada')+'</small>'+(x.action?'<p style="font-size:12px;color:#49636e;line-height:1.6;margin:7px 0 0"><strong>Pergunta para seguros · hipótese:</strong> '+E(x.action)+'</p>':'')+'</li>';
  list.innerHTML=relevant.length?relevant.slice(0,5).map(itemLink).join(''):'<li>Sem sinais empresariais nas manchetes selecionadas hoje. Isso não significa que não haja notícias ou oportunidades fora das fontes consultadas.</li>';
  const macro=document.getElementById('radarCoverMacro');
  if(macro){
