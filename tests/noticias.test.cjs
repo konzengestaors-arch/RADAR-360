@@ -142,3 +142,39 @@ test('coletor diário recusa notícias antigas, sem data e financiamento humanit
  assert.equal(result.items[0].url,'https://example.org/hoje');
  assert.equal(result.items[0].publicadoEm,result.dataReferencia);
 });
+
+test('manchete de CBS publicada hoje não pode ser descartada por ausência de palavras antigas',()=>{
+ const title='Durigan explica no Senado alíquota de 11,3% da CBS';
+ const feed=rss.FEEDS.find(x=>x.id==='ebc-economia');
+ const category=rss.classify(feed,title);
+ assert.ok(category,'a classificação deve permitir o assunto tributário do dia');
+ assert.equal(category.setor,'Contexto econômico nacional');
+ const date=new Date().toUTCString();
+ const xml='<rss><channel><item><title>'+title+'</title><link>https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/durigan-explica-no-senado-aliquota-de-113-da-cbs</link><pubDate>'+date+'</pubDate></item></channel></rss>';
+ const rows=rss.parseFeed(feed,xml);
+ assert.equal(rows.publicacoesLidas,1);
+ assert.equal(rows.length,1);
+ assert.equal(rows[0].publicadoEm,rss.businessDate(new Date()));
+});
+test('coleta distingue 6 fontes acessíveis de notícias realmente elegíveis hoje',async()=>{
+ const now=new Date(),recent=now.toUTCString(),old=new Date(now.getTime()-5*86400000).toUTCString();
+ const xml='<rss><channel>'+
+  '<item><title>Durigan explica no Senado alíquota de 11,3% da CBS</title><link>https://example.org/cbs-hoje</link><pubDate>'+recent+'</pubDate></item>'+
+  '<item><title>Empresa anuncia expansão de fábrica no RS</title><link>https://example.org/antiga</link><pubDate>'+old+'</pubDate></item>'+
+  '<item><title>Resultado de futebol sem relevância comercial</title><link>https://example.org/futebol</link><pubDate>'+recent+'</pubDate></item>'+
+  '</channel></rss>';
+ const batch=await rss.collect(async url=>{
+  if(url.includes('news.google.com'))throw Error('Google fora do ar');
+  if(url.includes('bndes.gov.br'))return new Response('[]',{headers:{'Content-Type':'application/json'}});
+  return new Response(xml,{headers:{'Content-Type':'application/rss+xml'}});
+ });
+ assert.equal(batch.totais.fontes,6);
+ assert.equal(batch.totais.funcionando,4);
+ assert.equal(batch.totais.publicacoesLidas,12);
+ assert.ok(batch.totais.elegiveisPeloTema>=1);
+ assert.equal(batch.items.length,1);
+ assert.match(batch.items[0].titulo,/CBS/);
+ assert.equal(batch.items[0].publicadoEm,batch.dataReferencia);
+ assert.equal(batch.fontes.find(x=>x.id==='ebc-economia').publicacoesLidas,3);
+ assert.ok(batch.fontes.find(x=>x.id==='ebc-economia').publicadasHoje>=1);
+});
