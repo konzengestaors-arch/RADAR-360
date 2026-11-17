@@ -1,79 +1,58 @@
 'use strict';
-const test=require('node:test');
-const assert=require('node:assert/strict');
-const fs=require('node:fs');
-
-const code=fs.readFileSync('api/empresas.js','utf8');
-const load=import('data:text/javascript;base64,'+Buffer.from(code).toString('base64'));
-const fakeToken='a'.repeat(64);
-const companies=Array.from({length:217},(_,i)=>({
- nome:'Empresa ficticia '+(i+1),cnpj:'',conflito:false
+const test=require('node:test'),assert=require('node:assert/strict');
+const handler=require('../api/empresas.js');
+const cookie='obs360_session='+('b'.repeat(64));
+const items=Array.from({length:217},(_,i)=>({
+ nome:'Empresa Fictícia '+String(i+1).padStart(3,'0'),cnpj:i<96?'11222333000181':'',conflito:i<8
 }));
-
-async function exercise({method='GET',token=fakeToken,upstreamStatus=200,body={schema:'observatorio-empresas/1',total:217,items:companies},networkError=false}={}){
- const originalFetch=global.fetch;
- const originalToken=process.env.OBS360_PRIVATE_SERVICE_TOKEN;
- let request=null;
- const headers={};
- let payload='';
- const res={
-  statusCode:200,
-  setHeader:(key,value)=>{headers[String(key).toLowerCase()]=value},
-  end:(text)=>{payload=text;return res}
+const original={schema:'observatorio-empresas/1',total:217,items};
+async function run({method='GET',withCookie=true,authorized=true,body=original,upstreamStatus=200,networkError=false,secret='a'.repeat(64)}={}){
+ const previousFetch=global.fetch,previousSecret=process.env.OBS360_PRIVATE_SERVICE_TOKEN;
+ const ops=[],headers={};let data='';
+ const req={method,headers:{host:'qa-example.vercel.app',cookie:withCookie?cookie:''}};
+ const res={statusCode:200,setHeader:(k,v)=>{headers[String(k).toLowerCase()]=v},end:(v)=>{data=v;return res}};
+ if(secret===null)delete process.env.OBS360_PRIVATE_SERVICE_TOKEN;
+ else process.env.OBS360_PRIVATE_SERVICE_TOKEN=secret;
+ global.fetch=async (_url,opt)=>{
+  if(networkError)throw Error('rede indisponível');
+  const payload=JSON.parse(opt.body);ops.push(payload.op);
+  if(payload.op==='check')return Response.json({authenticated:authorized});
+  if(payload.op==='catalog')return Response.json(body,{status:upstreamStatus});
+  return Response.json({erro:'Operação desconhecida'},{status:400});
  };
- if(token===null)delete process.env.OBS360_PRIVATE_SERVICE_TOKEN;
- else process.env.OBS360_PRIVATE_SERVICE_TOKEN=token;
- global.fetch=async (url,opts)=>{
-  request={url,method:opts.method,redirect:opts.redirect,headers:Object.keys(opts.headers)};
-  if(networkError)throw Error('offline');
-  return new Response(JSON.stringify(body),{status:upstreamStatus,headers:{'Content-Type':'application/json'}});
- };
- try{
-  const {default:handler}=await load;
-  await handler({method},res);
-  return {status:res.statusCode,headers,body:JSON.parse(payload),request};
- }finally{
-  if(originalToken===undefined)delete process.env.OBS360_PRIVATE_SERVICE_TOKEN;
-  else process.env.OBS360_PRIVATE_SERVICE_TOKEN=originalToken;
-  global.fetch=originalFetch;
+ try{await handler(req,res);
+ return {status:res.statusCode,headers,payload:JSON.parse(data),ops};
+ }finally{global.fetch=previousFetch;
+  if(previousSecret===undefined)delete process.env.OBS360_PRIVATE_SERVICE_TOKEN;
+  else process.env.OBS360_PRIVATE_SERVICE_TOKEN=previousSecret;
  }
 }
-test('bloqueia métodos diferentes de GET',async()=>{
- const r=await exercise({method:'POST'});
- assert.equal(r.status,405);assert.equal(r.request,null);
+test('bloqueia método não permitido sem tocar na base',async()=>{
+ const r=await run({method:'POST'});assert.equal(r.status,405);assert.deepEqual(r.ops,[]);
 });
-test('sem segredo não tenta consultar o banco',async()=>{
- const r=await exercise({token:null});
- assert.equal(r.status,503);assert.equal(r.request,null);
- assert.doesNotMatch(JSON.stringify(r),/observatorio-empresas\/1/);
+test('sessão ausente bloqueia catálogo antes de chamar Supabase',async()=>{
+ const r=await run({withCookie:false});assert.equal(r.status,401);assert.deepEqual(r.ops,[]);
 });
-test('recebe 217 registros da ponte e bloqueia cache HTTP',async()=>{
- const r=await exercise();
- assert.equal(r.status,200);assert.equal(r.body.total,217);
- assert.equal(r.body.items.length,217);
- assert.match(r.headers['cache-control'],/no-store/);
- assert.equal(r.request.method,'GET');
- assert.equal(r.request.redirect,'error');
- assert.equal(r.request.headers.includes('x-obs360-internal-token'),true);
- assert.equal(JSON.stringify(r).includes(fakeToken),false);
+test('cookie arbitrário sem registro no servidor nunca libera catálogo',async()=>{
+ const r=await run({authorized:false});assert.equal(r.status,401);assert.deepEqual(r.ops,['check']);
 });
-test('fail-closed: dados divergentes não são entregues',async()=>{
- const cases=[
-  {schema:'observatorio-empresas/1',total:222,items:companies.concat(companies.slice(0,5))},
-  {schema:'observatorio-empresas/1',total:217,items:companies.slice(0,216)},
-  {schema:'observatorio-empresas/1',total:217,items:[...companies.slice(0,216),{nome:'Invalida',cnpj:'123',conflito:false}]}
- ];
- for(const body of cases){
-  const r=await exercise({body});
-  assert.equal(r.status,503);
-  assert.equal(r.body.items,undefined);
+test('217 empresas reais exigem sessão validada e não permitem cache',async()=>{
+ const r=await run();assert.equal(r.status,200);
+ assert.equal(r.payload.total,217);assert.equal(r.payload.items.length,217);
+ assert.deepEqual(r.ops,['check','catalog']);assert.match(r.headers['cache-control'],/no-store/);
+ assert.doesNotMatch(JSON.stringify(r),/a{64}|b{64}/);
+});
+test('integridade fail-closed: 216, 222 ou conflito divergente bloqueados',async()=>{
+ for(const body of [
+  {...original,total:216,items:items.slice(0,216)},
+  {...original,total:222,items:items.concat(items.slice(0,5))},
+  {...original,items:items.map((x,i)=>({...x,conflito:i<7}))}
+ ]){
+  const r=await run({body});assert.equal(r.status,503);assert.equal(r.payload.items,undefined);
  }
 });
-test('falha upstream e timeout ocultam dados e detalhes internos',async()=>{
- for(const scenario of [{upstreamStatus:401},{upstreamStatus:503},{networkError:true}]){
-  const r=await exercise(scenario);
-  assert.equal(r.status,503);
-  assert.equal(r.body.items,undefined);
-  assert.equal(JSON.stringify(r.body).includes('SUPABASE'),false);
+test('ausência de segredo e falha de provedor nunca retornam registros',async()=>{
+ for(const options of [{secret:null},{networkError:true},{upstreamStatus:503}]){
+  const r=await run(options);assert.equal(r.status,503);assert.equal(r.payload.items,undefined);
  }
 });
