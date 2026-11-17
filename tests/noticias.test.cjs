@@ -72,9 +72,9 @@ test('falha na fonte BNDES não derruba feeds RSS independentes', async () => {
     if(url.includes('bndes.gov.br'))throw new Error('JSON indisponível');
     return fakeResponse;
   });
-  assert.equal(batch.totais.fontes,6);
+  assert.equal(batch.totais.fontes,8);
   assert.equal(batch.totais.funcionando,4);
-  assert.equal(batch.totais.comFalha,2);
+  assert.equal(batch.totais.comFalha,4);
   assert.equal(batch.fontes.find(x=>x.id==='bndes-investimentos').status,'erro');
   assert.ok(batch.items.length>=1);
 });
@@ -102,9 +102,9 @@ test('RSS BRDE indisponível não impede outras quatro fontes',async()=>{
   if(url.includes('bndes.gov.br'))return {status:200,ok:true,headers:{get:()=> 'application/json'},text:async()=>JSON.stringify([])};
   return response;
  });
- assert.equal(result.totais.fontes,6);
+ assert.equal(result.totais.fontes,8);
  assert.equal(result.totais.funcionando,4);
- assert.equal(result.totais.comFalha,2);
+ assert.equal(result.totais.comFalha,4);
  assert.equal(result.fontes.find(x=>x.id==='brde-regional').status,'erro');
 });
 
@@ -156,7 +156,7 @@ test('manchete de CBS publicada hoje não pode ser descartada por ausência de p
  assert.equal(rows.length,1);
  assert.equal(rows[0].publicadoEm,rss.businessDate(new Date()));
 });
-test('coleta distingue 6 fontes acessíveis de notícias realmente elegíveis hoje',async()=>{
+test('coleta distingue 8 fontes consultadas de notícias realmente elegíveis hoje',async()=>{
  const now=new Date(),recent=now.toUTCString(),old=new Date(now.getTime()-5*86400000).toUTCString();
  const xml='<rss><channel>'+
   '<item><title>Durigan explica no Senado alíquota de 11,3% da CBS</title><link>https://example.org/cbs-hoje</link><pubDate>'+recent+'</pubDate></item>'+
@@ -168,7 +168,7 @@ test('coleta distingue 6 fontes acessíveis de notícias realmente elegíveis ho
   if(url.includes('bndes.gov.br'))return new Response('[]',{headers:{'Content-Type':'application/json'}});
   return new Response(xml,{headers:{'Content-Type':'application/rss+xml'}});
  });
- assert.equal(batch.totais.fontes,6);
+ assert.equal(batch.totais.fontes,8);
  assert.equal(batch.totais.funcionando,5);
  assert.equal(batch.totais.publicacoesLidas,12);
  assert.ok(batch.totais.elegiveisPeloTema>=1);
@@ -177,4 +177,33 @@ test('coleta distingue 6 fontes acessíveis de notícias realmente elegíveis ho
  assert.equal(batch.items[0].publicadoEm,batch.dataReferencia);
  assert.equal(batch.fontes.find(x=>x.id==='ebc-economia').publicacoesLidas,3);
  assert.ok(batch.fontes.find(x=>x.id==='ebc-economia').publicadasHoje>=1);
+});
+
+test('Google Notícias usa consultas públicas separadas para RS, Canoas e Chapecó sem expor empresas',()=>{
+ const sources=rss.GOOGLE_FEEDS;
+ assert.deepEqual(sources.map(x=>x.id),['google-news-economia','google-news-canoas','google-news-chapeco']);
+ assert.deepEqual(sources.map(x=>x.area),['Brasil','RS','SC']);
+ for(const feed of sources){
+  const u=new URL(feed.url),term=u.searchParams.get('q');
+  assert.equal(u.hostname,'news.google.com');
+  assert.match(term,/when:7d/);
+  assert.ok(!/cnpj|empresa ficticia|empresa local|\d{14}/i.test(term));
+ }
+});
+test('coleta integra notícias locais de Canoas e Chapecó sem duplicar URLs',async()=>{
+ const feeds=rss.GOOGLE_FEEDS,now=new Date().toUTCString();
+ const rssXml=(title,url)=>'<rss><channel><item><title>'+title+'</title><link>'+url+'</link><pubDate>'+now+'</pubDate></item></channel></rss>';
+ const canoas=rssXml('Canoas: Parque de Inovação dobra empresas e prevê 250 empregos no RS','https://news.google.com/rss/articles/canoas-test');
+ const chapeco=rssXml('Chapecó: indústria anuncia expansão de fábrica','https://news.google.com/rss/articles/chapeco-test');
+ const batch=await rss.collect(async url=>{
+  if(url===feeds[1].url)return new Response(canoas,{headers:{'Content-Type':'application/rss+xml'}});
+  if(url===feeds[2].url)return new Response(chapeco,{headers:{'Content-Type':'application/rss+xml'}});
+  throw Error('Fonte fora do ar nesta simulação');
+ });
+ assert.equal(batch.totais.fontes,8);
+ assert.equal(batch.totais.funcionando,2);
+ assert.equal(batch.items.length,2);
+ assert.ok(batch.items.every(x=>x.publicadoEm===batch.dataReferencia));
+ assert.ok(batch.items.some(x=>x.titulo.includes('Canoas')));
+ assert.ok(batch.items.some(x=>x.titulo.includes('Chapecó')));
 });
