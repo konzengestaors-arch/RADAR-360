@@ -94,7 +94,7 @@ test('sessão privada abre, encerra e revoga o catálogo no navegador móvel',as
  await page.locator('#obs360EndSession').click();
  await expect(page.locator('.radar-company-count')).toHaveText('0');
  await expect(page.locator('#obs360BeginSession')).toBeVisible();
- await expect(page.locator('#radarCompanyMessage')).toContainText('Sessão encerrada no servidor');
+ await expect(page.locator('#radarCompanyMessage')).toContainText('Sessão do Observatório revogada');
  await page.reload();
  await expect(page.locator('.radar-company-count')).toHaveText('0');
  await page.locator('#obs360BeginSession').click();
