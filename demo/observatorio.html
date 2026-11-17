@@ -835,9 +835,9 @@ function renderCoverBrief(){
  const ranked=window.RadarEditorial?.prioritize(news,links)||[];
  const relevant=ranked.filter(x=>x.kind!=='contexto');
  const general=ranked.filter(x=>x.kind==='contexto');
- status.textContent=relevant.length+' sinal(is) empresarial(is) a conferir · '+general.length+' manchete(s) de contexto · '+(total.funcionando??'?')+'/'+(total.fontes??'?')+' fontes · Consulta '+stamp;
+ status.textContent=relevant.length+' sinal(is) empresarial(is) a conferir · '+general.length+' manchete(s) de contexto · '+(total.funcionando??'?')+'/'+(total.fontes??'?')+' fontes acessíveis · '+(total.publicacoesLidas??'?')+' publicações recebidas · Consulta '+stamp;
  const itemLink=x=>'<li><span style="display:block;font:700 11px/1.5 system-ui;color:#087e69;margin-bottom:3px">'+E(x.label)+(x.mention?' · Menção textual a '+E(x.mention):'')+'</span><a href="'+E(x.item.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.item.titulo)+'</a><small>'+E(x.item.fonte||'Fonte não informada')+' · '+E(x.item.publicadoEm||'Data não informada')+'</small></li>';
- list.innerHTML=relevant.length?relevant.slice(0,5).map(itemLink).join(''):'<li>Nenhum movimento empresarial identificado nas manchetes de hoje. Notícias de mercado não foram rotuladas como oportunidades.</li>';
+ list.innerHTML=relevant.length?relevant.slice(0,5).map(itemLink).join(''):'<li>Sem sinais empresariais nas manchetes selecionadas hoje. Isso não significa que não haja notícias ou oportunidades fora das fontes consultadas.</li>';
  const macro=document.getElementById('radarCoverMacro');
  if(macro){
   macro.innerHTML=general.length?general.slice(0,5).map(itemLink).join(''):'<li>Sem manchetes macroeconômicas adicionais nesta consulta.</li>';
@@ -854,7 +854,7 @@ function renderLiveNews(){
  if(freshness){
   const totals=liveNewsCache.totais||{},dt=liveNewsCache.consultadoEm?new Date(liveNewsCache.consultadoEm):null;
   const time=dt&&Number.isFinite(dt.getTime())?dt.toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'Não informada';
-  freshness.textContent=liveNewsCache.error?'A atualização desta consulta falhou.':('Última consulta: '+time+' · Fontes acessíveis: '+(totals.funcionando??'?')+'/'+(totals.fontes??'?')+'. Atualização sob demanda, não automática em segundo plano.');
+  freshness.textContent=liveNewsCache.error?'A atualização desta consulta falhou.':('Última consulta: '+time+' · Fontes acessíveis: '+(totals.funcionando??'?')+'/'+(totals.fontes??'?')+' · Publicações recebidas: '+(totals.publicacoesLidas??'não aferido')+' · Temas elegíveis: '+(totals.elegiveisPeloTema??'não aferido')+' · Publicadas hoje após filtros: '+(totals.candidatos??'?')+'. Atualização sob demanda.');
  }
  if(liveNewsCache.error){target.innerHTML='<p class="news-live-status" role="status">'+E(liveNewsCache.error)+'</p>';return;}
  const items=visibleNewsToday();
@@ -862,7 +862,7 @@ function renderLiveNews(){
  const counter=document.getElementById('radarTopNews');if(counter)counter.textContent=String(items.length);
  const signalCounter=document.getElementById('radarTopSignals');
  if(signalCounter)signalCounter.textContent=String((window.RadarEditorial?.prioritize(items,window.RadarCompanies.classifyNews(items))||[]).filter(x=>x.kind!=='contexto').length);
- if(!items.length){target.innerHTML='<p class="news-live-status">Nenhuma notícia empresarial publicada hoje foi encontrada nas fontes acessíveis. Não exibimos manchetes antigas como se fossem atuais. Use Atualizar notícias para consultar novamente.</p>';window.RadarCompanies.showMatches([]);return;}
+ if(!items.length){target.innerHTML='<p class="news-live-status">Nenhuma publicação de hoje passou pelos filtros de título, região e data nesta consulta. Isso NÃO significa ausência de notícias no dia. Consulte as fontes originais ou atualize novamente.</p>';window.RadarCompanies.showMatches([]);return;}
  target.innerHTML=ranked.slice(0,8).map((entry,index)=>{const item=entry.item;
   const title=String(item.titulo||'').trim(),url=String(item.url||'').trim();
   if(!title||!/^https:\/\/[^\s]+$/i.test(url))return '';
