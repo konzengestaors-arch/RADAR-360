@@ -387,7 +387,7 @@ html,body{font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;backgr
 <div class="shell"><aside class="sidebar"><div class="brand"><span class="mark" aria-hidden="true"></span><div class="brand-lockup"><strong class="brand-title">OBSERVATÓRIO</strong><small class="brand-subtitle">360 · INTELIGÊNCIA</small></div></div><div><div class="side-section">Inteligência regional</div><nav class="nav" aria-label="Navegação principal"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg> Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/><path d="M7 16h2m3 0h2m3 0h2"/></svg> Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9m-9 4h6"/></svg> Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg> Indicadores</button></nav></div><div class="sidefoot"><b>RS • OESTE SC • LITORAL SUL SC</b><span>Painel regional e financeiro. Novos documentos passam por revisão humana.</span><p>v1.9 · Prévia de desenvolvimento sem homologação</p></div></aside><div class="workspace"><header class="topbar"><div><span class="mobile-brand"><img src="observatorio-mark.svg" alt="" width="30" height="30"><span>OBSERVATÓRIO <b>360</b></span></span><span class="kicker">Observatório econômico</span><h1 id="pageName">Panorama Regional</h1></div><div class="top-actions"><button type="button" id="openUpdates" class="btn" aria-label="Abrir notícias e atualizações para revisão">↻ Notícias &amp; atualizações</button><button type="button" id="openTools" class="btn" aria-label="Dados e backup: exportar, restaurar e consultar armazenamento local">Dados e backup</button><button type="button" id="exportTop" class="btn primary" aria-label="Exportar backup JSON">Exportar backup</button></div></header><main class="content" id="body" aria-live="polite"></main></div></div>
 <nav class="tabs-mobile" aria-label="Navegação principal móvel"><button type="button" data-nav="panorama" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="m12 12 6-6"/></svg>Panorama</button><button type="button" data-nav="investimentos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21V8l6 3V6l7 4V3h5v18z"/></svg>Investimentos</button><button type="button" data-nav="noticias"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h9m-9 4h9"/></svg>Notícias</button><button type="button" data-nav="indicadores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V14m5 6V9m5 11V5m5 15V11"/></svg>Indicadores</button></nav>
 <div id="overlay" class="overlay" aria-hidden="true"><aside class="drawer" role="region" aria-label="Dossiê do movimento"><div class="drawerhead"><div><span class="eyebrow">REGISTRO CENTRAL</span><div id="detailTitle" style="font-weight:800">Dossiê</div></div><button class="close" id="detailClose" aria-label="Fechar dossiê">✕</button></div><div id="detailBody" class="drawerbody"></div></aside></div><dialog class="dialog" id="editor" aria-labelledby="dialogTitle"><div class="dialoghead"><h2 id="dialogTitle">Editar registro</h2><button type="button" class="close" id="dialogClose" aria-label="Fechar">✕</button></div><div id="dialogBody" class="dialogbody"></div><div class="dialogfooter"><button type="button" class="btn" id="dialogCancel">Cancelar</button><button type="button" class="btn primary" id="dialogSave">Salvar alteração</button></div></dialog><input class="sr-only" id="fileInput" aria-label="Backup sintético do Observatório" type="file" accept=".json,application/json"><input class="sr-only" id="feedInput" aria-label="Lote sintético de notícias" type="file" accept=".json,application/json"><input class="sr-only" id="marketFile" aria-label="Fechamentos sintéticos de índices" type="file" accept=".json,application/json"><div class="toast" id="toast" role="status" aria-live="polite"></div><span class="sr-only" id="release">1.8.1-indices-widget-candidata</span>
-<script src="empresas-publicas.js"></script><script src="fontes-investimentos.js"></script><script>window.__RADAR_SEED__={"schema":"radar-observatorio-unico/1.7","release":"1.9-demo-sintetica","dataBase":"2026-11-06","movimentos":[],"indicadores":[],"criadoEm":"2026-11-06T00:00:00Z","atualizadoEm":"2026-11-06T00:00:00Z","migracao":{"origem":"demonstração limpa","observacao":"Sem registros incorporados e sem migração automática de dados locais."},"caixaAtualizacoes":[]};</script><script>/* RADAR Observatório 1.7 — revisão humana de candidatos, sem acesso à rede. */
+<script src="empresas-publicas.js"></script><script src="fontes-investimentos.js"></script><script src="triagem-editorial.js"></script><script>window.__RADAR_SEED__={"schema":"radar-observatorio-unico/1.7","release":"1.9-demo-sintetica","dataBase":"2026-11-06","movimentos":[],"indicadores":[],"criadoEm":"2026-11-06T00:00:00Z","atualizadoEm":"2026-11-06T00:00:00Z","migracao":{"origem":"demonstração limpa","observacao":"Sem registros incorporados e sem migração automática de dados locais."},"caixaAtualizacoes":[]};</script><script>/* RADAR Observatório 1.7 — revisão humana de candidatos, sem acesso à rede. */
 (function(root){'use strict';
 const SCHEMA='radar-observatorio-feed/1';
 const TERR=['RS','Oeste SC','Litoral sul SC'];
@@ -658,19 +658,20 @@ function panorama(moves){
    ${liveNewsSection()}
  </section>
  <section class="radar-cover-intel" aria-label="Leitura executiva e contexto econômico">
-   <div class="radar-cover-economy">
-     <span class="radar-cover-label">CONTEXTO ECONÔMICO</span>
-     <h3>Referências do mercado</h3>
-     <div class="radar-cover-rates" id="radarCoverFx" role="status">Consultando referência cambial…</div>
-     <p class="radar-cover-caption">Referências cambiais do BCE/ECB, não cotações bancárias. Consulte datas e metodologia na seção Indicadores.</p>
-     <button type="button" class="radar-cover-link" data-cover-target="mercados">Consultar indicadores →</button>
-   </div>
    <div class="radar-cover-reading">
-     <span class="radar-cover-label">LEITURA RÁPIDA DOS TÍTULOS</span>
-     <h3>O que merece atenção</h3>
+     <span class="radar-cover-label">TRIAGEM COMERCIAL · NOTÍCIAS DO DIA</span>
+     <h3>Movimentos empresariais para investigar</h3>
      <p id="radarCoverNewsStatus" class="radar-cover-status" role="status">Consultando fontes públicas…</p>
-     <ol id="radarCoverTopics" class="radar-cover-topics"><li>Aguardando notícias das fontes públicas.</li></ol>
-     <p class="radar-cover-caption">Síntese baseada somente em manchetes. Não substitui a leitura da publicação original.</p>
+     <ol id="radarCoverTopics" class="radar-cover-topics"><li>Procurando acontecimentos empresariais verificáveis.</li></ol>
+     <p class="radar-cover-caption">Pistas obtidas apenas de títulos. Menção a uma empresa não comprova vínculo, contrato ou oportunidade.</p>
+     <details class="radar-cover-archive"><summary style="min-height:44px;cursor:pointer;padding:10px 0;font-weight:700">Contexto macroeconômico do dia</summary><ol id="radarCoverMacro" class="radar-cover-topics"><li>Consultando as fontes…</li></ol></details>
+   </div>
+   <div class="radar-cover-economy">
+     <span class="radar-cover-label">REFERÊNCIAS CAMBIAIS · CONTEXTO</span>
+     <h3>Indicadores de referência — BCE</h3>
+     <div class="radar-cover-rates" id="radarCoverFx" role="status">Consultando referência cambial…</div>
+     <p class="radar-cover-caption">USD/BRL obtido pelo cruzamento das referências EUR/BRL e EUR/USD do BCE. Não é o fechamento do dólar comercial nem a PTAX brasileira. Valores e datas não são diretamente comparáveis às manchetes sobre fechamento do mercado.</p>
+     <button type="button" class="radar-cover-link" data-cover-target="mercados">Consultar indicadores →</button>
    </div>
  </section>
  <section class="radar-command-strip" aria-label="Atalhos para as listas do Observatório">
@@ -712,7 +713,7 @@ function renderInvestmentSignals(){
  if(!liveNewsCache){target.innerHTML='<p class="radar-invest-status">Consultando fontes públicas…</p>';return;}
  if(liveNewsCache.error){target.innerHTML='<p class="radar-invest-status">Não foi possível consultar notícias agora. Use a aba Notícias para atualizar.</p>';return;}
  const signalFor=window.RadarInvestmentSources?.classifyTitle;
- const candidates=visibleNewsToday().filter(x=>typeof signalFor==='function'&&signalFor(x.titulo)&&/^https:\/\/[^\s]+$/i.test(String(x.url||''))).slice(0,8);
+ const candidates=visibleNewsToday().filter(x=>typeof signalFor==='function'&&signalFor(x.titulo)&&window.RadarEditorial?.classify(x).kind==='empresarial'&&/^https:\/\/[^\s]+$/i.test(String(x.url||''))).slice(0,8);
  if(!candidates.length){target.innerHTML='<p class="radar-invest-status">Nenhum sinal de investimento empresarial publicado hoje nas fontes acessíveis. Verifique novamente quando houver novas publicações; notícias antigas não preenchem este painel.</p>';return;}
  target.innerHTML='<ol class="radar-invest-list">'+candidates.map(x=>'<li><span class="radar-invest-tag">'+E(signalFor(x.titulo)||'PISTA A VERIFICAR')+' · A VERIFICAR</span><a href="'+E(x.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.titulo)+'</a><small>'+E(x.fonte||'Fonte não informada')+' · '+E(x.publicadoEm||'Data não informada')+'</small></li>').join('')+'</ol>';
 }
@@ -810,7 +811,7 @@ function renderCoverBrief(){
   const valid=Number.isFinite(euro)&&euro>0&&Number.isFinite(dollar)&&dollar>0;
   if(valid){
    const money=x=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:3,maximumFractionDigits:4}).format(x);
-   fxTarget.innerHTML='<div><span>EURO / REAL</span><strong>'+E(money(euro))+'</strong></div><div><span>DÓLAR / REAL</span><strong>'+E(money(dollar))+'</strong></div><small>BCE/ECB · referência de '+E(f.date)+'</small>';
+   fxTarget.innerHTML='<div><span>EUR/BRL · BCE</span><strong>'+E(money(euro))+'</strong></div><div><span>USD/BRL · CRUZAMENTO BCE</span><strong>'+E(money(dollar))+'</strong></div><small>BCE/ECB · referência de '+E(f.date)+' · não representa o fechamento do mercado brasileiro</small>';
   }else fxTarget.textContent='Referência cambial indisponível nesta consulta.';
  }
  const list=document.getElementById('radarCoverTopics'),status=document.getElementById('radarCoverNewsStatus');
@@ -820,9 +821,18 @@ function renderCoverBrief(){
  const news=visibleNewsToday(),total=liveNewsCache.totais||{};
  const time=liveNewsCache.consultadoEm?new Date(liveNewsCache.consultadoEm):null;
  const stamp=time&&Number.isFinite(time.getTime())?time.toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'Horário não informado';
- status.textContent=news.length+' manchete(s) · '+(total.funcionando??'?')+'/'+(total.fontes??'?')+' fontes · Consulta '+stamp;
- const items=news.filter(x=>/^https:\/\/[^\s]+$/i.test(String(x.url||''))&&String(x.titulo||'').trim()).slice(0,3);
- list.innerHTML=items.length?items.map(x=>'<li><a href="'+E(x.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.titulo)+'</a><small>'+E(x.fonte||'Fonte não informada')+' · '+E(x.publicadoEm||'Data não informada')+'</small></li>').join(''):'<li>Sem manchetes empresariais de hoje nas fontes acessíveis.</li>';
+ const links=window.RadarCompanies?.classifyNews(news)||[];
+ const ranked=window.RadarEditorial?.prioritize(news,links)||[];
+ const relevant=ranked.filter(x=>x.kind!=='contexto');
+ const general=ranked.filter(x=>x.kind==='contexto');
+ status.textContent=relevant.length+' sinal(is) empresarial(is) a conferir · '+general.length+' manchete(s) de contexto · '+(total.funcionando??'?')+'/'+(total.fontes??'?')+' fontes · Consulta '+stamp;
+ const itemLink=x=>'<li><span style="display:block;font:700 11px/1.5 system-ui;color:#087e69;margin-bottom:3px">'+E(x.label)+(x.mention?' · Menção textual a '+E(x.mention):'')+'</span><a href="'+E(x.item.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.item.titulo)+'</a><small>'+E(x.item.fonte||'Fonte não informada')+' · '+E(x.item.publicadoEm||'Data não informada')+'</small></li>';
+ list.innerHTML=relevant.length?relevant.slice(0,5).map(itemLink).join(''):'<li>Nenhum movimento empresarial identificado nas manchetes de hoje. Notícias de mercado não foram rotuladas como oportunidades.</li>';
+ const macro=document.getElementById('radarCoverMacro');
+ if(macro){
+  macro.innerHTML=general.length?general.slice(0,5).map(itemLink).join(''):'<li>Sem manchetes macroeconômicas adicionais nesta consulta.</li>';
+  const details=macro.closest('details');if(details){const summary=details.querySelector('summary');if(summary)summary.textContent='Contexto macroeconômico do dia ('+general.length+')';}
+ }
 }
 
 function renderLiveNews(){
@@ -838,13 +848,14 @@ function renderLiveNews(){
  }
  if(liveNewsCache.error){target.innerHTML='<p class="news-live-status" role="status">'+E(liveNewsCache.error)+'</p>';return;}
  const items=visibleNewsToday();
+ const ranked=window.RadarEditorial?.prioritize(items,window.RadarCompanies?.classifyNews(items)||[])||items.map((item,index)=>({item,index,kind:'contexto',label:'Contexto econômico'}));
  const counter=document.getElementById('radarTopNews');if(counter)counter.textContent=String(items.length);
  if(!items.length){target.innerHTML='<p class="news-live-status">Nenhuma notícia empresarial publicada hoje foi encontrada nas fontes acessíveis. Não exibimos manchetes antigas como se fossem atuais. Use Atualizar notícias para consultar novamente.</p>';window.RadarCompanies.showMatches([]);return;}
- target.innerHTML=items.slice(0,8).map((item,index)=>{
+ target.innerHTML=ranked.slice(0,8).map((entry,index)=>{const item=entry.item;
   const title=String(item.titulo||'').trim(),url=String(item.url||'').trim();
   if(!title||!/^https:\/\/[^\s]+$/i.test(url))return '';
   const source=String(item.fonte||'Fonte não informada'),date=String(item.publicadoEm||'Data não informada');
-  const sector=String(item.setor||item.territorio||'Economia');
+  const sector=String(entry.label||item.setor||item.territorio||'Contexto econômico');
   return '<article class="news-live-card'+(index===0?' featured':'')+'"><span class="news-live-kicker">'+E(sector)+'</span><h3><a target="_blank" rel="noopener noreferrer" href="'+E(url)+'">'+E(title)+'</a></h3><div class="news-live-meta"><span>'+E(source)+'</span><time>'+E(date)+'</time></div><a class="news-live-open" target="_blank" rel="noopener noreferrer" href="'+E(url)+'">Ler matéria original ↗</a></article>';
  }).join('')||'<p class="news-live-status">Nenhuma notícia válida retornada.</p>';
  window.RadarCompanies.showMatches(items);
