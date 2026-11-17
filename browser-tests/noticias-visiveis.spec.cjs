@@ -123,7 +123,7 @@ test('somente câmbio e inflação não simulam oportunidades ou vínculos com e
    {titulo:'Mercado projeta inflação e PIB',url:'https://example.org/inflacao',publicadoEm:today,fonte:'Fonte 2'}
   ]})}));
  await page.goto('/demo/observatorio.html');
- await expect(page.locator('#radarCoverTopics')).toContainText('Nenhum movimento empresarial identificado');
+ await expect(page.locator('#radarCoverTopics')).toContainText('Sem sinais empresariais nas manchetes selecionadas hoje');
  await expect(page.locator('#radarCoverMacro li')).toHaveCount(2);
  await expect(page.locator('.news-live-card')).toHaveCount(2);
 });
