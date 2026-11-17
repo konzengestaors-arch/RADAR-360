@@ -39,3 +39,44 @@ test('vitrine de noticias cabe em mobile e atualiza sem duplicar',async({browser
  expect(size.scroll).toBeLessThanOrEqual(size.client+2);
  }finally{await ctx.close()}
 });
+
+
+test('investimentos de hoje não confundem FGTS nem exibem arquivo antigo como atual',async({page})=>{
+ const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+ const feed={
+  schema:'radar-observatorio-feed/1',dataReferencia:today,consultadoEm:new Date().toISOString(),
+  totais:{fontes:6,funcionando:6,comFalha:0,candidatos:3},
+  items:[
+   {titulo:'Atingidos por tornado em Chapecó podem sacar R$ 6,6 mil do FGTS e suspender financiamentos',
+    url:'https://example.org/fgts',publicadoEm:today,fonte:'Fonte de teste',territorio:'Oeste SC'},
+   {titulo:'Empresa anuncia investimento industrial e expansão de fábrica em Porto Alegre',
+    url:'https://example.org/industria',publicadoEm:today,fonte:'Fonte de teste',territorio:'RS'},
+   {titulo:'Empresa anuncia fábrica e investimentos antigos em Porto Alegre',
+    url:'https://example.org/antigo',publicadoEm:'2026-11-06',fonte:'Fonte histórica de teste',territorio:'RS'}
+  ]
+ };
+ await page.route('**/api/noticias',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(feed)}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.news-live-card')).toHaveCount(2);
+ await expect(page.locator('.news-live-section')).not.toContainText('investimentos antigos');
+ await page.locator('.nav [data-nav="investimentos"]').click();
+ await expect(page.locator('#radarInvestmentSignals .radar-invest-list li')).toHaveCount(1);
+ await expect(page.locator('#radarInvestmentSignals')).not.toContainText('FGTS');
+ await expect(page.locator('#radarInvestmentSignals')).toContainText('expansão de fábrica');
+ await expect(page.locator('.radar-invest-archive')).toBeVisible();
+ await expect(page.locator('.radar-official-reference-list')).not.toBeVisible();
+});
+test('sem notícias de hoje, não recicla manchetes históricas',async({page})=>{
+ const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+ const feed={schema:'radar-observatorio-feed/1',dataReferencia:today,
+  consultadoEm:new Date().toISOString(),
+  totais:{fontes:6,funcionando:5,comFalha:1,candidatos:0},
+  items:[{titulo:'Investimento antigo em Porto Alegre',url:'https://example.org/antigo',
+   fonte:'Fonte antiga',publicadoEm:'2026-11-06'}]};
+ await page.route('**/api/noticias',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(feed)}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.news-live-card')).toHaveCount(0);
+ await expect(page.locator('#radarLiveNews')).toContainText('Nenhuma notícia empresarial publicada hoje');
+ await page.locator('.nav [data-nav="investimentos"]').click();
+ await expect(page.locator('#radarInvestmentSignals')).toContainText('Nenhum sinal de investimento empresarial publicado hoje');
+});
