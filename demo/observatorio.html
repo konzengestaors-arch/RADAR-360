@@ -637,7 +637,7 @@ function disclosure(key,title,description,body){
  return `<details class="radar-disclosure" data-panorama-section="${key}" ${expandedPanoramaSections.has(key)?'open':''}><summary><span class="disclosure-label"><strong>${title}</strong><small>${description}</small></span><span class="disclosure-arrow" aria-hidden="true">⌄</span></summary><div class="disclosure-content">${body}</div></details>`;
 }
 function liveNewsSection(){return ` <section class="news-live-section" aria-label="Últimas notícias econômicas">
-  <div class="news-live-heading"><div><span class="eyebrow">MONITORAMENTO DE ACONTECIMENTOS</span><h2>Notícias em destaque</h2><p>Matérias recentes de fontes públicas, com acesso direto às publicações.</p></div><button class="btn news-live-refresh" type="button" id="refreshNewsLive" aria-label="Atualizar notícias">Atualizar notícias ↻</button></div>
+  <div class="news-live-heading"><div><span class="eyebrow">MONITORAMENTO DE ACONTECIMENTOS</span><h2>Notícias de hoje</h2><p>Publicações do dia no horário de Brasília, com fonte e data. Nenhuma notícia antiga entra na seleção diária.</p></div><button class="btn news-live-refresh" type="button" id="refreshNewsLive" aria-label="Atualizar notícias">Atualizar notícias ↻</button></div>
   <div id="radarLiveNews" class="news-live-grid" aria-live="polite"><p class="news-live-status">Consultando fontes públicas…</p></div>
   <p id="radarNewsFreshness" class="radar-news-freshness" role="status">Consultando as fontes RSS…</p><p class="news-live-foot">Notícias externas não são automaticamente vinculadas a empresas ou consideradas fatos verificados pelo Observatório 360. Confirme o conteúdo na fonte original.</p>
  </section>
@@ -698,24 +698,34 @@ function panorama(moves){
  <section id="lista-verificacoes" class="jump-section" tabindex="-1" aria-label="Todas as verificações agendadas">${sect('Agenda completa','Datas previstas e ações por movimento.') }<div class="panel">${moves.filter(m=>m.proximaVerificacaoData).sort((a,b)=>a.proximaVerificacaoData.localeCompare(b.proximaVerificacaoData)).map(m=>`<div class="listitem"><span class="pill-dot"></span><div><b>${E(m.titulo)}</b><small>${E(m.proximaVerificacaoData)} · ${E(m.proximaVerificacaoMotivo||'Ação a definir')}</small></div><button type="button" class="card-link" data-open="${E(m.id)}">Abrir dossiê</button></div>`).join('')||'<div class="empty">Nenhuma verificação com data registrada para os filtros selecionados.</div>'}</div></section>`)}
 `;
 }
+// Frontend também invalida o lote quando muda o dia civil de Brasília.
+function todayBrasilia(){return new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});}
+function visibleNewsToday(){
+ const items=Array.isArray(liveNewsCache?.items)?liveNewsCache.items:[];
+ if(!liveNewsCache?.dataReferencia)return items; // compatibilidade com fixtures de QA antigas
+ const date=todayBrasilia();
+ if(liveNewsCache.dataReferencia!==date)return [];
+ return items.filter(item=>item?.publicadoEm===date);
+}
 function renderInvestmentSignals(){
  const target=document.getElementById('radarInvestmentSignals');if(!target)return;
  if(!liveNewsCache){target.innerHTML='<p class="radar-invest-status">Consultando fontes públicas…</p>';return;}
  if(liveNewsCache.error){target.innerHTML='<p class="radar-invest-status">Não foi possível consultar notícias agora. Use a aba Notícias para atualizar.</p>';return;}
  const signalFor=window.RadarInvestmentSources?.classifyTitle;
- const candidates=(liveNewsCache.items||[]).filter(x=>typeof signalFor==='function'&&signalFor(x.titulo)&&/^https:\/\/[^\s]+$/i.test(String(x.url||''))).slice(0,8);
- if(!candidates.length){target.innerHTML='<p class="radar-invest-status">Nenhuma manchete com sinais de investimento nos feeds consultados nesta leitura. Isso não significa ausência de novos projetos na região.</p>';return;}
+ const candidates=visibleNewsToday().filter(x=>typeof signalFor==='function'&&signalFor(x.titulo)&&/^https:\/\/[^\s]+$/i.test(String(x.url||''))).slice(0,8);
+ if(!candidates.length){target.innerHTML='<p class="radar-invest-status">Nenhum sinal de investimento empresarial publicado hoje nas fontes acessíveis. Verifique novamente quando houver novas publicações; notícias antigas não preenchem este painel.</p>';return;}
  target.innerHTML='<ol class="radar-invest-list">'+candidates.map(x=>'<li><span class="radar-invest-tag">'+E(signalFor(x.titulo)||'PISTA A VERIFICAR')+' · A VERIFICAR</span><a href="'+E(x.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.titulo)+'</a><small>'+E(x.fonte||'Fonte não informada')+' · '+E(x.publicadoEm||'Data não informada')+'</small></li>').join('')+'</ol>';
 }
 function officialInvestmentReading(){
  const sources=window.RadarInvestmentSources;
  if(!sources)return '<p class="radar-invest-status">Catálogo de fontes oficiais indisponível nesta versão.</p>';
  const date=new Date(sources.reviewedAt+'T12:00:00Z').toLocaleDateString('pt-BR',{timeZone:'UTC'});
- return '<p class="radar-invest-status">Seleção manual conferida em '+E(date)+'. As referências não são atualizadas pelo RSS e não constituem registros internos aprovados.</p>'
- +'<ol class="radar-invest-list radar-official-reference-list">'+sources.references.map(x=>
+ return '<details class="radar-invest-archive"><summary style="padding:13px 0;min-height:44px;cursor:pointer;font-weight:750">Consultar arquivo histórico de fontes oficiais (não são notícias de hoje)</summary>'+
+ '<p class="radar-invest-status">Seleção manual conferida em '+E(date)+'. Arquivo documental, não atualizado pelo RSS. Esses projetos não são novos sinais de hoje.</p>'+
+ '<ol class="radar-invest-list radar-official-reference-list">'+sources.references.map(x=>
  '<li><span class="radar-invest-tag">'+E(x.etapa)+' · '+E(x.territorio)+'</span>'
  +'<a href="'+E(x.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.titulo)+'</a>'
- +'<small>'+E(x.fonte)+' · Publicado em '+E(x.data)+' · '+E(x.tipo)+'</small></li>').join('')+'</ol>';
+ +'<small>'+E(x.fonte)+' · Publicado em '+E(x.data)+' · '+E(x.tipo)+'</small></li>').join('')+'</ol></details>';
 }
 function investimentos(moves){
  const projects=moves.filter(m=>m.tipo==='Investimento'||/licita|obra|investimento|moderniza|projeto/i.test(m.titulo));
@@ -725,7 +735,7 @@ function investimentos(moves){
   <div id="radarInvestmentSignals" aria-live="polite"><p class="radar-invest-status">Consultando fontes públicas…</p></div>
  </section>
  <section class="radar-invest-editorial" aria-label="Publicações oficiais selecionadas">
-  <div class="radar-section-intro"><span class="radar-section-index">02 / REFERÊNCIAS OFICIAIS</span><h2>Investimentos em fontes públicas</h2><p>Publicações de órgãos oficiais, com data e estágio declarado. A seleção é documental e datada; não representa acompanhamento automático nem comprovação de execução.</p></div>
+  <div class="radar-section-intro"><span class="radar-section-index">02 / ARQUIVO DOCUMENTAL</span><h2>Referências históricas</h2><p>Consulta opcional de documentos anteriores. Não são notícias do dia e não compõem o monitoramento atual.</p></div>
   ${officialInvestmentReading()}
  </section>
  <section class="radar-invest-editorial" aria-label="Investimentos com documentos cadastrados">
@@ -807,12 +817,12 @@ function renderCoverBrief(){
  if(!list||!status)return;
  if(!liveNewsCache){status.textContent='Consultando fontes públicas…';return;}
  if(liveNewsCache.error){status.textContent='Fontes indisponíveis nesta consulta';list.innerHTML='<li>Não foi possível atualizar os títulos.</li>';return;}
- const news=liveNewsCache.items||[],total=liveNewsCache.totais||{};
+ const news=visibleNewsToday(),total=liveNewsCache.totais||{};
  const time=liveNewsCache.consultadoEm?new Date(liveNewsCache.consultadoEm):null;
  const stamp=time&&Number.isFinite(time.getTime())?time.toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'Horário não informado';
  status.textContent=news.length+' manchete(s) · '+(total.funcionando??'?')+'/'+(total.fontes??'?')+' fontes · Consulta '+stamp;
  const items=news.filter(x=>/^https:\/\/[^\s]+$/i.test(String(x.url||''))&&String(x.titulo||'').trim()).slice(0,3);
- list.innerHTML=items.length?items.map(x=>'<li><a href="'+E(x.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.titulo)+'</a><small>'+E(x.fonte||'Fonte não informada')+' · '+E(x.publicadoEm||'Data não informada')+'</small></li>').join(''):'<li>Nenhuma manchete disponível nesta consulta.</li>';
+ list.innerHTML=items.length?items.map(x=>'<li><a href="'+E(x.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.titulo)+'</a><small>'+E(x.fonte||'Fonte não informada')+' · '+E(x.publicadoEm||'Data não informada')+'</small></li>').join(''):'<li>Sem manchetes empresariais de hoje nas fontes acessíveis.</li>';
 }
 
 function renderLiveNews(){
@@ -827,9 +837,9 @@ function renderLiveNews(){
   freshness.textContent=liveNewsCache.error?'A atualização desta consulta falhou.':('Última consulta: '+time+' · Fontes acessíveis: '+(totals.funcionando??'?')+'/'+(totals.fontes??'?')+'. Atualização sob demanda, não automática em segundo plano.');
  }
  if(liveNewsCache.error){target.innerHTML='<p class="news-live-status" role="status">'+E(liveNewsCache.error)+'</p>';return;}
- const counter=document.getElementById('radarTopNews');if(counter)counter.textContent=Array.isArray(liveNewsCache.items)?String(liveNewsCache.items.length):'—';
- const items=liveNewsCache.items||[];
- if(!items.length){target.innerHTML='<p class="news-live-status">Nenhuma matéria disponível nesta consulta. Você ainda pode explorar os indicadores abaixo.</p>';return;}
+ const items=visibleNewsToday();
+ const counter=document.getElementById('radarTopNews');if(counter)counter.textContent=String(items.length);
+ if(!items.length){target.innerHTML='<p class="news-live-status">Nenhuma notícia empresarial publicada hoje foi encontrada nas fontes acessíveis. Não exibimos manchetes antigas como se fossem atuais. Use Atualizar notícias para consultar novamente.</p>';window.RadarCompanies.showMatches([]);return;}
  target.innerHTML=items.slice(0,8).map((item,index)=>{
   const title=String(item.titulo||'').trim(),url=String(item.url||'').trim();
   if(!title||!/^https:\/\/[^\s]+$/i.test(url))return '';
@@ -850,7 +860,7 @@ async function loadLiveNews(force=false){
   const payload=await response.json().catch(()=>null);
   if(!response.ok||!payload||payload.schema!=='radar-observatorio-feed/1'||!Array.isArray(payload.items))
    throw Error('Não foi possível consultar as fontes agora. Tente atualizar.');
-  liveNewsCache={items:payload.items,totais:payload.totais||{},consultadoEm:payload.consultadoEm||""};
+  liveNewsCache={items:payload.items,totais:payload.totais||{},consultadoEm:payload.consultadoEm||"",dataReferencia:payload.dataReferencia||''};
  }catch(error){liveNewsCache={error:'Notícias temporariamente indisponíveis. Atualize para tentar novamente.'};}
  finally{liveNewsPending=false;const button=document.getElementById('refreshNewsLive');if(button)button.disabled=false;renderLiveNews();}
 }
