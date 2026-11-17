@@ -140,9 +140,53 @@ async function requestFeed(feed,fetcher){const controller=new AbortController();
  }throw Error('Redirecionamento excessivo')}
  finally{clearTimeout(id)}
 }
-async function collect(fetcher=fetch){let results=await Promise.all([...FEEDS,...GOOGLE_FEEDS].map(async feed=>{try{const items=feed.kind==='google'?await requestGoogleNews(feed,fetcher):feed.kind==='json'?await requestOfficialBndes(feed,fetcher):await requestFeed(feed,fetcher);return {feed,items,publicacoesLidas:items.publicacoesLidas??items.length,status:'ok',error:''}}catch(e){return {feed,items:[],publicacoesLidas:0,status:'erro',error:String(e.message||e).slice(0,140)}}}));const seen=new Set();const items=[];for(const result of results){for(const x of result.items){if(seen.has(x.url)||!isBusinessNewsToday(x))continue;seen.add(x.url);items.push(x)}}items.sort((a,b)=>(b.publicadoEm||'').localeCompare(a.publicadoEm||''));const limited=items.slice(0,70);
- return {schema:'radar-observatorio-feed/1',consultadoEm:new Date().toISOString(),dataReferencia:businessDate(new Date()),criterio:'Somente publicações do dia em America/Sao_Paulo e com indicação de data',items:limited,totais:{fontes:results.length,funcionando:results.filter(x=>x.status==='ok').length,comFalha:results.filter(x=>x.status!=='ok').length,publicacoesLidas:results.reduce((n,x)=>n+x.publicacoesLidas,0),elegiveisPeloTema:results.reduce((n,x)=>n+x.items.length,0),candidatos:limited.length},fontes:results.map(x=>({id:x.feed.id,nome:x.feed.nome,url:x.feed.url,status:x.status,publicacoesLidas:x.publicacoesLidas,elegiveisPeloTema:x.items.length,publicadasHoje:x.items.filter(item=>isBusinessNewsToday(item)).length,selecionadas:x.items.length,erro:x.error})),aviso:'Fontes acessíveis não garantem notícias elegíveis. Somente publicações datadas de hoje no horário de Brasília e classificadas pelo título são exibidas. Nenhum fato ou vínculo empresarial foi confirmado documentalmente.'};}
+// Separa boletim do DIA de radar comercial de SETE dias sem falsear atualidade.
+function withinPreviousDays(date,now=new Date(),days=7){
+ if(typeof date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(date))return false;
+ const asUTC=s=>Date.parse(s+'T00:00:00Z');
+ const today=asUTC(businessDate(now)),published=asUTC(date);
+ const gap=Math.round((today-published)/86400000);
+ return Number.isFinite(gap)&&gap>=0&&gap<days;
+}
+async function collect(fetcher=fetch){
+ const results=await Promise.all([...FEEDS,...GOOGLE_FEEDS].map(async feed=>{
+  try{
+   const items=feed.kind==='google'?await requestGoogleNews(feed,fetcher):feed.kind==='json'?await requestOfficialBndes(feed,fetcher):await requestFeed(feed,fetcher);
+   return {feed,items,publicacoesLidas:items.publicacoesLidas??items.length,status:'ok',error:''};
+  }catch(e){return {feed,items:[],publicacoesLidas:0,status:'erro',error:String(e.message||e).slice(0,140)}}
+ }));
+ const now=new Date(),today=businessDate(now),seen=new Set(),all=[];
+ for(const result of results){
+  for(const item of result.items){
+   if(!item||!safeUrl(item.url)||seen.has(item.url)||!withinPreviousDays(item.publicadoEm,now,7))continue;
+   seen.add(item.url);all.push(item);
+  }
+ }
+ all.sort((a,b)=>(b.publicadoEm||'').localeCompare(a.publicadoEm||'')||a.titulo.localeCompare(b.titulo,'pt-BR'));
+ const items=all.filter(x=>x.publicadoEm===today).slice(0,70);
+ const radar7d=all.slice(0,100);
+ return {
+  schema:'radar-observatorio-feed/1',consultadoEm:now.toISOString(),dataReferencia:today,
+  criterio:'Boletim somente do dia no horário de Brasília; radar dos últimos 7 dias identificado por data original',
+  items,radar7d,
+  totais:{
+   fontes:results.length,funcionando:results.filter(x=>x.status==='ok').length,
+   comFalha:results.filter(x=>x.status!=='ok').length,
+   publicacoesLidas:results.reduce((n,x)=>n+x.publicacoesLidas,0),
+   elegiveisPeloTema:results.reduce((n,x)=>n+x.items.length,0),
+   candidatos:items.length,radar7d:radar7d.length
+  },
+  fontes:results.map(x=>({
+   id:x.feed.id,nome:x.feed.nome,url:x.feed.url,status:x.status,
+   publicacoesLidas:x.publicacoesLidas,
+   elegiveisPeloTema:x.items.length,
+   publicadasHoje:x.items.filter(item=>isBusinessNewsToday(item)).length,
+   selecionadas:x.items.length,erro:x.error
+  })),
+  aviso:'A triagem depende do recorte e da disponibilidade das fontes. Fatos, vínculos empresariais e oportunidades exigem conferência documental.'
+ };
+}
 async function handler(req,res){res.setHeader('Cache-Control','private, no-store');res.setHeader('X-Content-Type-Options','nosniff');if(req.method!=='GET'){res.setHeader('Allow','GET');res.status(405).json({erro:'Método não permitido'});return}
  try{const result=await collect();res.status(result.totais.funcionando?200:503).json(result)}catch(e){res.status(502).json({erro:'Falha na coleta de fontes',mensagem:String(e.message||e).slice(0,160)})}}
 module.exports=handler;
-module.exports._test={collect,parseFeed,parseOfficialBndes,requestFeed,requestOfficialBndes,requestGoogleNews,classify,safeUrl,unescapeXML,FEEDS,GOOGLE_FEED,GOOGLE_FEEDS,businessDate,isBusinessNewsToday};
+module.exports._test={collect,parseFeed,parseOfficialBndes,requestFeed,requestOfficialBndes,requestGoogleNews,classify,safeUrl,unescapeXML,FEEDS,GOOGLE_FEED,GOOGLE_FEEDS,businessDate,isBusinessNewsToday,withinPreviousDays};
