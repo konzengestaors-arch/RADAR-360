@@ -5,7 +5,7 @@
 const KEY='radar_empresas_publicas_nome_cnpj_v1',MAX_BYTES=1024*1024,MAX_ROWS=500;
 const normalize=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').replace(/\s+/g,' ').trim();
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let entries=[],stateMessage='Consultando o catálogo de empresas…',onUpdate=null,source='none',latestNews=[];
+let entries=[],stateMessage='Verificando autenticação privada…',onUpdate=null,source='none',latestNews=[],sessionState='checking';
 function notifyStatus(){if(typeof onUpdate==='function')onUpdate()}
 function setStatus(message){stateMessage=message;notifyStatus()}
 
@@ -50,8 +50,17 @@ async function loadPrivateStagingCatalog(){
  // O catálogo de QA vem exclusivamente do backend autenticado na Vercel.
  // Uma lista antiga no localStorage NÃO é enviada nem apagada, mas não pode
  // sobrepor silenciosamente as 217 empresas canônicas nesta prévia.
- entries=[];source='none';setStatus('Consultando catálogo privado de 217 empresas…');
+ entries=[];source='none';setStatus('Verificando sessão privada…');
  try{
+  const sessionResponse=await fetch('/api/sessao',{cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'}});
+  if(!sessionResponse.ok)throw Error('Serviço de sessão indisponível (HTTP '+sessionResponse.status+')');
+  const session=await sessionResponse.json();
+  if(session.authenticated!==true){
+   sessionState='closed';
+   setStatus('Catálogo privado bloqueado. Entre com a proteção Vercel e inicie a sessão para consultar as 217 empresas.');
+   return;
+  }
+  sessionState='open';setStatus('Consultando catálogo privado de 217 empresas…');
   const response=await fetch('/api/empresas',{cache:'no-store',credentials:'same-origin',headers:{Accept:'application/json'}});
   if(!response.ok)throw Error(response.status===401||response.status===403?'Acesso não autorizado (SSO necessário)':'Serviço indisponível (HTTP '+response.status+')');
   const payload=await response.json();
@@ -67,7 +76,32 @@ async function loadPrivateStagingCatalog(){
      throw Error('Indicadores de integridade não correspondem à base homologada');
   entries=checked;source='staging';
   setStatus('Base privada: 217 empresas reais carregadas via sessão HTTPS protegida. 96 CNPJs informados, 121 ausentes, 8 registros em conferência. Dígitos de CNPJ não equivalem a consulta oficial.');
- }catch(e){entries=[];source='none';setStatus('Não foi possível acessar o catálogo privado. Os dados não foram substituídos por conteúdo fictício. '+String(e.message||e).slice(0,130));}
+ }catch(e){entries=[];source='none';sessionState='error';setStatus('Não foi possível acessar o catálogo privado. Os dados não foram substituídos por conteúdo fictício. '+String(e.message||e).slice(0,130));}
+}
+async function beginPrivateSession(){
+ if(sessionState==='busy')return;
+ sessionState='busy';setStatus('Iniciando sessão privada…');
+ try{
+  const r=await fetch('/api/sessao',{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json'},body:'{}'});
+  if(!r.ok)throw Error('HTTP '+r.status);
+  const v=await r.json();
+  if(v.authenticated!==true)throw Error('Sessão não confirmada');
+  await loadPrivateStagingCatalog();
+  showMatches(latestNews);
+ }catch(e){sessionState='error';entries=[];source='none';setStatus('Não foi possível iniciar a sessão privada. '+String(e.message||e).slice(0,80));}
+}
+async function endPrivateSession(){
+ if(sessionState==='busy')return;
+ sessionState='busy';setStatus('Revogando sessão privada…');
+ try{
+  const r=await fetch('/api/sessao',{method:'DELETE',credentials:'same-origin',cache:'no-store'});
+  if(!r.ok)throw Error('HTTP '+r.status);
+  const v=await r.json();
+  if(v.authenticated!==false)throw Error('Revogação não confirmada');
+  sessionState='closed';entries=[];source='none';latestNews=[];
+  setStatus('Sessão encerrada no servidor. Empresas e dossiês bloqueados até um novo login.');
+  showMatches([]);
+ }catch(e){sessionState='error';entries=[];source='none';setStatus('Não foi possível confirmar a revogação. '+String(e.message||e).slice(0,80));}
 }
 async function importFile(file){
  if(!file)return;
@@ -167,6 +201,10 @@ function panel(){
  const riskyNames=identityReview();
  const pending=entries.filter(row=>riskyNames.has(normalize(row.nome))).length;
  return '<section class="radar-company-panel" aria-label="Empresas monitoradas" data-catalog-source="'+source+'">'+
+ '<div class="radar-private-session" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:12px 14px;margin:6px 0 15px;border:1px solid #cbdfe0;border-radius:12px;background:#f6fbfb">'+
+ (sessionState==='open'?'<span style="color:#087e69;font-weight:750">Sessão privada ativa</span><button type="button" id="obs360EndSession" style="min-height:44px;padding:10px 14px;border-radius:9px">Encerrar sessão</button>':
+ '<span style="color:#57717c">Catálogo protegido · Vercel SSO + sessão privada</span><button type="button" id="obs360BeginSession" style="min-height:44px;padding:10px 14px;border-radius:9px">Iniciar sessão privada</button>')+
+ '</div>'+
  '<div class="radar-company-heading"><div><span class="eyebrow">INTELIGÊNCIA EMPRESARIAL</span><h2>Empresas monitoradas <span class="radar-company-count">'+entries.length+'</span></h2><p>Nomes de empresas e CNPJs, associados a menções em notícias públicas.</p></div></div>'+
  '<div class="radar-company-actions">'+
  '<span class="radar-company-meta">'+(entries.length?filled+' registros com CNPJ informado · '+pending+' registro(s) em conferência de identidade.':'Sem dados privados disponíveis nesta sessão. Acesso exige autenticação na Vercel.')+'</span></div>'+
@@ -225,11 +263,12 @@ function openDossier(index){
  else dialog.setAttribute('open','');
 }
 
-load();
 loadPrivateStagingCatalog();
 document.addEventListener('input',e=>{if(e.target?.id==='radarCompanySearch'){directoryQuery=e.target.value;updateDirectory();}});
 document.addEventListener('change',e=>{if(e.target?.id==='radarCompanyFile'){const file=e.target.files?.[0];importFile(file);e.target.value='';}});
 document.addEventListener('click',e=>{
+ if(e.target?.closest?.('#obs360BeginSession')){e.preventDefault();void beginPrivateSession();return;}
+ if(e.target?.closest?.('#obs360EndSession')){e.preventDefault();void endPrivateSession();return;}
  const trigger=e.target?.closest?.('[data-obs-company-index]');
  if(trigger){openDossier(trigger.getAttribute('data-obs-company-index'));return;}
  if(e.target?.closest?.('#radarCloseDossier')){
