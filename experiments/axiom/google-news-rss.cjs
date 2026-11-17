@@ -1,9 +1,10 @@
 'use strict';
 // Isolated Google News RSS adapter: no network calls, private catalog, or production writes.
 const MAX_XML_BYTES=256*1024;
-function buildGoogleNewsUrl(term){
+function buildGoogleNewsUrl(term,periodDays=7){
  if(typeof term!=='string'||term.trim().length<2||term.length>120)throw Error('invalid_query');
- const q='"'+term.trim().replace(/["<>]/g,'')+'" when:7d';
+ if(![1,7].includes(periodDays))throw Error('invalid_period');
+ const q='"'+term.trim().replace(/["<>]/g,'')+'" when:'+periodDays+'d';
  return 'https://news.google.com/rss/search?q='+encodeURIComponent(q)+'&hl=pt-BR&gl=BR&ceid=BR:pt-419';
 }
 function decodeEntities(s){return s.replace(/&(?:amp|lt|gt|quot|apos|#(\d+));/g,(m,n)=>n?String.fromCodePoint(Math.min(Number(n),0x10ffff)):({'&amp;':'&','&lt;':'<','&gt;':'>','&quot;':'"','&apos;':"'"}[m]||m));}
