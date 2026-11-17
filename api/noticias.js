@@ -1,13 +1,13 @@
 /* RADAR Observatório v1.9 — coletor RSS sob demanda. Sem dados privados, sem cron,
    sem scraping de páginas HTML e sem URLs fornecidas pelo cliente. */
 const {buildGoogleNewsUrl,parseGoogleNewsRss}=require('../experiments/axiom/google-news-rss.cjs');
-const GOOGLE_FEED={id:'google-news-economia',nome:'Google Notícias · Economia e investimentos',url:buildGoogleNewsUrl('Rio Grande do Sul'),area:'Brasil',kind:'google'};
+const GOOGLE_FEED={id:'google-news-economia',nome:'Google Notícias · Economia e investimentos',url:buildGoogleNewsUrl('Rio Grande do Sul',1),area:'Brasil',kind:'google'};
 /* Ampliação geográfica de fontes PÚBLICAS: nunca enviar empresas do catálogo
    privado a mecanismos de busca externos. Três buscas gratuitas, regionais. */
 const GOOGLE_FEEDS=Object.freeze([
  GOOGLE_FEED,
- {id:'google-news-canoas',nome:'Google Notícias · Canoas e Região Metropolitana',url:buildGoogleNewsUrl('Canoas'),area:'RS',kind:'google'},
- {id:'google-news-chapeco',nome:'Google Notícias · Chapecó e Oeste SC',url:buildGoogleNewsUrl('Chapecó'),area:'SC',kind:'google'}
+ {id:'google-news-canoas',nome:'Google Notícias · Canoas e Região Metropolitana',url:buildGoogleNewsUrl('Canoas',1),area:'RS',kind:'google'},
+ {id:'google-news-chapeco',nome:'Google Notícias · Chapecó e Oeste SC',url:buildGoogleNewsUrl('Chapecó',1),area:'SC',kind:'google'}
 ]);
 async function requestGoogleNews(feed,fetcher){
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),7000);
