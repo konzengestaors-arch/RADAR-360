@@ -133,3 +133,48 @@ test('falha da API de empresas não informa catálogo vazio por engano',async({p
  await expect(page.locator('#radarTopCompanies')).toHaveText('🔒');
  await expect(page.locator('.radar-manual-records')).toBeVisible();
 });
+
+test('radar de sete dias abre dossiê somente para menção exata sem conflito em sessão privada',async({page})=>{
+ await mock(page);
+ const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+ const ago=new Date(Date.parse(today+'T12:00:00Z')-3*86400000).toISOString().slice(0,10);
+ const older=[
+  {titulo:'Empresa Fictícia Número 011 anuncia expansão de fábrica',url:'https://example.org/fabrica/011',fonte:'Fonte editorial de teste',publicadoEm:ago},
+  {titulo:'Empresa Fictícia Número 003 anuncia expansão de fábrica',url:'https://example.org/fabrica/003',fonte:'Fonte editorial de teste',publicadoEm:ago},
+  {titulo:'Dólar fecha em alta no mercado financeiro',url:'https://example.org/cambio',fonte:'Economia fictícia',publicadoEm:ago}
+ ];
+ await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+  schema:'radar-observatorio-feed/1',dataReferencia:today,consultadoEm:new Date().toISOString(),
+  items:[],radar7d:older,totais:{fontes:8,funcionando:8,publicacoesLidas:130,candidatos:0,radar7d:3}
+ })}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.radar-company-count')).toHaveText('217');
+ const panel=page.locator('.radar-seven-day');
+ await expect(panel.locator('.radar-seven-day-card')).toHaveCount(2);
+ await expect(panel).toContainText('Publicado em '+ago);
+ await expect(panel).not.toContainText('Dólar fecha');
+ await expect(panel.locator('[data-radar-dossier]')).toHaveCount(1);
+ await expect(panel).toContainText('Pergunta de seguros:');
+ await panel.locator('[data-radar-dossier]').click();
+ const dialog=page.locator('#radarCompanyDossier');
+ await expect(dialog).toBeVisible();
+ await expect(dialog).toContainText('Empresa Fictícia Número 011');
+ await expect(dialog).toContainText('expansão de fábrica');
+ await expect(dialog.locator('a[href="https://example.org/fabrica/011"]')).toHaveCount(1);
+});
+test('radar de sete dias não abre dossiês quando o catálogo privado está bloqueado',async({page})=>{
+ await page.route('**/api/sessao',r=>r.fulfill({status:200,contentType:'application/json',body:'{"authenticated":false}'}));
+ await page.route('**/api/empresas',r=>{throw Error('API privada não deveria ser consultada')});
+ const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+ const older=new Date(Date.parse(today+'T12:00:00Z')-2*86400000).toISOString().slice(0,10);
+ await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+  schema:'radar-observatorio-feed/1',dataReferencia:today,consultadoEm:new Date().toISOString(),
+  items:[],radar7d:[{titulo:'Empresa Fictícia Número 011 anuncia nova fábrica',url:'https://example.org/empresa',fonte:'Fonte de teste',publicadoEm:older}],
+  totais:{fontes:8,funcionando:8,candidatos:0,radar7d:1}
+ })}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('#obs360BeginSession')).toBeVisible();
+ await expect(page.locator('.radar-seven-day-card')).toHaveCount(1);
+ await expect(page.locator('[data-radar-dossier]')).toHaveCount(0);
+ await expect(page.locator('#radarCompanyDossier')).toHaveCount(0);
+});
