@@ -45,6 +45,8 @@ const references=Object.freeze([
 const normalize=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 function classifyTitle(title){
  const t=normalize(title);
+ // Atendimento humanitário, benefícios e suspensão de dívidas não são CAPEX nem oportunidade.
+ if(/\b(fgts|saqu\w*|sacar|familias? atingidas?|moradores? atingidos?|vitimas?|auxilio\w*|beneficios? sociais?|seguro.desemprego|bolsa familia|moradia|financiamento habitacional|suspender financiamentos|credito consignado)\b/i.test(t))return null;
  // Apenas pistas no título, não confirmação de investimento ou execução.
  if(/\b(investiment\w*|ampli\w*|expans\w*|nova[s]? fabric\w*|novas? unidades?|inaugur\w*|implant\w*|moderniz\w*|construc\w*|obras?|licitac\w*|concess\w*|projetos? (de|para) (infraestrutura|energia|industria|logistica))\b/i.test(t))return 'Sinal em manchete';
  if(/\b(financiam\w*|aporte\w*|credito para|linha de credito)\b/i.test(t))return 'Financiamento mencionado';
