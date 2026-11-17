@@ -66,7 +66,7 @@ test('fonte JSON BNDES inválida é recusada e não causa importação silencios
 });
 
 test('falha na fonte BNDES não derruba feeds RSS independentes', async () => {
-  const xml='<rss><channel><item><title>Investimento industrial em Porto Alegre</title><link>https://example.org/rss-good</link><pubDate>Sat, 07 Nov 2026 09:00:00 GMT</pubDate></item></channel></rss>';
+  const xml='<rss><channel><item><title>Investimento industrial em Porto Alegre</title><link>https://example.org/rss-good</link><pubDate>'+new Date().toUTCString()+'</pubDate></item></channel></rss>';
   const fakeResponse={ok:true,status:200,headers:{get:()=> 'application/rss+xml'},text:async()=>xml};
   const batch=await rss.collect(async url=>{
     if(url.includes('bndes.gov.br'))throw new Error('JSON indisponível');
@@ -106,4 +106,39 @@ test('RSS BRDE indisponível não impede outras quatro fontes',async()=>{
  assert.equal(result.totais.funcionando,4);
  assert.equal(result.totais.comFalha,2);
  assert.equal(result.fontes.find(x=>x.id==='brde-regional').status,'erro');
+});
+
+
+test('sinal humanitário de FGTS não é investimento empresarial',()=>{
+ const feed={area:'SC'};
+ assert.equal(rss.classify(feed,'Atingidos por tornado em Chapecó podem sacar R$ 6,6 mil do FGTS e suspender financiamentos'),null);
+ assert.equal(rss.classify(feed,'Famílias atingidas por chuvas recebem auxílio emergencial em Chapecó'),null);
+ assert.ok(rss.classify(feed,'Empresa anuncia expansão de fábrica industrial em Chapecó'));
+});
+test('data civil de Brasília corrige publicações após 21h, quando já é outro dia em UTC',()=>{
+ assert.equal(rss.businessDate('2026-11-17T01:28:00Z'),'2026-11-16');
+ assert.equal(rss.businessDate('2026-11-17T03:01:00Z'),'2026-11-17');
+ assert.equal(rss.isBusinessNewsToday({publicadoEm:'2026-11-16'},new Date('2026-11-17T01:28:00Z')),true);
+ assert.equal(rss.isBusinessNewsToday({publicadoEm:'2026-11-06'},new Date('2026-11-17T01:28:00Z')),false);
+ assert.equal(rss.isBusinessNewsToday({publicadoEm:''},new Date('2026-11-17T01:28:00Z')),false);
+});
+test('coletor diário recusa notícias antigas, sem data e financiamento humanitário',async()=>{
+ const now=new Date();
+ const today=now.toUTCString();
+ const old=new Date(now.getTime()-86400000*3).toUTCString();
+ const rssXml='<rss><channel>'+
+  '<item><title>Empresa anuncia nova fábrica industrial em Porto Alegre</title><link>https://example.org/hoje</link><pubDate>'+today+'</pubDate></item>'+
+  '<item><title>Empresa anuncia nova fábrica industrial em Porto Alegre</title><link>https://example.org/antiga</link><pubDate>'+old+'</pubDate></item>'+
+  '<item><title>Empresa anuncia nova fábrica industrial em Porto Alegre</title><link>https://example.org/sem-data</link></item>'+
+  '<item><title>Atingidos por tornado em Chapecó podem sacar FGTS e suspender financiamentos</title><link>https://example.org/fgts</link><pubDate>'+today+'</pubDate></item>'+
+  '</channel></rss>';
+ const result=await rss.collect(async(url)=>{
+  if(url.includes('news.google.com'))throw Error('Feed Google não disponível');
+  if(url.includes('bndes.gov.br'))return new Response('[]',{headers:{'Content-Type':'application/json'}});
+  return new Response(rssXml,{headers:{'Content-Type':'application/rss+xml'}});
+ });
+ assert.equal(result.dataReferencia,rss.businessDate(new Date()));
+ assert.equal(result.items.length,1);
+ assert.equal(result.items[0].url,'https://example.org/hoje');
+ assert.equal(result.items[0].publicadoEm,result.dataReferencia);
 });
