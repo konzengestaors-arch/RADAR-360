@@ -186,7 +186,7 @@ test('Google Notícias usa consultas públicas separadas para RS, Canoas e Chape
  for(const feed of sources){
   const u=new URL(feed.url),term=u.searchParams.get('q');
   assert.equal(u.hostname,'news.google.com');
-  assert.match(term,/when:7d/);
+  assert.match(term,/when:1d/);
   assert.ok(!/cnpj|empresa ficticia|empresa local|\d{14}/i.test(term));
  }
 });
