@@ -76,7 +76,7 @@ test('sem notícias de hoje, não recicla manchetes históricas',async({page})=>
  await page.route('**/api/noticias',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(feed)}));
  await page.goto('/demo/observatorio.html');
  await expect(page.locator('.news-live-card')).toHaveCount(0);
- await expect(page.locator('#radarLiveNews')).toContainText('Nenhuma notícia empresarial publicada hoje');
+ await expect(page.locator('#radarLiveNews')).toContainText('Nenhuma publicação de hoje passou pelos filtros');
  await page.locator('.nav [data-nav="investimentos"]').click();
  await expect(page.locator('#radarInvestmentSignals')).toContainText('Nenhum sinal de investimento empresarial publicado hoje');
 });
@@ -126,4 +126,22 @@ test('somente câmbio e inflação não simulam oportunidades ou vínculos com e
  await expect(page.locator('#radarCoverTopics')).toContainText('Nenhum movimento empresarial identificado');
  await expect(page.locator('#radarCoverMacro li')).toHaveCount(2);
  await expect(page.locator('.news-live-card')).toHaveCount(2);
+});
+
+test('mostra manchete realista de CBS do dia como contexto e explica funil da coleta',async({page})=>{
+ const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+ const title='Durigan explica no Senado alíquota de 11,3% da CBS';
+ await page.route('**/api/noticias',route=>route.fulfill({
+  status:200,contentType:'application/json',body:JSON.stringify({
+   schema:'radar-observatorio-feed/1',consultadoEm:new Date().toISOString(),dataReferencia:today,
+   totais:{fontes:6,funcionando:6,comFalha:0,publicacoesLidas:83,elegiveisPeloTema:1,candidatos:1},
+   items:[{titulo:title,url:'https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/durigan-explica-no-senado-aliquota-de-113-da-cbs',
+    fonte:'Agência Brasil · Economia',publicadoEm:today,territorio:'',setor:'Contexto econômico nacional'}]
+  })}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('#radarLiveNews')).toContainText(title);
+ await expect(page.locator('#radarNewsFreshness')).toContainText('Publicações recebidas: 83');
+ await expect(page.locator('#radarNewsFreshness')).toContainText('Publicadas hoje após filtros: 1');
+ await expect(page.locator('#radarCoverMacro')).toContainText(title);
+ await expect(page.locator('#radarCoverTopics')).toContainText('Sem sinais empresariais');
 });
