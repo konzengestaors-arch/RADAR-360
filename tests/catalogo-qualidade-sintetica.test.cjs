@@ -15,6 +15,7 @@ function boot({local=null,remote=null,fail=false}={}){
   fetch:async url=>{
    requests.push(url);
    if(fail)throw Error('rede indisponível');
+   if(url==='/api/sessao')return {ok:true,json:async()=>({authenticated:true})};
    return {ok:true,json:async()=>remote};
   },
   console
@@ -34,7 +35,7 @@ test('catálogo de 217 somente por API HTTPS, sem persistir no navegador',async(
  assert.equal(app.api.read().length,217);
  assert.equal(app.api.panel().includes('217 empresas reais'),true);
  assert.equal(app.data.has(localKey),false);
- assert.deepEqual(app.requests,['/api/empresas']);
+ assert.deepEqual(app.requests,['/api/sessao','/api/empresas']);
 });
 test('lista antiga local preservada, mas a base canônica tem prioridade na sessão',async()=>{
  const local=[{nome:'Empresa Local Ficticia',cnpj:''}];
