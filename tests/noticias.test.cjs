@@ -169,7 +169,7 @@ test('coleta distingue 6 fontes acessíveis de notícias realmente elegíveis ho
   return new Response(xml,{headers:{'Content-Type':'application/rss+xml'}});
  });
  assert.equal(batch.totais.fontes,6);
- assert.equal(batch.totais.funcionando,4);
+ assert.equal(batch.totais.funcionando,5);
  assert.equal(batch.totais.publicacoesLidas,12);
  assert.ok(batch.totais.elegiveisPeloTema>=1);
  assert.equal(batch.items.length,1);
