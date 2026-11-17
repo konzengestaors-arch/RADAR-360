@@ -18,7 +18,7 @@ async function requestGoogleNews(feed,fetcher){
   const parsed=parseGoogleNewsRss(xml);const selected=[];
   for(const item of parsed){if(!item.publishedAt)continue;const classification=classify(feed,item.title);if(!classification)continue;
    const url=safeUrl(item.link);if(!url||new URL(url).hostname!=='news.google.com')continue;
-   selected.push({titulo:item.title.slice(0,260),url,publicadoEm:item.publishedAt.slice(0,10),fonte:feed.nome,territorio:classification.territorio,setor:classification.setor,resumo:'Sugestão do Google Notícias baseada em título e metadados RSS; não verificada documentalmente. Consulte a publicação original antes de associar a uma empresa.'});
+   selected.push({titulo:item.title.slice(0,260),url,publicadoEm:businessDate(item.publishedAt),fonte:feed.nome,territorio:classification.territorio,setor:classification.setor,resumo:'Sugestão do Google Notícias baseada em título e metadados RSS; não verificada documentalmente. Consulte a publicação original antes de associar a uma empresa.'});
   }
   return selected;
  }finally{clearTimeout(timer)}
@@ -40,7 +40,19 @@ const NATIONAL=/\b(pib|infla[cç][aã]o|selic|juros?|d[oó]lar|c[aâ]mbio|banco 
 const unescapeXML=(value)=>String(value||'').replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g,'$1').replace(/<[^>]*>/g,' ').replace(/&(amp|lt|gt|quot|apos|nbsp);|&#(x[0-9a-f]+|\d+);/gi,(s,n,num)=>{if(num){const k=num[0].toLowerCase()==='x'?parseInt(num.slice(1),16):parseInt(num,10);return k>31&&k<0x110000?String.fromCodePoint(k):' '}return {amp:'&',lt:'<',gt:'>',quot:'"',apos:"'",nbsp:' '}[n?.toLowerCase()]||s}).replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();
 function tag(xml,t){let m=xml.match(new RegExp('<(?:[a-z0-9_-]+:)?'+t+'(?:\\s[^>]*)?>([\\s\\S]*?)<\\/(?:[a-z0-9_-]+:)?'+t+'>','i'));return unescapeXML(m?.[1]||'')}
 function safeUrl(s){try{const u=new URL(s);if(u.protocol!=='https:'||u.username||u.password)return '';u.hash='';for(const key of [...u.searchParams.keys()])if(/^utm_|^(fbclid|gclid|igshid|mc_cid|mc_eid)$/i.test(key))u.searchParams.delete(key);return u.toString()}catch{return ''}}
+// O boletim diário usa a data civil brasileira, não a data UTC do servidor.
+function businessDate(value){
+ const date=new Date(value);
+ if(!Number.isFinite(date.getTime()))return '';
+ const p=Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(date).map(x=>[x.type,x.value]));
+ return p.year+'-'+p.month+'-'+p.day;
+}
+function isBusinessNewsToday(item,now=new Date()){
+ return !!item && item.publicadoEm===businessDate(now);
+}
 function classify(feed,text){text=String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ // Auxílio às famílias e financiamento habitacional não são investimento empresarial.
+ if(/\b(fgts|saqu\w*|sacar|suspender financiamentos|familias? atingidas?|moradores? atingidos?|vitimas?|auxilio\w*|beneficios? sociais?|seguro.desemprego|bolsa familia|moradia|financiamento habitacional|credito consignado)\b/i.test(text))return null;
  if(/\b(previsao do tempo|previsao meteorologica|horoscopo|lot[eé]ria|sorteio)\b/i.test(text))return null;
  if(/\b(ex-zagueiro|ex-jogador|futebol|jogador|pris[aã]o|preso|presos|policial|policia|pensao alimenticia|perseguicao policial|abordagem policial)\b/i.test(text))return null;
  // Não interpretar a cidade Porto Alegre como porto marítimo.
@@ -60,7 +72,7 @@ function parseFeed(feed,xml){if(!/<(?:rss|rdf:RDF|feed)\b/i.test(xml))throw Erro
   if(!titulo||!link)continue;
   const description=tag(chunk,'description')||tag(chunk,'summary')||'';
   const classification=classify(feed,titulo);if(!classification)continue;
-  const rawDate=tag(chunk,'pubDate')||tag(chunk,'published')||tag(chunk,'updated')||'';let date='';if(rawDate){const t=Date.parse(rawDate);if(Number.isFinite(t)&&t<=Date.now()+86400000)date=new Date(t).toISOString().slice(0,10)}
+  const rawDate=tag(chunk,'pubDate')||tag(chunk,'published')||tag(chunk,'updated')||'';let date='';if(rawDate){const t=Date.parse(rawDate);if(Number.isFinite(t)&&t<=Date.now()+86400000)date=businessDate(t)}
   list.push({titulo,url:link,publicadoEm:date,fonte:feed.nome,territorio:classification.territorio,setor:classification.setor,resumo:'Sugestão coletada do feed público. Leia a fonte original antes de vincular ou registrar qualquer avanço.'});
   if(list.length>=25)break;
 }return list}
@@ -79,7 +91,7 @@ function parseOfficialBndes(feed,body){
   if(!classification)continue;
   const timestamp=Number(entry.data);
   const published=Number.isFinite(timestamp)&&timestamp>946684800000&&timestamp<=Date.now()+86400000
-    ?new Date(timestamp).toISOString().slice(0,10):'';
+    ?businessDate(timestamp):'';
   list.push({titulo,url,publicadoEm:published,fonte:feed.nome,territorio:classification.territorio,
     setor:classification.setor,resumo:'Comunicado oficial consultado. Uma aprovação ou anúncio não prova execução ou conclusão; consulte os documentos originais.'});
   seen.add(url);
@@ -119,9 +131,9 @@ async function requestFeed(feed,fetcher){const controller=new AbortController();
  }throw Error('Redirecionamento excessivo')}
  finally{clearTimeout(id)}
 }
-async function collect(fetcher=fetch){let results=await Promise.all([...FEEDS,GOOGLE_FEED].map(async feed=>{try{const items=feed.id===GOOGLE_FEED.id?await requestGoogleNews(feed,fetcher):feed.kind==='json'?await requestOfficialBndes(feed,fetcher):await requestFeed(feed,fetcher);return {feed,items,status:'ok',error:''}}catch(e){return {feed,items:[],status:'erro',error:String(e.message||e).slice(0,140)}}}));const seen=new Set();const items=[];for(const result of results){for(const x of result.items){if(seen.has(x.url))continue;seen.add(x.url);items.push(x)}}items.sort((a,b)=>(b.publicadoEm||'').localeCompare(a.publicadoEm||''));const limited=items.slice(0,70);
- return {schema:'radar-observatorio-feed/1',consultadoEm:new Date().toISOString(),items:limited,totais:{fontes:results.length,funcionando:results.filter(x=>x.status==='ok').length,comFalha:results.filter(x=>x.status!=='ok').length,candidatos:limited.length},fontes:results.map(x=>({id:x.feed.id,nome:x.feed.nome,url:x.feed.url,status:x.status,selecionadas:x.items.length,erro:x.error})),aviso:'Sugestões automáticas baseadas em títulos e metadados RSS; nenhuma foi verificada documentalmente.'};}
+async function collect(fetcher=fetch){let results=await Promise.all([...FEEDS,GOOGLE_FEED].map(async feed=>{try{const items=feed.id===GOOGLE_FEED.id?await requestGoogleNews(feed,fetcher):feed.kind==='json'?await requestOfficialBndes(feed,fetcher):await requestFeed(feed,fetcher);return {feed,items,status:'ok',error:''}}catch(e){return {feed,items:[],status:'erro',error:String(e.message||e).slice(0,140)}}}));const seen=new Set();const items=[];for(const result of results){for(const x of result.items){if(seen.has(x.url)||!isBusinessNewsToday(x))continue;seen.add(x.url);items.push(x)}}items.sort((a,b)=>(b.publicadoEm||'').localeCompare(a.publicadoEm||''));const limited=items.slice(0,70);
+ return {schema:'radar-observatorio-feed/1',consultadoEm:new Date().toISOString(),dataReferencia:businessDate(new Date()),criterio:'Somente publicações do dia em America/Sao_Paulo e com indicação de data',items:limited,totais:{fontes:results.length,funcionando:results.filter(x=>x.status==='ok').length,comFalha:results.filter(x=>x.status!=='ok').length,candidatos:limited.length},fontes:results.map(x=>({id:x.feed.id,nome:x.feed.nome,url:x.feed.url,status:x.status,selecionadas:x.items.length,erro:x.error})),aviso:'Notícias publicadas hoje no horário de Brasília, com classificação por título. Nenhum fato ou vínculo empresarial foi confirmado documentalmente.'};}
 async function handler(req,res){res.setHeader('Cache-Control','private, no-store');res.setHeader('X-Content-Type-Options','nosniff');if(req.method!=='GET'){res.setHeader('Allow','GET');res.status(405).json({erro:'Método não permitido'});return}
  try{const result=await collect();res.status(result.totais.funcionando?200:503).json(result)}catch(e){res.status(502).json({erro:'Falha na coleta de fontes',mensagem:String(e.message||e).slice(0,160)})}}
 module.exports=handler;
-module.exports._test={collect,parseFeed,parseOfficialBndes,requestFeed,requestOfficialBndes,requestGoogleNews,classify,safeUrl,unescapeXML,FEEDS,GOOGLE_FEED};
+module.exports._test={collect,parseFeed,parseOfficialBndes,requestFeed,requestOfficialBndes,requestGoogleNews,classify,safeUrl,unescapeXML,FEEDS,GOOGLE_FEED,businessDate,isBusinessNewsToday};
