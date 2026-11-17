@@ -37,7 +37,7 @@ test('RSS malformado não é aceito como feed', () => {
 test('coletor não transforma falha de RSS em sucesso', async () => {
   const result = await rss.collect(async () => { throw new Error('rede indisponível'); });
   assert.equal(result.totais.funcionando, 0);
-  assert.equal(result.totais.comFalha, rss.FEEDS.length+1);
+  assert.equal(result.totais.comFalha, rss.FEEDS.length+rss.GOOGLE_FEEDS.length);
   assert.equal(result.items.length, 0);
 });
 
