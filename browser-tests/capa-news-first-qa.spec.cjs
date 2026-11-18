@@ -69,7 +69,7 @@ test('tema não afeta a navegação dos outros módulos',async ({page})=>{
   visible:document.documentElement.scrollWidth<=window.innerWidth+2
  }));
  expect(state.visible).toBe(true);
- expect(state.color).not.toBe('#f7f5ef');
+ expect(state.color).toBe('#f7f5ef');
 });
 
 /* Visual QA: nenhuma aba pode permanecer com tema antigo ou perder navegação.
@@ -145,4 +145,99 @@ test('abas fora do Panorama conservam ações e estados vazios sem números simu
  await page.locator('.nav [data-nav="indicadores"]').click();
  await expect(page.locator('#lista-indicadores')).toContainText('Sem indicadores documentais');
  await expect(page.locator('#refreshFx')).toBeVisible();
+});
+
+const premiumPages=[
+ {tab:'investimentos',title:'Investimentos',module:'.radar-invest-editorial'},
+ {tab:'noticias',title:'Notícias e movimentos',module:'.news-live-section'},
+ {tab:'indicadores',title:'Indicadores econômicos',module:'.market-board'}
+];
+const premiumSizes=[
+ {name:'motorola-390',width:390,height:844},
+ {name:'desktop-1366',width:1366,height:900}
+];
+for(const info of premiumPages)for(const size of premiumSizes){
+ test('identidade premium '+info.tab+' / '+size.name,async({page})=>{
+  const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+  await page.setViewportSize({width:size.width,height:size.height});
+  await page.route('**/api/sessao',r=>r.fulfill({
+   status:200,contentType:'application/json',body:'{"authenticated":false}'
+  }));
+  await page.route('**/api/noticias',r=>r.fulfill({
+   status:200,contentType:'application/json',body:JSON.stringify({
+    schema:'radar-observatorio-feed/1',
+    dataReferencia:today,consultadoEm:new Date().toISOString(),
+    items:[{titulo:'Empresa anuncia expansão industrial',url:'https://example.org/fonte',fonte:'Fonte de teste',publicadoEm:today}],
+    radar7d:[{titulo:'Empresa anuncia expansão industrial',url:'https://example.org/fonte',fonte:'Fonte de teste',publicadoEm:today}],
+    totais:{fontes:8,funcionando:8,candidatos:1,radar7d:1}
+   })
+  }));
+  await page.goto('/demo/observatorio.html');
+  await page.locator('.sidebar [data-nav="'+info.tab+'"]').click();
+  await expect(page.locator('body')).toHaveAttribute('data-current-tab',info.tab);
+  await expect(page.locator('.editorial-lead')).toBeVisible();
+  await expect(page.locator('.editorial-lead h2')).toHaveText(info.title);
+  await expect(page.locator(info.module)).toBeVisible();
+  await expect(page.locator('.sidebar [data-nav="'+info.tab+'"]')).toHaveClass(/active/);
+  const style=await page.evaluate(()=>{
+    const css=e=>getComputedStyle(e);
+    const lead=document.querySelector('.editorial-lead');
+    const nav=document.querySelector('.sidebar');
+    const topbar=document.querySelector('.topbar');
+    const heading=lead.querySelector('h2');
+    const main=document.querySelector('.content');
+    return {
+     bg:css(document.body).backgroundColor,
+     paper:css(document.body).getPropertyValue('--portal-paper').trim(),
+     shell:css(document.querySelector('.shell')).display,
+     sidebarBg:css(nav).backgroundImage,
+     headerBg:css(topbar).backgroundColor,
+     leadBg:css(lead).backgroundImage,
+     headline:css(heading).color,
+     column:css(main).maxWidth,
+     scrollWidth:document.documentElement.scrollWidth,
+     clientWidth:document.documentElement.clientWidth
+    };
+  });
+  expect(style.bg).toBe('rgb(247, 245, 239)');
+  expect(style.paper).toBe('#f7f5ef');
+  expect(style.shell).toBe('block');
+  expect(style.sidebarBg).toContain('linear-gradient');
+  expect(style.headerBg).toBe('rgb(10, 41, 38)');
+  expect(style.leadBg).toContain('linear-gradient');
+  expect(style.headline).toBe('rgb(255, 248, 235)');
+  expect(style.scrollWidth).toBeLessThanOrEqual(style.clientWidth+2);
+  if(info.tab==='noticias'){
+    await expect(page.locator('.news-live-card.featured')).toBeVisible();
+    const featured=await page.locator('.news-live-card.featured').evaluate(el=>getComputedStyle(el).backgroundImage);
+    expect(featured).toContain('linear-gradient');
+  }else if(info.tab==='indicadores'){
+    await expect(page.locator('.market-board-head')).toBeVisible();
+    const title=await page.locator('.market-board-head h2').evaluate(el=>getComputedStyle(el).color);
+    expect(title).toBe('rgb(255, 248, 233)');
+  }else{
+    await expect(page.locator('.radar-invest-editorial')).toHaveCount(3);
+  }
+ });
+}
+test('premium em todas as abas preserva navegação e dados de origem',async({page})=>{
+ const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+ await page.setViewportSize({width:390,height:844});
+ await page.route('**/api/noticias',r=>r.fulfill({
+  status:200,contentType:'application/json',body:JSON.stringify({
+   schema:'radar-observatorio-feed/1',dataReferencia:today,consultadoEm:new Date().toISOString(),
+   items:[{titulo:'Empresa anuncia expansão industrial',url:'https://example.org/fonte',fonte:'Fonte de teste',publicadoEm:today}],
+   radar7d:[],totais:{fontes:8,funcionando:8,candidatos:1,radar7d:0}
+  })
+ }));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('#radarTopCompanies')).toHaveText('🔒');
+ for(const tab of ['investimentos','noticias','indicadores','panorama']){
+  await page.locator('.sidebar [data-nav="'+tab+'"]').click();
+  await expect(page.locator('body')).toHaveAttribute('data-current-tab',tab);
+  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2);
+  expect(overflow,'without horizontal overflow on '+tab).toBe(false);
+ }
+ await expect(page.locator('.radar-issue-lead')).toBeVisible();
+ await expect(page.locator('#radarTopCompanies')).toHaveText('🔒');
 });
