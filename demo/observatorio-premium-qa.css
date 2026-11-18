@@ -356,6 +356,10 @@ body[data-current-tab="indicadores"] .editorial-indicator-card>strong{color:#143
 /* Premium QA 1.1: identidade comum às abas Investimentos, Notícias e Indicadores.
  * Mantém a estrutura própria e os contratos das três seções; somente apresentação. */
 body[data-current-tab]:not([data-current-tab="panorama"]){
+ --portal-paper:#f7f5ef;
+ --portal-ink:#183e38;
+ --portal-accent:#0c775e;
+ --portal-rule:#d6e0d5;
  --ink:#163e37;
  --navy:#092b28;
  --navy2:#143e36;
