@@ -186,7 +186,7 @@ test('Google Notícias usa consultas públicas separadas para RS, Canoas e Chape
  for(const feed of sources){
   const u=new URL(feed.url),term=u.searchParams.get('q');
   assert.equal(u.hostname,'news.google.com');
-  assert.match(term,/when:1d/);
+  assert.match(term,/when:7d/);
   assert.ok(!/cnpj|empresa ficticia|empresa local|\d{14}/i.test(term));
  }
 });
@@ -233,4 +233,29 @@ test('boletim só exibe notícias do dia enquanto radar preserva publicações d
  assert.equal(batch.radar7d[1].url,'https://example.org/three-days');
  assert.equal(batch.totais.radar7d,2);
  assert.equal(batch.items.every(x=>x.publicadoEm===batch.dataReferencia),true);
+});
+
+test('Google Notícias busca sete dias, mas não confunde notícia antiga com notícia de hoje',async()=>{
+ const feed=rss.GOOGLE_FEEDS.find(x=>x.id==='google-news-canoas');
+ const published=new Date(Date.now()-3*86400000).toUTCString();
+ const rssXml='<rss><channel><item>'+
+  '<title>Parque de Inovação em Canoas prevê expansão de instalações</title>'+
+  '<link>https://news.google.com/rss/articles/qa-parque-canoas</link>'+
+  '<pubDate>'+published+'</pubDate></item></channel></rss>';
+ const result=await rss.collect(async url=>{
+  if(url===feed.url)return new Response(rssXml,{headers:{'Content-Type':'application/rss+xml'}});
+  throw Error('Fonte indisponível neste teste');
+ });
+ assert.equal(result.totais.fontes,8);
+ assert.equal(result.items.length,0);
+ assert.equal(result.radar7d.length,1);
+ assert.equal(result.totais.radar7d,1);
+ assert.equal(result.radar7d[0].fonte,feed.nome);
+ assert.equal(result.radar7d[0].publicadoEm,rss.businessDate(new Date(Date.now()-3*86400000)));
+});
+test('parque tecnológico com expansão é assunto empresarial, mas turismo não é',()=>{
+ const r=rss.classify(rss.GOOGLE_FEEDS[1],'Parque de Inovação em Canoas prevê expansão de instalações');
+ assert.ok(r);
+ assert.equal(r.territorio,'RS');
+ assert.equal(rss.classify(rss.GOOGLE_FEEDS[1],'Parque de diversões anuncia novas atrações em Canoas'),null);
 });
