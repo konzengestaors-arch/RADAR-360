@@ -93,7 +93,7 @@ for(const view of [
   const tabs=[
    {id:'panorama',content:'.radar-issue-lead'},
    {id:'investimentos',content:'.radar-invest-editorial'},
-   {id:'noticias',content:'.news-live-section'},
+   {id:'noticias',content:'.news-live-card.featured'},
    {id:'indicadores',content:'.market-board'}
   ];
   for(const tab of tabs){
@@ -112,7 +112,7 @@ for(const view of [
     const overflow=document.documentElement.scrollWidth>document.documentElement.clientWidth+2;
     return {heroGradient:theme.backgroundImage.includes('linear-gradient'),
       heroBorder:parseFloat(theme.borderTopWidth)>=1,
-      whiteTitle:heading.color==='rgb(255, 248, 233)',
+      whiteTitle:(()=>{const v=heading.color.match(/\d+/g)?.map(Number)||[];return v[0]>=245&&v[1]>=240&&v[2]>=220;})(),
       darkSidebar:menu.backgroundImage.includes('linear-gradient'),
       tabNodeVisible:nodeStyle.display!=='none',
       tabThemeBorder:parseFloat(nodeStyle.borderTopWidth)>=1,
