@@ -145,3 +145,32 @@ test('mostra manchete realista de CBS do dia como contexto e explica funil da co
  await expect(page.locator('#radarCoverMacro')).toContainText(title);
  await expect(page.locator('#radarCoverTopics')).toContainText('Sem sinais empresariais');
 });
+
+test('Investimentos exibe sinal de três dias mesmo quando o boletim de hoje está vazio',async({page})=>{
+ const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+ const relative=days=>new Date(Date.parse(today+'T12:00:00Z')-days*86400000).toISOString().slice(0,10);
+ const recentTitle='Empresa anuncia expansão de fábrica no Rio Grande do Sul';
+ const outdatedTitle='Empresa anuncia construção de fábrica antiga no Rio Grande do Sul';
+ await page.route('**/api/noticias',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+  schema:'radar-observatorio-feed/1',dataReferencia:today,consultadoEm:new Date().toISOString(),
+  totais:{fontes:8,funcionando:8,candidatos:0,radar7d:2},
+  items:[],
+  radar7d:[
+   {titulo:recentTitle,url:'https://example.org/expansao-tres-dias',fonte:'Fonte regional QA',publicadoEm:relative(3)},
+   {titulo:outdatedTitle,url:'https://example.org/expansao-antiga',fonte:'Fonte regional QA',publicadoEm:relative(8)}
+  ]
+ })}));
+ await page.goto('/demo/observatorio.html');
+ await page.locator('.sidebar [data-nav="investimentos"]').click();
+ const signals=page.locator('#radarInvestmentSignals');
+ await expect(signals).toContainText(recentTitle);
+ await expect(signals).toContainText('Publicado em '+relative(3));
+ await expect(signals).not.toContainText(outdatedTitle);
+ await expect(page.locator('.radar-invest-editorial').first()).toContainText('últimos 7 dias');
+ await page.locator('.sidebar [data-nav="noticias"]').click();
+ await expect(page.locator('#radarLiveNews')).toContainText('Nenhuma publicação de hoje');
+ await page.locator('.sidebar [data-nav="panorama"]').click();
+ await expect(page.locator('.radar-seven-day-card')).toHaveCount(1);
+ await expect(page.locator('.radar-seven-day-card')).toContainText(recentTitle);
+ await expect(page.locator('.radar-seven-day-card')).not.toContainText(outdatedTitle);
+});
