@@ -1,0 +1,65 @@
+/* Observatório 360 | Tema Premium QA (reversível).
+   Somente aparência do panorama. Conteúdo é sempre da API, não da arte conceitual. */
+:root{--o360-premium-night:#071f1d;--o360-premium-green:#103b33;--o360-premium-gold:#ddba74;--o360-premium-ivory:#fbf8ef}
+body[data-current-tab="panorama"]{--portal-paper:#f7f5ef;--portal-ink:#183e38;--portal-accent:#0c775e;--portal-rule:#d6e0d5;background:var(--portal-paper)}
+body[data-current-tab="panorama"] .sidebar{background:linear-gradient(110deg,#061a1a,#0b302a 65%,#113e33)!important;border-bottom:1px solid #bb995d;box-shadow:0 6px 22px #05231b20}
+body[data-current-tab="panorama"] .sidebar .brand .mark{background-color:#d4b16b;box-shadow:0 0 0 1px #a98a53}
+body[data-current-tab="panorama"] .sidebar .brand .brand-title{color:#fff7e4;letter-spacing:.085em}
+body[data-current-tab="panorama"] .sidebar .brand .brand-subtitle{color:#d6b978}
+body[data-current-tab="panorama"] .sidebar .nav button{color:#d6e4db!important;border-radius:9px!important}
+body[data-current-tab="panorama"] .sidebar .nav button:hover{background:#ffffff17!important;color:#fff!important}
+body[data-current-tab="panorama"] .sidebar .nav button.active{background:#dec17d1b!important;color:#ffebbc!important;border-bottom:2px solid #e5bf71!important}
+body[data-current-tab="panorama"] .topbar{background:#0a2926!important;border-bottom:1px solid #d9b46555}
+body[data-current-tab="panorama"] .topbar h1{color:#fff8e9!important;font-family:Georgia,'Times New Roman',serif;font-weight:500}
+body[data-current-tab="panorama"] .topbar .kicker{color:#e2c38a!important}
+body[data-current-tab="panorama"] .topbar .mobile-brand{color:#f5f1e4}
+body[data-current-tab="panorama"] .topbar .mobile-brand b{color:#e6bf78}
+body[data-current-tab="panorama"] .top-actions .btn{color:#f1e3c8!important;border:1px solid #d8b46570!important;background:#ffffff08!important;border-radius:9px!important;min-height:44px}
+body[data-current-tab="panorama"] .top-actions .btn:hover{background:#d8b4651f!important}
+body[data-current-tab="panorama"] .radar-issue-lead{background:radial-gradient(circle at 83% 19%,#d4a95b1e,transparent 35%),radial-gradient(circle at 5% 95%,#398d7935,transparent 42%),linear-gradient(135deg,#071b1b,#123c34 67%,#092724)!important;border:1px solid #bd9c5b87!important;border-radius:19px;margin:24px 0 19px;padding:clamp(24px,4vw,52px) clamp(19px,4vw,50px)!important;overflow:hidden;position:relative;box-shadow:0 20px 45px #08342c1b}
+body[data-current-tab="panorama"] .radar-issue-lead:before{content:"";position:absolute;width:min(35vw,360px);height:min(35vw,360px);right:-6%;top:-34%;border:1px solid #d9ba6e45;border-radius:50%;box-shadow:0 0 0 33px #d9ba6e09,0 0 0 66px #d9ba6e07;pointer-events:none}
+body[data-current-tab="panorama"] .radar-issue-meta{color:#e0bc71!important;position:relative;z-index:1}
+body[data-current-tab="panorama"] .radar-issue-line{background:#e0bc71!important}
+body[data-current-tab="panorama"] .radar-issue-lead h2{font-family:Georgia,'Times New Roman',serif;color:#fff8ed!important;font-weight:500;font-size:clamp(35px,5.2vw,65px);line-height:1.07;max-width:890px;position:relative;z-index:1}
+body[data-current-tab="panorama"] .radar-issue-lead h2 em{color:#edc57b!important;font-style:normal}
+body[data-current-tab="panorama"] .radar-issue-lead>p{color:#d5e5dc!important;max-width:690px;font-size:clamp(13px,1.2vw,16px);position:relative;z-index:1}
+body[data-current-tab="panorama"] .radar-issue-scope{margin-top:20px;position:relative;z-index:1}
+body[data-current-tab="panorama"] .radar-issue-scope span{color:#ead29d;font-size:9px;letter-spacing:.07em;background:#d4a95512;border:1px solid #d4a9555a;padding:6px 9px;border-radius:20px}
+body[data-current-tab="panorama"] .news-live-heading{border-bottom:1px solid #b69b65!important}
+body[data-current-tab="panorama"] .news-live-heading h2{color:#153b34!important}
+body[data-current-tab="panorama"] .news-live-heading .news-live-refresh{border-radius:9px!important;background:#fffdf6!important;border-color:#b5a16f!important;color:#0c6756!important}
+body[data-current-tab="panorama"] .news-live-grid{gap:14px 17px!important;padding-top:15px!important}
+body[data-current-tab="panorama"] .news-live-card,body[data-current-tab="panorama"] .news-live-card:not(.featured){background:#fffdfa!important;border:1px solid #d8e4d9!important;border-radius:13px!important;padding:19px!important;box-shadow:0 6px 20px #082b2810!important;align-self:start}
+body[data-current-tab="panorama"] .news-live-card.featured{background:linear-gradient(155deg,#103e35,#071f1d)!important;border:1px solid #c0a061!important;border-radius:16px!important;padding:clamp(19px,2.8vw,29px)!important;box-shadow:0 15px 33px #07282124!important;color:#f7f2e6!important}
+body[data-current-tab="panorama"] .news-live-card.featured h3 a{color:#fff7e7!important}
+body[data-current-tab="panorama"] .news-live-card.featured .news-live-kicker{color:#e9c27a!important}
+body[data-current-tab="panorama"] .news-live-card.featured .news-live-meta,body[data-current-tab="panorama"] .news-live-card.featured .news-live-meta *,body[data-current-tab="panorama"] .news-live-card.featured p{color:#cfe1d8!important}
+body[data-current-tab="panorama"] .news-live-card.featured .news-live-open{color:#eacc88!important}
+body[data-current-tab="panorama"] .news-live-card:not(.featured) h3 a{color:#193d36!important}
+body[data-current-tab="panorama"] .radar-cover-intel{border:0!important;gap:15px!important;padding:19px 0!important}
+body[data-current-tab="panorama"] .radar-cover-intel>div{background:#fffdfa;border:1px solid #d7e3d8!important;border-radius:15px;padding:clamp(17px,2.5vw,23px)!important;box-shadow:0 5px 22px #123a340b;min-width:0}
+body[data-current-tab="panorama"] .radar-cover-intel h3{color:#173d37!important}
+body[data-current-tab="panorama"] .radar-cover-label{color:#0c755f!important}
+body[data-current-tab="panorama"] .radar-cover-economy{border:1px solid #d7e3d8!important}
+body[data-current-tab="panorama"] .radar-seven-day{background:linear-gradient(143deg,#081e1c,#113f35)!important;border:1px solid #ba9c63!important;border-radius:18px!important;padding:clamp(19px,3vw,32px)!important;box-shadow:0 13px 37px #09292330;color:#faf5e9}
+body[data-current-tab="panorama"] .radar-seven-day .radar-section-intro{border-color:#d7bb7870!important;margin:0 0 18px!important}
+body[data-current-tab="panorama"] .radar-seven-day .radar-section-index{color:#e0be7d!important}
+body[data-current-tab="panorama"] .radar-seven-day h2{color:#fff8eb!important}
+body[data-current-tab="panorama"] .radar-seven-day .radar-section-intro p,body[data-current-tab="panorama"] #radarSevenDayStatus,body[data-current-tab="panorama"] #radarSevenDayList>p{color:#cfe0d7!important}
+body[data-current-tab="panorama"] .radar-seven-day-card{background:#143a33!important;border:1px solid #6f87756b!important;border-left:3px solid #d4b164!important;border-radius:13px!important;color:#f8f3e8!important;box-shadow:0 5px 17px #051b191a;overflow-wrap:anywhere}
+body[data-current-tab="panorama"] .radar-seven-day-card h3{color:#fffaf0!important}
+body[data-current-tab="panorama"] .radar-seven-day-card>span{color:#e6be71!important}
+body[data-current-tab="panorama"] .radar-seven-day-card p{color:#cbddd4!important}
+body[data-current-tab="panorama"] .radar-seven-day-card strong{color:#fff3d6!important}
+body[data-current-tab="panorama"] .radar-seven-day-card a{color:#f4d18c!important}
+body[data-current-tab="panorama"] .radar-seven-day-card button{background:#efd49a!important;border-color:#ddbd78!important;color:#083327!important;font-weight:800!important}
+body[data-current-tab="panorama"] .radar-command-strip{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;background:transparent!important;border:0!important;margin:20px 0 37px!important;padding:0!important}
+body[data-current-tab="panorama"] .radar-command-metric.radar-command-link{display:flex!important;align-items:flex-start!important;flex-direction:column!important;justify-content:center!important;gap:7px!important;background:#fffdfa!important;border:1px solid #d8dfd3!important;border-top:3px solid #bd995b!important;border-radius:12px!important;box-shadow:0 5px 20px #102a2410!important;padding:17px!important;min-width:0!important;min-height:110px!important}
+body[data-current-tab="panorama"] .radar-command-metric span{font-size:10px!important;color:#345e54!important}
+body[data-current-tab="panorama"] .radar-command-metric strong{font-family:Georgia,'Times New Roman',serif;font-weight:600!important;font-size:clamp(23px,2.4vw,30px)!important;color:#123d32!important}
+body[data-current-tab="panorama"] .radar-command-metric small{font-size:10px!important;color:#5b766c!important}
+body[data-current-tab="panorama"] .radar-company-directory{border-radius:12px!important}
+body[data-current-tab="panorama"] .radar-section-intro h2{color:#143e37!important}
+@media(max-width:840px){body[data-current-tab="panorama"] .radar-issue-lead{margin:17px 0 12px;padding:25px 20px!important}body[data-current-tab="panorama"] .radar-issue-lead h2{font-size:clamp(32px,7.8vw,51px)}body[data-current-tab="panorama"] .news-live-grid{grid-template-columns:1fr!important}body[data-current-tab="panorama"] .news-live-card.featured{grid-column:1!important;grid-row:auto!important}body[data-current-tab="panorama"] .radar-command-strip{grid-template-columns:repeat(2,minmax(0,1fr))!important}body[data-current-tab="panorama"] .radar-command-metric.radar-command-link:first-child{grid-column:1/-1}}
+@media(max-width:480px){body[data-current-tab="panorama"] .topbar{padding:10px 5%!important}body[data-current-tab="panorama"] .top-actions .btn{font-size:11px!important}body[data-current-tab="panorama"] .radar-issue-lead h2{font-size:clamp(31px,8.5vw,41px)}body[data-current-tab="panorama"] .radar-issue-scope span{font-size:9px}body[data-current-tab="panorama"] .news-live-card,body[data-current-tab="panorama"] .news-live-card.featured{padding:16px!important}body[data-current-tab="panorama"] .radar-cover-intel{grid-template-columns:1fr!important}body[data-current-tab="panorama"] .radar-command-metric.radar-command-link{padding:13px!important}body[data-current-tab="panorama"] .radar-seven-day{padding:16px!important}body[data-current-tab="panorama"] .radar-seven-day-card{padding:14px!important}}
+@media(prefers-reduced-motion:reduce){body[data-current-tab="panorama"] .sidebar .nav button{transition:none}}
