@@ -97,17 +97,123 @@ async function save(event){
   if(!saved||canonical(saved.articleUrl)!==currentUrl||canonical(saved.evidenceUrl)!==evidenceUrl||saved.finding!==finding||saved.status!==st)
    throw Error('A leitura posterior não confirmou o registro.');
   message('Apuração salva e relida do servidor. Nenhuma oportunidade foi confirmada automaticamente.');
+  if(document.getElementById('obs360ReviewList')&&sessionReady())void refreshList();
   document.querySelectorAll('[data-radar-review]').forEach(button=>{
    if(canonical(button.getAttribute('data-radar-review'))===currentUrl)button.textContent='Consultar apuração registrada';
   });
  }catch(e){message(e.message+' Se a gravação foi enviada, reabra a publicação para verificar antes de repetir.')}
  finally{busy=false;if(modal?.open&&sessionReady())form.querySelector('#obs360ReviewSave').disabled=false}
 }
+
+/* Biblioteca privada: recupera as 50 apurações mais recentes, inclusive artigos
+   fora da janela de sete dias. Sem cópia em localStorage ou dados fictícios. */
+let reviews=[],listLoaded=false,listLoading=false,listSeq=0,listFilter='todos',listNotice='';
+const htmlEscape=text=>String(text??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const statusLabels={confirmado:'Constatação documentada',inconclusivo:'Pendente de diligência',descartado:'Descartada após conferência'};
+function resetList(){
+ listSeq++;reviews=[];listLoaded=false;listLoading=false;listFilter='todos';listNotice='';
+ if(modal?.open)modal.close();
+ const section=document.getElementById('obs360ReviewList');
+ if(section)renderList();
+}
+function renderList(){
+ const section=document.getElementById('obs360ReviewList');
+ if(!section)return;
+ const messageNode=section.querySelector('#obs360ReviewListStatus');
+ const itemsNode=section.querySelector('#obs360ReviewListItems');
+ const refreshButton=section.querySelector('#obs360ReviewListRefresh');
+ const filterNode=section.querySelector('#obs360ReviewListFilter');
+ if(!messageNode||!itemsNode||!refreshButton||!filterNode)return;
+ if(!sessionReady()){
+  messageNode.textContent='Área privada. Inicie a sessão para recuperar as apurações documentadas.';
+  itemsNode.replaceChildren();
+  refreshButton.disabled=true;filterNode.disabled=true;
+  return;
+ }
+ refreshButton.disabled=listLoading;
+ filterNode.disabled=listLoading||!listLoaded;
+ filterNode.value=listFilter;
+ if(listLoading){
+  messageNode.textContent='Consultando apurações persistidas no servidor…';
+  itemsNode.replaceChildren();
+  return;
+ }
+ if(!listLoaded){
+  messageNode.textContent=listNotice||'Preparando consulta dos registros privados…';
+  itemsNode.replaceChildren();
+  return;
+ }
+ const visible=reviews.filter(item=>listFilter==='todos'||item.status===listFilter);
+ messageNode.textContent=(listNotice?listNotice+' · ':'')+
+  reviews.length+' registro(s) recuperado(s)'+(reviews.length===50?' (limite da API: 50 recentes)':'')+
+  ' · '+visible.length+' exibido(s). A constatação não confirma negócio ou vínculo empresarial.';
+ if(!visible.length){
+  itemsNode.innerHTML='<p class="obs360-review-empty">'+(reviews.length?'Nenhum registro encontrado para este status.':'Nenhuma apuração registrada nesta sessão. As notícias seguem disponíveis para investigação.')+'</p>';
+  return;
+ }
+ itemsNode.innerHTML=visible.map(item=>{
+  const updated=Number.isFinite(Date.parse(item.updatedAt))?new Date(item.updatedAt).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'Não informada';
+  return '<article class="obs360-review-list-card">'+
+   '<span class="obs360-review-list-status" data-status="'+htmlEscape(item.status)+'">'+htmlEscape(statusLabels[item.status])+'</span>'+
+   '<h3>'+htmlEscape(item.title)+'</h3>'+
+   '<p class="obs360-review-list-date">Última revisão: '+htmlEscape(updated)+'</p>'+
+   '<p class="obs360-review-list-finding">'+htmlEscape(item.finding)+'</p>'+
+   '<div class="obs360-review-list-actions">'+
+   '<a href="'+htmlEscape(item.articleUrl)+'" target="_blank" rel="noopener noreferrer">Fonte original ↗</a>'+
+   '<a href="'+htmlEscape(item.evidenceUrl)+'" target="_blank" rel="noopener noreferrer">Evidência documental ↗</a>'+
+   '<button type="button" class="obs360-review-trigger" data-radar-review="'+htmlEscape(item.articleUrl)+'" data-radar-review-title="'+htmlEscape(item.title)+'">Reabrir apuração</button>'+
+   '</div></article>';
+ }).join('');
+}
+async function refreshList(){
+ if(listLoading||!sessionReady())return;
+ listLoading=true;listLoaded=false;listNotice='';
+ const seq=++listSeq;
+ renderList();
+ try{
+  const response=await fetch('/api/apuracoes',{method:'GET',credentials:'same-origin',cache:'no-store',headers:{Accept:'application/json'}});
+  const payload=await response.json().catch(()=>null);
+  if(seq!==listSeq||!sessionReady())return;
+  if(!response.ok)throw Error(response.status===401?'Sessão expirada (HTTP 401).':'Consulta indisponível (HTTP '+response.status+').');
+  if(!payload||!Array.isArray(payload.items))throw Error('Formato de retorno não reconhecido.');
+  reviews=payload.items.slice(0,50).filter(item=>
+   item&&canonical(item.articleUrl)&&canonical(item.evidenceUrl)&&
+   typeof item.title==='string'&&item.title.trim().length>=3&&item.title.length<=260&&
+   typeof item.finding==='string'&&item.finding.length<=1000&&
+   allowed.has(item.status));
+  listLoaded=true;listNotice='';
+ }catch(error){
+  if(seq!==listSeq)return;
+  reviews=[];listLoaded=false;listNotice=error.message||'Falha de comunicação com o servidor.';
+ }finally{
+  if(seq===listSeq){listLoading=false;renderList()}
+ }
+}
+function mount(){
+ if(!sessionReady()){
+  if(listLoading||listLoaded||reviews.length)resetList();
+  renderList();
+  return;
+ }
+ renderList();
+ if(!listLoading&&!listLoaded&&!listNotice)void refreshList();
+}
+document.addEventListener('click',event=>{
+ if(event.target.closest?.('#obs360ReviewListRefresh')){
+  event.preventDefault();void refreshList();
+ }
+});
+document.addEventListener('change',event=>{
+ if(event.target.id!=='obs360ReviewListFilter')return;
+ listFilter=['todos','confirmado','inconclusivo','descartado'].includes(event.target.value)?event.target.value:'todos';
+ renderList();
+});
+
 document.addEventListener('click',event=>{
  const button=event.target.closest?.('[data-radar-review]');if(!button)return;
  event.preventDefault();
  open(button.getAttribute('data-radar-review'),button.getAttribute('data-radar-review-title')||'')
  .catch(()=>{if(modal?.open)message('Falha ao abrir a apuração. Nenhum registro foi alterado.')});
 });
-root.RadarReviewQA={close:()=>{if(modal?.open&&!busy)modal.close()},isOpen:()=>!!modal?.open};
+root.RadarReviewQA={close:()=>{if(modal?.open&&!busy)modal.close()},reset:resetList,mount,refresh:refreshList,isOpen:()=>!!modal?.open};
 })(window);
