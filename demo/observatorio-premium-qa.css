@@ -766,3 +766,86 @@ body[data-current-tab="investimentos"] .radar-invest-list .obs360-review-trigger
  #obs360ReviewDialog .obs360-review-actions{flex-direction:column}
  #obs360ReviewDialog .obs360-review-actions button{width:100%}
 }
+
+
+/* Biblioteca de apurações — no Panorama, em card com identidade Premium. */
+body[data-current-tab="panorama"] .obs360-review-library{
+ background:#fffdf8;border:1px solid #d6e1d5;border-top:3px solid #bba063;
+ border-radius:18px;padding:clamp(17px,3vw,29px);
+ margin:21px 0 32px;box-shadow:0 8px 30px #092e2210;
+}
+body[data-current-tab="panorama"] .obs360-review-library-head{
+ display:flex;justify-content:space-between;align-items:flex-start;
+ gap:20px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid #dfe4db;
+}
+body[data-current-tab="panorama"] .obs360-review-library-head h2{
+ font:500 clamp(23px,3vw,34px)/1.17 Georgia,'Times New Roman',serif;
+ margin:7px 0 10px;color:#153c33;
+}
+body[data-current-tab="panorama"] .obs360-review-library-head p{
+ font-size:13px;line-height:1.65;color:#547067;margin:0;max-width:590px;
+}
+body[data-current-tab="panorama"] .obs360-review-library-controls{
+ display:flex;flex-wrap:wrap;align-items:end;gap:9px;
+}
+body[data-current-tab="panorama"] .obs360-review-library-controls label{
+ font-size:11px;font-weight:800;color:#315e4e;
+ width:100%;
+}
+body[data-current-tab="panorama"] .obs360-review-library-controls select,
+body[data-current-tab="panorama"] .obs360-review-library-controls button{
+ min-height:44px;border:1px solid #b2ccbd;border-radius:9px;
+ background:#f8f5e9;color:#1a4939;padding:10px 12px;
+}
+body[data-current-tab="panorama"] .obs360-review-library-controls button{
+ background:#0f604c;border-color:#0f604c;color:#fffefa;font-weight:800;
+}
+body[data-current-tab="panorama"] .obs360-review-library-controls :disabled{
+ opacity:.55;cursor:not-allowed;
+}
+body[data-current-tab="panorama"] #obs360ReviewListStatus{
+ color:#4c7160;font-size:12px;line-height:1.6;
+ margin:14px 0 12px;
+}
+body[data-current-tab="panorama"] .obs360-review-list-items{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;
+}
+body[data-current-tab="panorama"] .obs360-review-list-card{
+ min-width:0;background:#f9f8f2;border:1px solid #d9e1d7;
+ border-radius:13px;padding:18px;overflow-wrap:anywhere;
+}
+body[data-current-tab="panorama"] .obs360-review-list-status{
+ display:inline-block;padding:5px 9px;border-radius:40px;font-size:10px;
+ letter-spacing:.03em;font-weight:850;background:#e5eee6;color:#155b47;
+}
+body[data-current-tab="panorama"] .obs360-review-list-status[data-status="inconclusivo"]{
+ background:#f5eacb;color:#715319;
+}
+body[data-current-tab="panorama"] .obs360-review-list-status[data-status="descartado"]{
+ background:#e6e8e7;color:#52615a;
+}
+body[data-current-tab="panorama"] .obs360-review-list-card h3{
+ font:500 clamp(18px,2.3vw,23px)/1.3 Georgia,'Times New Roman',serif;
+ color:#143a31;margin:12px 0 7px;
+}
+body[data-current-tab="panorama"] .obs360-review-list-date{
+ color:#617369;font-size:11px;margin:0 0 10px;
+}
+body[data-current-tab="panorama"] .obs360-review-list-finding{
+ font-size:13px;color:#36574a;line-height:1.6;white-space:pre-wrap;
+}
+body[data-current-tab="panorama"] .obs360-review-list-actions{
+ display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin-top:12px;
+}
+body[data-current-tab="panorama"] .obs360-review-list-actions a{
+ color:#0a7059;font-size:12px;font-weight:750;min-height:44px;display:inline-flex;align-items:center;
+}
+body[data-current-tab="panorama"] .obs360-review-empty{
+ grid-column:1/-1;color:#607369;font-size:13px;padding:12px 0;
+}
+@media(max-width:740px){
+ body[data-current-tab="panorama"] .obs360-review-list-items{grid-template-columns:1fr}
+ body[data-current-tab="panorama"] .obs360-review-library-controls{width:100%}
+ body[data-current-tab="panorama"] .obs360-review-library-controls select,
+ body[data-current-tab="panorama"] .obs360-review-library-controls button{flex:1 1 130px}
+}
