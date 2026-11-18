@@ -726,14 +726,28 @@ function visibleNewsToday(){
  if(liveNewsCache.dataReferencia!==date)return [];
  return items.filter(item=>item?.publicadoEm===date);
 }
+// A janela comercial é a mesma para Panorama e Investimentos, independente
+// de o boletim do dia estar vazio. Nunca exibir publicações mais antigas
+// ou futuras como se pertencessem aos últimos sete dias.
+function visibleNewsSevenDays(){
+ const items=Array.isArray(liveNewsCache?.radar7d)?liveNewsCache.radar7d:[];
+ const date=Date.parse(todayBrasilia()+'T00:00:00Z'),seen=new Set();
+ return items.filter(item=>{
+  const published=String(item?.publicadoEm||''),url=String(item?.url||'');
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(published)||!/^https:\/\/[^\s]+$/i.test(url)||seen.has(url))return false;
+  const gap=(date-Date.parse(published+'T00:00:00Z'))/86400000;
+  if(!Number.isInteger(gap)||gap<0||gap>=7)return false;
+  seen.add(url);return true;
+ });
+}
 function renderInvestmentSignals(){
  const target=document.getElementById('radarInvestmentSignals');if(!target)return;
  if(!liveNewsCache){target.innerHTML='<p class="radar-invest-status">Consultando fontes públicas…</p>';return;}
  if(liveNewsCache.error){target.innerHTML='<p class="radar-invest-status">Não foi possível consultar notícias agora. Use a aba Notícias para atualizar.</p>';return;}
  const signalFor=window.RadarInvestmentSources?.classifyTitle;
- const candidates=visibleNewsToday().filter(x=>typeof signalFor==='function'&&signalFor(x.titulo)&&window.RadarEditorial?.classify(x).kind==='empresarial'&&/^https:\/\/[^\s]+$/i.test(String(x.url||''))).slice(0,8);
- if(!candidates.length){target.innerHTML='<p class="radar-invest-status">Nenhum sinal de investimento empresarial publicado hoje nas fontes acessíveis. Verifique novamente quando houver novas publicações; notícias antigas não preenchem este painel.</p>';return;}
- target.innerHTML='<ol class="radar-invest-list">'+candidates.map(x=>'<li><span class="radar-invest-tag">'+E(signalFor(x.titulo)||'PISTA A VERIFICAR')+' · A VERIFICAR</span><a href="'+E(x.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.titulo)+'</a><small>'+E(x.fonte||'Fonte não informada')+' · '+E(x.publicadoEm||'Data não informada')+'</small></li>').join('')+'</ol>';
+ const candidates=visibleNewsSevenDays().filter(x=>typeof signalFor==='function'&&signalFor(x.titulo)&&window.RadarEditorial?.classify(x).kind==='empresarial').slice(0,8);
+ if(!candidates.length){target.innerHTML='<p class="radar-invest-status">Nenhuma pista de investimento identificada nos últimos sete dias nas fontes consultadas. Isso não comprova ausência de investimentos; consulte as fontes originais.</p>';return;}
+ target.innerHTML='<ol class="radar-invest-list">'+candidates.map(x=>'<li><span class="radar-invest-tag">'+E(signalFor(x.titulo)||'PISTA A VERIFICAR')+' · A VERIFICAR</span><a href="'+E(x.url)+'" target="_blank" rel="noopener noreferrer">'+E(x.titulo)+'</a><small>'+E(x.fonte||'Fonte não informada')+' · Publicado em '+E(x.publicadoEm||'Data não informada')+' · Pista a investigar, não investimento confirmado</small></li>').join('')+'</ol>';
 }
 function officialInvestmentReading(){
  const sources=window.RadarInvestmentSources;
@@ -750,7 +764,7 @@ function investimentos(moves){
  const projects=moves.filter(m=>m.tipo==='Investimento'||/licita|obra|investimento|moderniza|projeto/i.test(m.titulo));
  return `<section class="editorial-lead"><span class="eyebrow">MOVIMENTOS REGIONAIS</span><h2>Investimentos</h2><p>Acompanhe pistas publicadas na imprensa e projetos documentados — duas categorias diferentes de informação.</p></section>
  <section class="radar-invest-editorial" aria-label="Sinais de investimentos citados em notícias">
-  <div class="radar-section-intro"><span class="radar-section-index">01 / NOTÍCIAS PARA VERIFICAR</span><h2>Sinais de investimento</h2><p>Menções identificadas apenas pelos títulos dos feeds RSS. Não representam investimento confirmado, valor contratado ou decisão de empresa.</p></div>
+  <div class="radar-section-intro"><span class="radar-section-index">01 / NOTÍCIAS PARA VERIFICAR</span><h2>Sinais de investimento · últimos 7 dias</h2><p>Menções publicadas nos últimos sete dias, com data e fonte originais. Não representam investimento confirmado, valor contratado ou decisão de empresa. Seguros e garantias exigem análise do projeto e dos contratos.</p></div>
   <div id="radarInvestmentSignals" aria-live="polite"><p class="radar-invest-status">Consultando fontes públicas…</p></div>
  </section>
  <section class="radar-invest-editorial" aria-label="Publicações oficiais selecionadas">
@@ -827,7 +841,7 @@ function renderSevenDay(){
  if(!target||!status)return;
  if(!liveNewsCache){status.textContent='Consultando fontes públicas…';return}
  if(liveNewsCache.error){status.textContent='Não foi possível consultar as fontes nesta sessão.';target.innerHTML='<p>Dados indisponíveis. Nenhuma notícia foi inventada.</p>';return}
- const publications=Array.isArray(liveNewsCache.radar7d)?liveNewsCache.radar7d:[];
+ const publications=visibleNewsSevenDays();
  const classified=window.RadarCompanies?.classifyNews(publications)||[];
  const ranked=window.RadarEditorial?.prioritize(publications,classified)||[];
  const relevant=ranked.filter(x=>x.kind==='empresarial'||x.kind==='risco');
