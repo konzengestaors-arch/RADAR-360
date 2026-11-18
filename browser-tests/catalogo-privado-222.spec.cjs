@@ -178,3 +178,51 @@ test('radar de sete dias não abre dossiês quando o catálogo privado está blo
  await expect(page.locator('[data-radar-dossier]')).toHaveCount(0);
  await expect(page.locator('#radarCompanyDossier')).toHaveCount(0);
 });
+
+
+test('diagnóstico no Android comprova respostas reais mockadas sem exibir nomes, CNPJ ou segredos',async({page})=>{
+ await mock(page);
+ const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+ await page.route('**/api/apuracoes',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({items:[]})}));
+ await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+  schema:'radar-observatorio-feed/1',dataReferencia:today,consultadoEm:new Date().toISOString(),
+  items:[{titulo:'Indústria anuncia expansão',url:'https://example.org/hoje',publicadoEm:today,fonte:'Fonte QA'}],
+  radar7d:[{titulo:'Indústria anuncia expansão',url:'https://example.org/hoje',publicadoEm:today,fonte:'Fonte QA'}],
+  totais:{fontes:8,funcionando:8,candidatos:1,radar7d:1}
+ })}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.radar-company-count')).toHaveText('217');
+ await page.locator('#obs360RunDiagnostic').click();
+ const diagnostic=page.locator('#obs360DiagnosticResult');
+ await expect(diagnostic).toContainText('CONEXÕES BÁSICAS APROVADAS');
+ await expect(diagnostic).toContainText('217 empresas');
+ await expect(diagnostic).toContainText('8 em conferência');
+ await expect(diagnostic).toContainText('1 de hoje');
+ await expect(diagnostic).toContainText('1 na janela de 7 dias');
+ await expect(diagnostic).toContainText('0 registro(s) recentes');
+ await expect(diagnostic).not.toContainText('Empresa Fictícia');
+ await expect(diagnostic).not.toContainText(makeCnpj(0));
+ await page.locator('#obs360EndSession').click();
+ await expect(page.locator('#obs360DiagnosticResult')).toContainText('Sessão encerrada');
+});
+test('diagnóstico bloqueado não consulta catálogo nem apurações privadas',async({page})=>{
+ let privateCalls=0;
+ await page.route('**/api/sessao',r=>r.fulfill({status:200,contentType:'application/json',body:'{"authenticated":false}'}));
+ await page.route('**/api/empresas',r=>{privateCalls++;return r.fulfill({status:401,contentType:'application/json',body:'{"erro":"Sessão necessária"}'});});
+ await page.route('**/api/apuracoes',r=>{privateCalls++;return r.fulfill({status:401,contentType:'application/json',body:'{"erro":"Sessão necessária"}'});});
+ await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(FEED)}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('#obs360BeginSession')).toBeVisible();
+ await page.locator('#obs360RunDiagnostic').click();
+ await expect(page.locator('#obs360DiagnosticResult')).toContainText('Sessão privada: bloqueada');
+ expect(privateCalls).toBe(0);
+});
+test('diagnóstico não simula sucesso diante de falha na API persistente',async({page})=>{
+ await mock(page);
+ await page.route('**/api/apuracoes',r=>r.fulfill({status:503,contentType:'application/json',body:'{"erro":"Indisponível"}'}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.radar-company-count')).toHaveText('217');
+ await page.locator('#obs360RunDiagnostic').click();
+ await expect(page.locator('#obs360DiagnosticResult')).toContainText('RESULTADO: PARCIAL');
+ await expect(page.locator('#obs360DiagnosticResult')).toContainText('Apurações persistentes: indisponível (HTTP 503)');
+});
