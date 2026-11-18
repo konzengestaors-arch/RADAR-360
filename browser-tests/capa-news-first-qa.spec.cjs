@@ -71,3 +71,78 @@ test('tema não afeta a navegação dos outros módulos',async ({page})=>{
  expect(state.visible).toBe(true);
  expect(state.color).not.toBe('#f7f5ef');
 });
+
+/* Visual QA: nenhuma aba pode permanecer com tema antigo ou perder navegação.
+   Conteúdo de notícias simulado SOMENTE nos testes, nunca no app. */
+for(const view of [
+ {label:'Android 360',width:360,height:800},
+ {label:'Motorola 390',width:390,height:844},
+ {label:'Desktop 1366',width:1366,height:900}
+]){
+ test('Premium consistente nas 4 abas · '+view.label,async({page})=>{
+  const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+  await page.setViewportSize({width:view.width,height:view.height});
+  await page.route('**/api/sessao',r=>r.fulfill({status:200,contentType:'application/json',body:'{"authenticated":false}'}));
+  await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+   schema:'radar-observatorio-feed/1',consultadoEm:new Date().toISOString(),dataReferencia:today,
+   items:[{titulo:'Empresa anuncia ampliação de parque industrial',url:'https://example.org/noticia-qa',publicadoEm:today,fonte:'Fonte QA'}],
+   radar7d:[],totais:{fontes:8,funcionando:8,candidatos:1,radar7d:0}
+  })}));
+  await page.goto('/demo/observatorio.html');
+  await expect(page.locator('#radar-premium-qa')).toHaveAttribute('href','observatorio-premium-qa.css');
+  const tabs=[
+   {id:'panorama',content:'.radar-issue-lead'},
+   {id:'investimentos',content:'.radar-invest-editorial'},
+   {id:'noticias',content:'.news-live-section'},
+   {id:'indicadores',content:'.market-board'}
+  ];
+  for(const tab of tabs){
+   const button=page.locator('.nav [data-nav="'+tab.id+'"]');
+   await button.click();
+   await expect(page.locator('body')).toHaveAttribute('data-current-tab',tab.id);
+   await expect(button).toHaveClass(/active/);
+   await expect(page.locator(tab.content).first()).toBeVisible();
+   const result=await page.evaluate(({id,selector})=>{
+    const hero=document.querySelector(id==='panorama'?'.radar-issue-lead':'.editorial-lead');
+    const title=hero.querySelector('h2');
+    const sidebar=document.querySelector('.sidebar');
+    const tabContent=document.querySelector(selector);
+    const theme=getComputedStyle(hero),heading=getComputedStyle(title),menu=getComputedStyle(sidebar);
+    const nodeStyle=getComputedStyle(tabContent);
+    const overflow=document.documentElement.scrollWidth>document.documentElement.clientWidth+2;
+    return {heroGradient:theme.backgroundImage.includes('linear-gradient'),
+      heroBorder:parseFloat(theme.borderTopWidth)>=1,
+      whiteTitle:heading.color==='rgb(255, 248, 233)',
+      darkSidebar:menu.backgroundImage.includes('linear-gradient'),
+      tabNodeVisible:nodeStyle.display!=='none',
+      tabThemeBorder:parseFloat(nodeStyle.borderTopWidth)>=1,
+      overflow};
+   },{id:tab.id,selector:tab.content});
+   expect(result.heroGradient,tab.id+' hero gradient').toBe(true);
+   expect(result.heroBorder,tab.id+' hero border').toBe(true);
+   expect(result.whiteTitle,tab.id+' title contrast').toBe(true);
+   expect(result.darkSidebar,tab.id+' sidebar').toBe(true);
+   expect(result.tabNodeVisible,tab.id+' content').toBe(true);
+   expect(result.tabThemeBorder,tab.id+' premium card border').toBe(true);
+   expect(result.overflow,tab.id+' horizontal overflow').toBe(false);
+  }
+ });
+}
+test('abas fora do Panorama conservam ações e estados vazios sem números simulados',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.route('**/api/sessao',r=>r.fulfill({status:200,contentType:'application/json',body:'{"authenticated":false}'}));
+ await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+  schema:'radar-observatorio-feed/1',dataReferencia:new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'}),
+  consultadoEm:new Date().toISOString(),items:[],radar7d:[],totais:{fontes:8,funcionando:8,candidatos:0,radar7d:0}
+ })}));
+ await page.goto('/demo/observatorio.html');
+ await page.locator('.nav [data-nav="investimentos"]').click();
+ await expect(page.locator('.editorial-empty')).toContainText('Nenhum projeto documentado');
+ await expect(page.locator('.editorial-tools')).toBeVisible();
+ await page.locator('.nav [data-nav="noticias"]').click();
+ await expect(page.locator('#radarLiveNews')).toContainText('Nenhuma publicação de hoje');
+ await expect(page.locator('#refreshNewsLive')).toBeEnabled();
+ await page.locator('.nav [data-nav="indicadores"]').click();
+ await expect(page.locator('#lista-indicadores')).toContainText('Sem indicadores documentais');
+ await expect(page.locator('#refreshFx')).toBeVisible();
+});
