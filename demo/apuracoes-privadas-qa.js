@@ -30,6 +30,7 @@ function ensureModal(){
  const close=()=>{if(!busy)modal.close()};
  modal.querySelector('#obs360ReviewClose').addEventListener('click',close);
  modal.querySelector('#obs360ReviewCancel').addEventListener('click',close);
+ modal.addEventListener('cancel',event=>{if(busy)event.preventDefault()});
  modal.addEventListener('close',()=>{
   sequence++;currentUrl='';modal.querySelector('#obs360ReviewForm').reset();message('');
  });
