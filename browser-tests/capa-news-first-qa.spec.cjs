@@ -177,7 +177,7 @@ for(const info of premiumPages)for(const size of premiumSizes){
   await expect(page.locator('body')).toHaveAttribute('data-current-tab',info.tab);
   await expect(page.locator('.editorial-lead')).toBeVisible();
   await expect(page.locator('.editorial-lead h2')).toHaveText(info.title);
-  await expect(page.locator(info.module)).toBeVisible();
+  await expect(page.locator(info.module).first()).toBeVisible();
   await expect(page.locator('.sidebar [data-nav="'+info.tab+'"]')).toHaveClass(/active/);
   const style=await page.evaluate(()=>{
     const css=e=>getComputedStyle(e);
