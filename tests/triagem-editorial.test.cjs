@@ -64,3 +64,10 @@ test('pergunta de seguros diferencia riscos operacionais de notícias macroecon�
  assert.match(nextQuestion(news('Incêndio paralisa fábrica industrial em Chapecó')),/interrupção de atividades/);
  assert.equal(nextQuestion(news('Durigan explica no Senado alíquota de 11,3% da CBS')),'');
 });
+
+test('parque de inovação com ampliação entra como hipótese de seguros, sem falso positivo de lazer',()=>{
+ const candidate=news('Parque de Inovação em Canoas prevê ampliação das instalações e novo centro tecnológico');
+ assert.equal(classify(candidate).kind,'empresarial');
+ assert.match(nextQuestion(candidate),/seguros e garantias/);
+ assert.equal(classify(news('Parque de diversões anuncia nova atração para turistas')).kind,'contexto');
+});
