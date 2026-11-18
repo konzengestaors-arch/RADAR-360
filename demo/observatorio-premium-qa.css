@@ -701,3 +701,68 @@ body[data-current-tab]:not([data-current-tab="panorama"]) .footerline{
   transition:none!important;
  }
 }
+
+
+/* Apurações documentais, utilizáveis nas quatro abas em Android e desktop.
+   Só há formulário mediante sessão autenticada; jamais pré-preencher constatação. */
+.obs360-review-trigger{
+ display:inline-flex;align-items:center;justify-content:center;min-height:44px;
+ margin:5px 0;border:1px solid #c9ae70;border-radius:9px;
+ padding:9px 13px;background:#f5e7c6;color:#173e35;
+ font:750 13px/1.35 Inter,'Segoe UI',sans-serif;white-space:normal;
+}
+.obs360-review-trigger:hover{background:#e8d09a;color:#082b25}
+body[data-current-tab="investimentos"] .radar-invest-list .obs360-review-trigger{
+ display:inline-flex;margin:12px 0 0;
+}
+#obs360ReviewDialog{
+ width:min(96vw,590px);max-width:590px;max-height:92dvh;
+ padding:0;border:1px solid #d0ad68;border-radius:17px;
+ background:#f9f6ee;color:#163b32;
+ box-shadow:0 25px 75px #071d1b6b;
+}
+#obs360ReviewDialog::backdrop{background:rgba(4,24,22,.79)}
+#obs360ReviewDialog .obs360-review-inner{
+ padding:clamp(18px,4vw,30px);overflow:auto;max-height:90dvh;
+}
+#obs360ReviewDialog .obs360-review-heading{
+ display:flex;justify-content:space-between;gap:14px;align-items:flex-start;
+ padding-bottom:16px;border-bottom:1px solid #d4dccc;
+}
+#obs360ReviewDialog .obs360-review-heading span{
+ font-size:10px;font-weight:800;letter-spacing:.1em;color:#977643;
+}
+#obs360ReviewDialog h2{
+ font:500 clamp(25px,4vw,34px)/1.15 Georgia,'Times New Roman',serif;
+ margin:7px 0 0;color:#113d32;
+}
+#obs360ReviewDialog p{font-size:13px;line-height:1.7;color:#52695e}
+#obs360ReviewDialog label{display:block;margin:13px 0 5px;font-weight:750;color:#214b3d;font-size:13px}
+#obs360ReviewDialog input,#obs360ReviewDialog select,#obs360ReviewDialog textarea{
+ width:100%;min-width:0;border:1px solid #c3d5c9;border-radius:9px;
+ padding:10px 11px;min-height:44px;background:#fffefa;color:#1b3d35;
+ font:14px/1.4 Inter,'Segoe UI',sans-serif;
+}
+#obs360ReviewDialog textarea{resize:vertical;min-height:108px}
+#obs360ReviewDialog input[readonly]{background:#eaece3;color:#42564d}
+#obs360ReviewDialog #obs360ReviewOpenSource{display:inline-block;font-weight:750;color:#0a6c57;margin:9px 0}
+#obs360ReviewDialog button{border-radius:9px;min-height:44px;padding:9px 12px;cursor:pointer}
+#obs360ReviewDialog button:disabled{opacity:.53;cursor:not-allowed}
+#obs360ReviewDialog #obs360ReviewClose,#obs360ReviewDialog #obs360ReviewCancel{
+ border:1px solid #c2cfc1;background:#fffefa;color:#285143;
+}
+#obs360ReviewDialog .obs360-review-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+#obs360ReviewDialog #obs360ReviewSave{background:#0d614e;color:#fffefa;border:1px solid #0b513e;font-weight:800}
+#obs360ReviewDialog #obs360ReviewSave:hover:not(:disabled){background:#083f34}
+#obs360ReviewDialog #obs360ReviewMessage{
+ padding:10px 12px;border-left:3px solid #b89659;background:#f0eadc;
+ border-radius:6px;white-space:pre-line;
+}
+#obs360ReviewDialog :is(input,select,textarea,button,a):focus-visible,
+.obs360-review-trigger:focus-visible{outline:3px solid #caa35b;outline-offset:2px}
+@media(max-width:480px){
+ #obs360ReviewDialog{width:calc(100vw - 18px);max-height:95dvh}
+ #obs360ReviewDialog .obs360-review-inner{max-height:94dvh;padding:17px}
+ #obs360ReviewDialog .obs360-review-actions{flex-direction:column}
+ #obs360ReviewDialog .obs360-review-actions button{width:100%}
+}
