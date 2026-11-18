@@ -14,7 +14,7 @@ const newsUrl='https://example.org/expansao/011';
 async function scenario(page,config={}){
  const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
  const dayBefore=new Date(Date.parse(today+'T12:00:00Z')-2*86400000).toISOString().slice(0,10);
- let session=config.session!==false,review=null,writes=0,reads=0,privateReads=0;
+ let session=config.session!==false,review=config.initialReview||null,writes=0,reads=0,privateReads=0,listReads=0;
  await page.route('**/api/sessao',r=>{
   if(r.request().method()==='DELETE')session=false;
   if(r.request().method()==='POST')session=true;
@@ -34,16 +34,18 @@ async function scenario(page,config={}){
    return r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({item:review})});
   }
   reads++;
-  if(config.rejectRead)return r.fulfill({status:503,contentType:'application/json',body:'{"erro":"Falha de leitura"}'});
-  return r.fulfill({status:session?200:401,contentType:'application/json',body:JSON.stringify(session?{item:review}:{erro:'Sessão necessária'})});
+  const single=r.request().url().includes('?noticia=');
+  if(!single)listReads++;
+  if(config.rejectRead||(config.rejectList&&!single))return r.fulfill({status:503,contentType:'application/json',body:'{"erro":"Falha de leitura"}'});
+  return r.fulfill({status:session?200:401,contentType:'application/json',body:JSON.stringify(session?(single?{item:review}:{items:review?[review]:[]}):{erro:'Sessão necessária'})});
  });
  const news={
   schema:'radar-observatorio-feed/1',dataReferencia:today,consultadoEm:new Date().toISOString(),
-  items:[],radar7d:[{titulo:newsTitle,url:newsUrl,publicadoEm:dayBefore,fonte:'Fonte QA'}],
+  items:[],radar7d:config.noNews?[]:[{titulo:newsTitle,url:newsUrl,publicadoEm:dayBefore,fonte:'Fonte QA'}],
   totais:{fontes:8,funcionando:8,publicacoesLidas:18,elegiveisPeloTema:1,candidatos:0,radar7d:1}
  };
  await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(news)}));
- return {writes:()=>writes,reads:()=>reads,privateReads:()=>privateReads,saved:()=>review,setSession:value=>{session=value}};
+ return {writes:()=>writes,reads:()=>reads,listReads:()=>listReads,privateReads:()=>privateReads,saved:()=>review,setSession:value=>{session=value}};
 }
 test('apuração manual de notícia semanal persiste e é relida, sem POST automático',async({page})=>{
  await page.setViewportSize({width:390,height:844});
@@ -110,4 +112,81 @@ test('falha no salvamento não informa registro confirmado',async({page})=>{
  await expect(page.locator('#obs360ReviewMessage')).toContainText('Gravação não confirmada (HTTP 503)');
  await expect(page.locator('#obs360ReviewMessage')).not.toContainText('Apuração salva e relida');
  expect(api.writes()).toBe(1);
+});
+
+test('biblioteca recupera apuração mesmo depois da notícia sair da janela semanal',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ const oldReview={
+  articleUrl:'https://example.org/antiga/noticia',
+  evidenceUrl:'https://example.org/antiga/documento-oficial',
+  title:'Projeto industrial com decisão anterior à janela de notícias',
+  finding:'Fonte documental consultada, etapas contratuais ainda precisam de verificação.',
+  status:'inconclusivo',updatedAt:'2026-10-31T16:00:00Z'
+ };
+ const api=await scenario(page,{noNews:true,initialReview:oldReview});
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.radar-company-count')).toHaveText('217');
+ await expect(page.locator('.radar-seven-day-card')).toHaveCount(0);
+ const list=page.locator('#obs360ReviewList');
+ await expect(list.locator('.obs360-review-list-card')).toHaveCount(1);
+ await expect(list).toContainText('Projeto industrial com decisão anterior');
+ await expect(list).toContainText('Pendente de diligência');
+ await expect(list.locator('a[href="https://example.org/antiga/documento-oficial"]')).toHaveCount(1);
+ expect(api.listReads()).toBeGreaterThanOrEqual(1);
+ expect(api.writes()).toBe(0);
+ await list.locator('#obs360ReviewListFilter').selectOption('confirmado');
+ await expect(list.locator('.obs360-review-list-card')).toHaveCount(0);
+ await list.locator('#obs360ReviewListFilter').selectOption('inconclusivo');
+ await expect(list.locator('.obs360-review-list-card')).toHaveCount(1);
+ await list.locator('[data-radar-review]').click();
+ await expect(page.locator('#obs360ReviewMessage')).toContainText('Apuração já registrada');
+ await expect(page.locator('#obs360ReviewFinding')).toHaveValue(oldReview.finding);
+ expect(api.writes()).toBe(0);
+ await page.locator('#obs360ReviewClose').click();
+ await page.locator('#obs360EndSession').click();
+ await expect(list.locator('.obs360-review-list-card')).toHaveCount(0);
+ await expect(list.locator('#obs360ReviewListRefresh')).toBeDisabled();
+ await expect(list.locator('#obs360ReviewListStatus')).toContainText('Área privada');
+ await page.locator('.sidebar [data-nav="investimentos"]').click();
+ await page.locator('.sidebar [data-nav="panorama"]').click();
+ await expect(page.locator('.obs360-review-list-card')).toHaveCount(0);
+ expect(api.writes()).toBe(0);
+});
+test('lista autenticada usa leitura privada, não grava e não injeta HTML recebido',async({page})=>{
+ const review={
+  articleUrl:'https://example.org/noticia-privada',
+  evidenceUrl:'https://example.org/documento-privado',
+  title:'Estudo de expansão <img src=x onerror=alert(1)>',
+  finding:'Avaliação documental <script>window.compromised=true</script> sem confirmação de venda.',
+  status:'confirmado',updatedAt:'2026-11-10T11:00:00Z'
+ };
+ const api=await scenario(page,{noNews:true,initialReview:review});
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.obs360-review-list-card')).toHaveCount(1);
+ await expect(page.locator('.obs360-review-list-card')).toContainText('<script>window.compromised=true</script>');
+ await expect(page.locator('.obs360-review-list-card img')).toHaveCount(0);
+ await expect(page.locator('.obs360-review-list-card script')).toHaveCount(0);
+ expect(await page.evaluate(()=>window.compromised)).toBeUndefined();
+ expect(api.writes()).toBe(0);
+});
+test('falha na listagem não mostra registros antigos nem confirmação falsa',async({page})=>{
+ await scenario(page,{rejectList:true,noNews:true});
+ await page.goto('/demo/observatorio.html');
+ const list=page.locator('#obs360ReviewList');
+ await expect(list.locator('#obs360ReviewListStatus')).toContainText('Consulta indisponível (HTTP 503)');
+ await expect(list.locator('.obs360-review-list-card')).toHaveCount(0);
+ await expect(list.locator('#obs360ReviewListRefresh')).toBeEnabled();
+});
+test('biblioteca permanece inacessível e não realiza GET privado sem sessão',async({page})=>{
+ const api=await scenario(page,{session:false,noNews:true,initialReview:{
+  articleUrl:'https://example.org/x',evidenceUrl:'https://example.org/y',title:'Documento confidencial',
+  finding:'Uma constatação que não pode aparecer sem autenticação',status:'confirmado',updatedAt:'2026-11-01T00:00:00Z'
+ }});
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('#obs360ReviewListStatus')).toContainText('Área privada');
+ await expect(page.locator('.obs360-review-list-card')).toHaveCount(0);
+ await expect(page.locator('#obs360ReviewListFilter')).toBeDisabled();
+ await expect(page.locator('#obs360ReviewListRefresh')).toBeDisabled();
+ expect(api.listReads()).toBe(0);
+ expect(api.writes()).toBe(0);
 });
