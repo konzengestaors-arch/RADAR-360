@@ -41,7 +41,7 @@ test('vitrine de noticias cabe em mobile e atualiza sem duplicar',async({browser
 });
 
 
-test('investimentos de hoje não confundem FGTS nem exibem arquivo antigo como atual',async({page})=>{
+test('investimentos dos últimos sete dias não confundem FGTS nem exibem arquivo antigo como atual',async({page})=>{
  const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
  const feed={
   schema:'radar-observatorio-feed/1',dataReferencia:today,consultadoEm:new Date().toISOString(),
@@ -55,6 +55,9 @@ test('investimentos de hoje não confundem FGTS nem exibem arquivo antigo como a
     url:'https://example.org/antigo',publicadoEm:'2026-11-06',fonte:'Fonte histórica de teste',territorio:'RS'}
   ]
  };
+ // As notícias de hoje e o radar semanal têm coleções distintas na API.
+ // A notícia antiga permanece como prova de que o filtro temporal funciona.
+ feed.radar7d=[feed.items[1],feed.items[2]];
  await page.route('**/api/noticias',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(feed)}));
  await page.goto('/demo/observatorio.html');
  await expect(page.locator('.news-live-card')).toHaveCount(2);
@@ -78,7 +81,7 @@ test('sem notícias de hoje, não recicla manchetes históricas',async({page})=>
  await expect(page.locator('.news-live-card')).toHaveCount(0);
  await expect(page.locator('#radarLiveNews')).toContainText('Nenhuma publicação de hoje passou pelos filtros');
  await page.locator('.nav [data-nav="investimentos"]').click();
- await expect(page.locator('#radarInvestmentSignals')).toContainText('Nenhum sinal de investimento empresarial publicado hoje');
+ await expect(page.locator('#radarInvestmentSignals')).toContainText('Nenhuma pista de investimento identificada nos últimos sete dias');
 });
 
 test('triagem editorial separa sinais empresariais das notícias macro no Android',async({browser})=>{
