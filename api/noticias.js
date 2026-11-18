@@ -1,13 +1,13 @@
 /* RADAR Observatório v1.9 — coletor RSS sob demanda. Sem dados privados, sem cron,
    sem scraping de páginas HTML e sem URLs fornecidas pelo cliente. */
 const {buildGoogleNewsUrl,parseGoogleNewsRss}=require('../experiments/axiom/google-news-rss.cjs');
-const GOOGLE_FEED={id:'google-news-economia',nome:'Google Notícias · Economia e investimentos',url:buildGoogleNewsUrl('Rio Grande do Sul',1),area:'Brasil',kind:'google'};
+const GOOGLE_FEED={id:'google-news-economia',nome:'Google Notícias · Economia e investimentos',url:buildGoogleNewsUrl('Rio Grande do Sul',7),area:'Brasil',kind:'google'};
 /* Ampliação geográfica de fontes PÚBLICAS: nunca enviar empresas do catálogo
    privado a mecanismos de busca externos. Três buscas gratuitas, regionais. */
 const GOOGLE_FEEDS=Object.freeze([
  GOOGLE_FEED,
- {id:'google-news-canoas',nome:'Google Notícias · Canoas e Região Metropolitana',url:buildGoogleNewsUrl('Canoas',1),area:'RS',kind:'google'},
- {id:'google-news-chapeco',nome:'Google Notícias · Chapecó e Oeste SC',url:buildGoogleNewsUrl('Chapecó',1),area:'SC',kind:'google'}
+ {id:'google-news-canoas',nome:'Google Notícias · Canoas e Região Metropolitana',url:buildGoogleNewsUrl('Canoas',7),area:'RS',kind:'google'},
+ {id:'google-news-chapeco',nome:'Google Notícias · Chapecó e Oeste SC',url:buildGoogleNewsUrl('Chapecó',7),area:'SC',kind:'google'}
 ]);
 async function requestGoogleNews(feed,fetcher){
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),7000);
@@ -67,7 +67,7 @@ function classify(feed,text){text=String(text||'').normalize('NFD').replace(/[\u
  const topical=text.replace(/\bporto alegre\b/gi,'cidade gaúcha');
  const impact=/\b(aeroporto\w*|voos? suspens\w*|rodovi\w*|estradas?|pontes?|escombros|bloqueio|bloqueia acesso|desabastec\w*|infraestrutur\w*|cidades? sem luz|energia|prejuiz\w*|paralis\w*|produ[cç]ao|logistica|porto de|posto de combustiveis|industria\w*|safra|agroindustria|ferrovi\w*)\b/i.test(topical);
  const weather=/\b(temporal\w*|tornado\w*|chuvas?|enchent\w*|inunda[cç][aã]o|enxurrad\w*|tempestad\w*|vento\w*|granizo|destrui[cç][aã]o)\b/i.test(topical);
- const economic=/\b(cbs|ibs|aliquot\w*|reforma tributaria|tributari\w*|tributac\w*|impost\w*|investiment\w*|economi\w*|empreg\w*|industria\w*|fabrica\w*|producao|exporta\w*|importa\w*|portuari\w*|porto de|portos?(?! alegre)|aeroporto\w*|obras?|rodovi\w*|ferrovi\w*|energia|usinas?|licitacao|concessao|pib|inflacao|juros?|selic|cambio|dolar|euro|agroindustria|safra|cooperativ\w*|comercio|logistica|infraestrutur\w*|desabastec\w*|bloqueio|interdicao|financiam\w*|credito|brde|bndes|fiesc|desenvolv\w*|miner\w*|mineracao)\b/i.test(topical);
+ const economic=/\b(cbs|ibs|aliquot\w*|reforma tributaria|tributari\w*|tributac\w*|impost\w*|investiment\w*|economi\w*|empreg\w*|industria\w*|fabrica\w*|producao|exporta\w*|importa\w*|portuari\w*|porto de|portos?(?! alegre)|aeroporto\w*|obras?|rodovi\w*|ferrovi\w*|energia|usinas?|licitacao|concessao|pib|inflacao|juros?|selic|cambio|dolar|euro|agroindustria|safra|cooperativ\w*|comercio|logistica|infraestrutur\w*|desabastec\w*|bloqueio|interdicao|financiam\w*|credito|brde|bndes|fiesc|desenvolv\w*|miner\w*|mineracao|parque de inovacao|parque tecnologico|polo tecnologico|hub de inovacao)\b/i.test(topical);
  if(!economic && !(weather&&impact))return null;if(feed.area==='Sul'&&!SC_W.test(text)&&!RS_W.test(text))return null;if(feed.area==='RS')return {territorio:'RS',setor:'Economia regional'};
  if(feed.area==='SC'){if(!SC_W.test(text))return null;return {territorio:SC_S.test(text)?'Litoral sul SC':'Oeste SC',setor:'Economia regional'};}
  if(SC_W.test(text))return {territorio:SC_S.test(text)?'Litoral sul SC':'Oeste SC',setor:'Economia regional'};
