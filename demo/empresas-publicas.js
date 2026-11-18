@@ -153,7 +153,7 @@ async function endPrivateSession(){
   if(!r.ok)throw Error('HTTP '+r.status);
   const v=await r.json();
   if(v.authenticated!==false)throw Error('Revogação não confirmada');
-  sessionState='closed';entries=[];source='none';latestNews=[];window.RadarReviewQA?.close?.();diagnosticMessage='Sessão encerrada. Execute nova verificação após iniciar sessão privada.';
+  sessionState='closed';entries=[];source='none';latestNews=[];window.RadarReviewQA?.reset?.();diagnosticMessage='Sessão encerrada. Execute nova verificação após iniciar sessão privada.';
   setStatus('Sessão do Observatório revogada. A autenticação da Vercel pode permanecer ativa; empresas e dossiês continuam bloqueados até iniciar outra sessão.');
   showMatches([]);
  }catch(e){sessionState='error';entries=[];source='none';setStatus('Não foi possível confirmar a revogação. '+String(e.message||e).slice(0,80));}
