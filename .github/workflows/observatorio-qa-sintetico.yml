@@ -87,8 +87,8 @@ jobs:
           node-version: '22'
       - name: Dependencias e Chromium
         run: |
-          npm install --no-audit --no-fund
-          npx playwright install --with-deps chromium
+          npm ci --no-audit --no-fund
+          npx playwright install --only-shell chromium
       - name: Validar capa em Android e desktop
         run: npx playwright test browser-tests/capa-news-first-qa.spec.cjs browser-tests/noticias-visiveis.spec.cjs browser-tests/catalogo-privado-222.spec.cjs browser-tests/apuracoes-privadas-qa.spec.cjs browser-tests/pwa-install-qa.spec.cjs
       - name: Evidencias visuais
