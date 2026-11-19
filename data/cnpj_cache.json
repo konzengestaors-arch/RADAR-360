@@ -5105,5 +5105,1471 @@
  },
  "20490998000167": {
   "uf": "SP"
+ },
+ "34274233000102": {
+  "uf": "RJ"
+ },
+ "09412836000178": {
+  "uf": "AL"
+ },
+ "27557792000156": {
+  "uf": "ES"
+ },
+ "27764200000177": {
+  "uf": "RJ"
+ },
+ "02810894000100": {
+  "uf": "PR"
+ },
+ "00801512000157": {
+  "uf": "RJ"
+ },
+ "59456277000257": {
+  "uf": "RJ"
+ },
+ "03030002000111": {
+  "uf": "PR"
+ },
+ "07256305000108": {
+  "uf": "SC",
+  "municipio": "Nova Trento",
+  "porte": "DEMAIS",
+  "cnae": "Construção de edifícios",
+  "telefone": "(48) 3267-1856",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "12449880000167": {
+  "uf": "AL"
+ },
+ "04379027000198": {
+  "uf": "PR"
+ },
+ "08247960000162": {
+  "uf": "DF"
+ },
+ "00146531000197": {
+  "uf": "RJ"
+ },
+ "00914141000110": {
+  "uf": "PE"
+ },
+ "38240209000103": {
+  "uf": "AL"
+ },
+ "56998701003301": {
+  "uf": "SP"
+ },
+ "36433077000100": {
+  "uf": "RJ"
+ },
+ "08202514000131": {
+  "uf": "RS",
+  "municipio": "Itaqui",
+  "porte": "DEMAIS",
+  "cnae": "Treinamento em desenvolvimento profissional e gerencial",
+  "telefone": "(55) 3433-7327",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "30307583000169": {
+  "uf": "RJ"
+ },
+ "62511019000150": {
+  "uf": "SP"
+ },
+ "15715423000165": {
+  "uf": "RR"
+ },
+ "08070362000160": {
+  "uf": "SP"
+ },
+ "16513178000176": {
+  "uf": "MG"
+ },
+ "00780851000102": {
+  "uf": "PE"
+ },
+ "48727071000117": {
+  "uf": "SC",
+  "municipio": "Itapoa",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Construção de edifícios",
+  "telefone": "(47) 9967-1554",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "W C Construtora E Incorporadora"
+ },
+ "12252074000102": {
+  "uf": "BA"
+ },
+ "01773463000159": {
+  "uf": "SP"
+ },
+ "30017321000160": {
+  "uf": "RJ"
+ },
+ "69692738000163": {
+  "uf": "SP"
+ },
+ "05202938000108": {
+  "uf": "DF"
+ },
+ "77997187000174": {
+  "uf": "PR"
+ },
+ "69659008000160": {
+  "uf": "SP"
+ },
+ "13401652000180": {
+  "uf": "MG"
+ },
+ "48059552000100": {
+  "uf": "SP"
+ },
+ "14056183000171": {
+  "uf": "SP"
+ },
+ "03381256000184": {
+  "uf": "BA"
+ },
+ "04892991000115": {
+  "uf": "SC",
+  "municipio": "Florianopolis",
+  "porte": "DEMAIS",
+  "cnae": "Comércio atacadista de equipamentos de informática",
+  "telefone": "(48) 3031-3450",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Teltec Solutions"
+ },
+ "27343319000176": {
+  "uf": "PB"
+ },
+ "68795933000156": {
+  "uf": "SP"
+ },
+ "05937924000132": {
+  "uf": "RJ"
+ },
+ "20201688000185": {
+  "uf": "AC"
+ },
+ "24435164000100": {
+  "uf": "PA"
+ },
+ "21649171000116": {
+  "uf": "BA"
+ },
+ "18985386000101": {
+  "uf": "MG"
+ },
+ "39349504000157": {
+  "uf": "MG"
+ },
+ "13258693000169": {
+  "uf": "PE"
+ },
+ "07723099000107": {
+  "uf": "SC",
+  "municipio": "Florianopolis",
+  "porte": "DEMAIS",
+  "cnae": "Desenvolvimento e licenciamento de programas de computador não-customizáveis",
+  "telefone": "(48) 3024-0003",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Talkandwrite"
+ },
+ "12076969000125": {
+  "uf": "AM"
+ },
+ "76093731000786": {
+  "uf": "PR"
+ },
+ "05458870000122": {
+  "uf": "MA"
+ },
+ "85070068000108": {
+  "uf": "PR"
+ },
+ "10362443000186": {
+  "uf": "SP"
+ },
+ "07468050000147": {
+  "uf": "CE"
+ },
+ "45562851000166": {
+  "uf": "MA"
+ },
+ "00134748000187": {
+  "uf": "RS",
+  "municipio": "Porto Alegre",
+  "porte": "DEMAIS",
+  "cnae": "Serviços de engenharia",
+  "telefone": "(51) 3224-2365",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "72622053000155": {
+  "uf": "DF"
+ },
+ "08666201000134": {
+  "uf": "RO"
+ },
+ "01181242000604": {
+  "uf": "GO"
+ },
+ "21710641000100": {
+  "uf": "MG"
+ },
+ "00588573000188": {
+  "uf": "SP"
+ },
+ "08936632000173": {
+  "uf": "RS",
+  "municipio": "Torres",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Obras de urbanização - ruas, praças e calçadas",
+  "telefone": "(51) 3605-2781",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Construjo Materiais De Construcao"
+ },
+ "27943728000103": {
+  "uf": "PR"
+ },
+ "34905197000120": {
+  "uf": "AL"
+ },
+ "15247296000117": {
+  "uf": "SC",
+  "municipio": "Rio Dos Cedros",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Obras de urbanização - ruas, praças e calçadas",
+  "telefone": "(47) 9185-2108",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Iberica Construtora De Obras"
+ },
+ "48674718000190": {
+  "uf": "SP"
+ },
+ "10491826000154": {
+  "uf": "PR"
+ },
+ "02214014000133": {
+  "uf": "RJ"
+ },
+ "06018027000198": {
+  "uf": "PR"
+ },
+ "06214736000149": {
+  "uf": "PE"
+ },
+ "13392705000143": {
+  "uf": "AM"
+ },
+ "30198362000442": {
+  "uf": "RS",
+  "municipio": "Ararica",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Laboratórios clínicos",
+  "telefone": "(51) 3523-1845",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "03551798000158": {
+  "uf": "SP"
+ },
+ "29297729000153": {
+  "uf": "RN"
+ },
+ "16558643000195": {
+  "uf": "BA"
+ },
+ "11705745000172": {
+  "uf": "PR"
+ },
+ "17275476000138": {
+  "uf": "BA"
+ },
+ "27785836000103": {
+  "uf": "SE"
+ },
+ "68806896000134": {
+  "uf": "BA"
+ },
+ "04535778000156": {
+  "uf": "MG"
+ },
+ "11465173000100": {
+  "uf": "SP"
+ },
+ "09076213000171": {
+  "uf": "PR"
+ },
+ "03634318000112": {
+  "uf": "DF"
+ },
+ "28344495000195": {
+  "uf": "SC",
+  "municipio": "Balneario Camboriu",
+  "porte": "DEMAIS",
+  "cnae": "Comércio por atacado de reboques e semi-reboques novos e usados",
+  "telefone": "(47) 8813-9824",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Himmel Maquinas"
+ },
+ "36172010000151": {
+  "uf": "PR"
+ },
+ "75055772000120": {
+  "uf": "PR"
+ },
+ "41174890000135": {
+  "uf": "MG"
+ },
+ "00029372000221": {
+  "uf": "MG"
+ },
+ "39928631000100": {
+  "uf": "MT"
+ },
+ "33935135000106": {
+  "uf": "PR"
+ },
+ "56135963000157": {
+  "uf": "RJ"
+ },
+ "10947845000142": {
+  "uf": "MT"
+ },
+ "48885582000167": {
+  "uf": "RS",
+  "municipio": "Campo Bom",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Serviços de engenharia",
+  "telefone": "(51) 9156-9437",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Animo Engenharia E Construcao"
+ },
+ "76764448000143": {
+  "uf": "PR"
+ },
+ "08488621000178": {
+  "uf": "PR"
+ },
+ "31420049000127": {
+  "uf": "RJ"
+ },
+ "33053574000187": {
+  "uf": "MG"
+ },
+ "04210108000160": {
+  "uf": "SE"
+ },
+ "49337910000153": {
+  "uf": "PA"
+ },
+ "07370958000113": {
+  "uf": "PR"
+ },
+ "00394772000155": {
+  "uf": "PI"
+ },
+ "07887934000136": {
+  "uf": "BA"
+ },
+ "17433496000190": {
+  "uf": "PA"
+ },
+ "28058398000136": {
+  "uf": "SP"
+ },
+ "04603807000170": {
+  "uf": "PE"
+ },
+ "44445224000182": {
+  "uf": "MS"
+ },
+ "73856593001138": {
+  "uf": "SP"
+ },
+ "03226149001587": {
+  "uf": "MS"
+ },
+ "18366115000160": {
+  "uf": "AM"
+ },
+ "27232335000191": {
+  "uf": "SC",
+  "municipio": "Blumenau",
+  "porte": "DEMAIS",
+  "cnae": "Obras de terraplenagem",
+  "telefone": "(47) 9174-2249",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Lider Obras De Infraestrutura"
+ },
+ "28354402000103": {
+  "uf": "CE"
+ },
+ "21160150000132": {
+  "uf": "MG"
+ },
+ "13927819000140": {
+  "uf": "BA"
+ },
+ "17210871000132": {
+  "uf": "SE"
+ },
+ "19867870000190": {
+  "uf": "SC",
+  "municipio": "Indaial",
+  "porte": "DEMAIS",
+  "cnae": "Confecção de peças de vestuário, exceto roupas íntimas e as confeccionadas sob medida",
+  "telefone": "(47) 3304-9834",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Ecoplex Comercial"
+ },
+ "41597658000100": {
+  "uf": "PA"
+ },
+ "00904728001543": {
+  "uf": "MG"
+ },
+ "35028120000181": {
+  "uf": "PI"
+ },
+ "07952819000106": {
+  "uf": "RJ"
+ },
+ "20357581000120": {
+  "uf": "MS"
+ },
+ "11914970000119": {
+  "uf": "PR"
+ },
+ "14190481000150": {
+  "uf": "PI"
+ },
+ "14164110000101": {
+  "uf": "PR"
+ },
+ "08055669000192": {
+  "uf": "RO"
+ },
+ "30050646000144": {
+  "uf": "BA"
+ },
+ "42129716000133": {
+  "uf": "PR"
+ },
+ "00360305000104": {
+  "uf": "DF"
+ },
+ "28610644000110": {
+  "uf": "SP"
+ },
+ "46900874000104": {
+  "uf": "SP"
+ },
+ "60746948000112": {
+  "uf": "SP"
+ },
+ "41347438000128": {
+  "uf": "MG"
+ },
+ "41033400000180": {
+  "uf": "SP"
+ },
+ "11180512000101": {
+  "uf": "SP"
+ },
+ "03815080000121": {
+  "uf": "SC",
+  "municipio": "Criciuma",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Transporte rodoviário de mudanças",
+  "telefone": "(41) 9173-3232",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Lemos Mudancas"
+ },
+ "57588549000166": {
+  "uf": "MG"
+ },
+ "48176452000155": {
+  "uf": "MS"
+ },
+ "03817702000150": {
+  "uf": "GO"
+ },
+ "09241070000106": {
+  "uf": "PA"
+ },
+ "20889357000180": {
+  "uf": "BA"
+ },
+ "00389481000179": {
+  "uf": "BA"
+ },
+ "40725564000106": {
+  "uf": "PI"
+ },
+ "03617079000192": {
+  "uf": "DF"
+ },
+ "15495885000114": {
+  "uf": "PA"
+ },
+ "00773222000147": {
+  "uf": "MG"
+ },
+ "23002650000171": {
+  "uf": "RJ"
+ },
+ "02092332000179": {
+  "uf": "SP"
+ },
+ "30878293000175": {
+  "uf": "RJ"
+ },
+ "59717553000617": {
+  "uf": "MG"
+ },
+ "61774016000146": {
+  "uf": "MG"
+ },
+ "10500258000100": {
+  "uf": "MS"
+ },
+ "31306638000189": {
+  "uf": "MG"
+ },
+ "10685256000133": {
+  "uf": "SP"
+ },
+ "33047435000140": {
+  "uf": "SP"
+ },
+ "72581705000150": {
+  "uf": "RJ"
+ },
+ "36314983000188": {
+  "uf": "MT"
+ },
+ "30445153000103": {
+  "uf": "PA"
+ },
+ "07527707001090": {
+  "uf": "RO"
+ },
+ "46276066000100": {
+  "uf": "MT"
+ },
+ "00405527000104": {
+  "uf": "SP"
+ },
+ "12140941000100": {
+  "uf": "SP"
+ },
+ "63204985000197": {
+  "uf": "SP"
+ },
+ "78191715000166": {
+  "uf": "PR"
+ },
+ "44005491000139": {
+  "uf": "SP"
+ },
+ "35547227000136": {
+  "uf": "PR"
+ },
+ "23126273000182": {
+  "uf": "PA"
+ },
+ "22317405000190": {
+  "uf": "PE"
+ },
+ "10414691000123": {
+  "uf": "RS",
+  "municipio": "Pouso Novo",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Serviços de borracharia para veículos automotores",
+  "telefone": "",
+  "situacao": "ATIVA",
+  "mei": true,
+  "fantasia": ""
+ },
+ "23433268000112": {
+  "uf": "SP"
+ },
+ "07725339000102": {
+  "uf": "MS"
+ },
+ "09319572000102": {
+  "uf": "PA"
+ },
+ "06160688000153": {
+  "uf": "DF"
+ },
+ "01513315000103": {
+  "uf": "SC",
+  "municipio": "Tijucas",
+  "porte": "DEMAIS",
+  "cnae": "Obras de terraplenagem",
+  "telefone": "(48) 8478-9414",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "02973225000150": {
+  "uf": "RS",
+  "municipio": "Rio Pardo",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Laboratórios clínicos",
+  "telefone": "(05) 1731-1430",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Jblab Laboratorio De Analises Clinicas Ltda"
+ },
+ "48791685000168": {
+  "uf": "SP"
+ },
+ "19988502000109": {
+  "uf": "PI"
+ },
+ "09475334000196": {
+  "uf": "SP"
+ },
+ "01590728000930": {
+  "uf": "ES"
+ },
+ "31699425000164": {
+  "uf": "RJ"
+ },
+ "59554370000113": {
+  "uf": "SC",
+  "municipio": "Sao Cristovao Do Sul",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Atividades de intermediação e agenciamento de serviços e negócios em geral, exceto imobiliários",
+  "telefone": "(49) 8809-8886",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Gersystem"
+ },
+ "48760149000103": {
+  "uf": "BA"
+ },
+ "90660754000160": {
+  "uf": "RS",
+  "municipio": "Ibiruba",
+  "porte": "DEMAIS",
+  "cnae": "Distribuição de energia elétrica",
+  "telefone": "(54) 3324-5800",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "17112698000130": {
+  "uf": "MS"
+ },
+ "40239401000113": {
+  "uf": "MG"
+ },
+ "16865089000199": {
+  "uf": "ES"
+ },
+ "01135910000144": {
+  "uf": "PA"
+ },
+ "21069420000102": {
+  "uf": "MS"
+ },
+ "11049892000131": {
+  "uf": "CE"
+ },
+ "03867672000197": {
+  "uf": "RN"
+ },
+ "12046768000185": {
+  "uf": "PA"
+ },
+ "63926861000115": {
+  "uf": "MG"
+ },
+ "16568394000119": {
+  "uf": "SP"
+ },
+ "57806857000110": {
+  "uf": "CE"
+ },
+ "02760686000144": {
+  "uf": "PE"
+ },
+ "29449247000171": {
+  "uf": "PE"
+ },
+ "31749966000150": {
+  "uf": "RS",
+  "municipio": "Cachoeirinha",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Fabricação de equipamentos hidráulicos e pneumáticos, peças e acessórios, exceto válvulas",
+  "telefone": "(51) 3075-9570",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Sukha Industria De Maquinas"
+ },
+ "08286262000176": {
+  "uf": "RN"
+ },
+ "11442674000162": {
+  "uf": "PR"
+ },
+ "02778129000150": {
+  "uf": "SP"
+ },
+ "09508579000172": {
+  "uf": "PB"
+ },
+ "25189869000157": {
+  "uf": "SP"
+ },
+ "40834971000151": {
+  "uf": "RN"
+ },
+ "32135863000162": {
+  "uf": "DF"
+ },
+ "01823718000140": {
+  "uf": "DF"
+ },
+ "03951766000140": {
+  "uf": "RJ"
+ },
+ "54298147000139": {
+  "uf": "DF"
+ },
+ "34330835000121": {
+  "uf": "BA"
+ },
+ "35820448008110": {
+  "uf": "SP"
+ },
+ "33572971000165": {
+  "uf": "CE"
+ },
+ "37452665000146": {
+  "uf": "CE"
+ },
+ "66928154000156": {
+  "uf": "TO"
+ },
+ "29479764000193": {
+  "uf": "SC",
+  "municipio": "Guatambu",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Construção de edifícios",
+  "telefone": "(49) 9935-1024",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Tr Construtora"
+ },
+ "20169827002427": {
+  "uf": "MG"
+ },
+ "77595395002271": {
+  "uf": "PR"
+ },
+ "72487242000162": {
+  "uf": "PR"
+ },
+ "40505805000101": {
+  "uf": "PI"
+ },
+ "39452484000145": {
+  "uf": "GO"
+ },
+ "02385669000174": {
+  "uf": "RJ"
+ },
+ "52111009000173": {
+  "uf": "RS",
+  "municipio": "Canoas",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Obras de alvenaria",
+  "telefone": "(51) 9355-6288",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "T.S.K."
+ },
+ "56944142000161": {
+  "uf": "SP"
+ },
+ "39960498000170": {
+  "uf": "MA"
+ },
+ "41769803000192": {
+  "uf": "MG"
+ },
+ "07193926000190": {
+  "uf": "MG"
+ },
+ "11600922000156": {
+  "uf": "PR"
+ },
+ "37239818000171": {
+  "uf": "CE"
+ },
+ "43665659000170": {
+  "uf": "BA"
+ },
+ "45990624000131": {
+  "uf": "PB"
+ },
+ "08797404000160": {
+  "uf": "SE"
+ },
+ "05688063000104": {
+  "uf": "MA"
+ },
+ "34366321000126": {
+  "uf": "SP"
+ },
+ "05109741000129": {
+  "uf": "SP"
+ },
+ "12096176000178": {
+  "uf": "RN"
+ },
+ "42830706000120": {
+  "uf": "SP"
+ },
+ "02252956000106": {
+  "uf": "MA"
+ },
+ "02060306000169": {
+  "uf": "RJ"
+ },
+ "26426650000197": {
+  "uf": "DF"
+ },
+ "42382495000100": {
+  "uf": "SC",
+  "municipio": "Rio Negrinho",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Obras de alvenaria",
+  "telefone": "(47) 9185-6388",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Compacta Construtora Ltda"
+ },
+ "27843431000176": {
+  "uf": "PR"
+ },
+ "35416863000129": {
+  "uf": "PI"
+ },
+ "27620452000122": {
+  "uf": "RS",
+  "municipio": "Santa Cruz Do Sul",
+  "porte": "DEMAIS",
+  "cnae": "Obras de terraplenagem",
+  "telefone": "(51) 3121-2152",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Ditrevi Engenharia"
+ },
+ "24110987000165": {
+  "uf": "PI"
+ },
+ "05240325000165": {
+  "uf": "RO"
+ },
+ "00761829000107": {
+  "uf": "MG"
+ },
+ "27073516000112": {
+  "uf": "MG"
+ },
+ "15130631000100": {
+  "uf": "AL"
+ },
+ "69371838000198": {
+  "uf": "RS",
+  "municipio": "Triunfo",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Atividades de enfermagem",
+  "telefone": "",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "57496662000111": {
+  "uf": "RS",
+  "municipio": "Guapore",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Atividades de psicologia e psicanálise",
+  "telefone": "(54) 8428-6298",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "13676643000100": {
+  "uf": "PA"
+ },
+ "34792665000105": {
+  "uf": "SP"
+ },
+ "51343891000110": {
+  "uf": "PE"
+ },
+ "08680686000110": {
+  "uf": "RS",
+  "municipio": "Venancio Aires",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Instalação e manutenção de sistemas centrais de ar condicionado, de ventilação e refrigeração",
+  "telefone": "(51) 9707-9849",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Up Refrigeracao E Assessoria"
+ },
+ "33517594000161": {
+  "uf": "PR"
+ },
+ "05440065000171": {
+  "uf": "PR"
+ },
+ "82895327000133": {
+  "uf": "SC",
+  "municipio": "Florianopolis",
+  "porte": "DEMAIS",
+  "cnae": "Atividades de apoio à educação, exceto caixas escolares",
+  "telefone": "(48) 3231-4400",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Fundacao Stemmer Para Pesquisa, Desenv. E Inovacao"
+ },
+ "15733417000130": {
+  "uf": "GO"
+ },
+ "01427687000109": {
+  "uf": "SP"
+ },
+ "02811333000126": {
+  "uf": "SP"
+ },
+ "06063835000177": {
+  "uf": "SP"
+ },
+ "20878601000109": {
+  "uf": "RS",
+  "municipio": "Lagoa Dos Tres Cantos",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Obras de alvenaria",
+  "telefone": "(54) 8158-8721",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Construtora Eckstein"
+ },
+ "62735216000152": {
+  "uf": "PA"
+ },
+ "42096017000134": {
+  "uf": "RJ"
+ },
+ "39611097000104": {
+  "uf": "PA"
+ },
+ "46462463000176": {
+  "uf": "PB"
+ },
+ "11720152000185": {
+  "uf": "RO"
+ },
+ "29341468000121": {
+  "uf": "RJ"
+ },
+ "08241158000165": {
+  "uf": "DF"
+ },
+ "06343763000111": {
+  "uf": "TO"
+ },
+ "03093776001325": {
+  "uf": "GO"
+ },
+ "52690360000166": {
+  "uf": "SP"
+ },
+ "36709009000113": {
+  "uf": "PI"
+ },
+ "15773966000139": {
+  "uf": "CE"
+ },
+ "41481732000128": {
+  "uf": "PR"
+ },
+ "23114739000120": {
+  "uf": "DF"
+ },
+ "29094705000105": {
+  "uf": "SP"
+ },
+ "32252620000104": {
+  "uf": "DF"
+ },
+ "52444379000122": {
+  "uf": "SP"
+ },
+ "07210534000191": {
+  "uf": "BA"
+ },
+ "27692184000154": {
+  "uf": "RN"
+ },
+ "14371005000135": {
+  "uf": "RO"
+ },
+ "02760004000101": {
+  "uf": "ES"
+ },
+ "63326722000150": {
+  "uf": "PI"
+ },
+ "19198078000190": {
+  "uf": "MG"
+ },
+ "34289656000198": {
+  "uf": "ES"
+ },
+ "39817372000140": {
+  "uf": "PA"
+ },
+ "37749910000181": {
+  "uf": "SP"
+ },
+ "14289754000118": {
+  "uf": "PR"
+ },
+ "03788024000145": {
+  "uf": "CE"
+ },
+ "40112067000132": {
+  "uf": "PE"
+ },
+ "37383336000190": {
+  "uf": "PB"
+ },
+ "58315382000122": {
+  "uf": "PE"
+ },
+ "16612503000158": {
+  "uf": "SP"
+ },
+ "04307650002855": {
+  "uf": "SP"
+ },
+ "26289866000158": {
+  "uf": "PR"
+ },
+ "33683111000441": {
+  "uf": "CE"
+ },
+ "02917870000155": {
+  "uf": "GO"
+ },
+ "10434141000176": {
+  "uf": "SP"
+ },
+ "11845482000105": {
+  "uf": "PR"
+ },
+ "60890064000137": {
+  "uf": "SC",
+  "municipio": "Paraiso",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Comércio varejista de carnes - açougues",
+  "telefone": "(49) 3622-2157",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Letavo Alimentos"
+ },
+ "04807924000155": {
+  "uf": "SP"
+ },
+ "70430558000192": {
+  "uf": "MT"
+ },
+ "11676271000188": {
+  "uf": "RJ"
+ },
+ "31909684000172": {
+  "uf": "MS"
+ },
+ "55991796000183": {
+  "uf": "PR"
+ },
+ "21012190000994": {
+  "uf": "MG"
+ },
+ "11768319000188": {
+  "uf": "CE"
+ },
+ "46871900000105": {
+  "uf": "PB"
+ },
+ "35458914000185": {
+  "uf": "SP"
+ },
+ "19740525000191": {
+  "uf": "AM"
+ },
+ "35048738000103": {
+  "uf": "SP"
+ },
+ "01004695000142": {
+  "uf": "RR"
+ },
+ "93088649000197": {
+  "uf": "RS",
+  "municipio": "Tres De Maio",
+  "porte": "DEMAIS",
+  "cnae": "Desenvolvimento e licenciamento de programas de computador customizáveis",
+  "telefone": "(55) 3535-4900",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Abase Sistemas"
+ },
+ "07640617000200": {
+  "uf": "DF"
+ },
+ "10643995000162": {
+  "uf": "MG"
+ },
+ "08808153000171": {
+  "uf": "MG"
+ },
+ "44613411000128": {
+  "uf": "GO"
+ },
+ "21121164000147": {
+  "uf": "SP"
+ },
+ "44613399000151": {
+  "uf": "RS",
+  "municipio": "Porto Alegre",
+  "porte": "MICRO EMPRESA",
+  "cnae": "Educação infantil - pré-escola",
+  "telefone": "(51) 2312-8008",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "E E Infantil Nova Geracao"
+ },
+ "05353119000161": {
+  "uf": "PR"
+ },
+ "44921938000110": {
+  "uf": "PB"
+ },
+ "38613126000104": {
+  "uf": "SC",
+  "municipio": "Sao Jose",
+  "porte": "EMPRESA DE PEQUENO PORTE",
+  "cnae": "Atividade médica ambulatorial restrita a consultas",
+  "telefone": "(48) 3223-0300",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Global Nexus Tour"
+ },
+ "32247622000105": {
+  "uf": "PE"
+ },
+ "13128071000116": {
+  "uf": "AM"
+ },
+ "20921450000124": {
+  "uf": "SP"
+ },
+ "18643778000184": {
+  "uf": "PR"
+ },
+ "05035532002717": {
+  "uf": "SC",
+  "municipio": "Sao Jose",
+  "porte": "DEMAIS",
+  "cnae": "Comércio a varejo de automóveis, camionetas e utilitários novos",
+  "telefone": "(43) 3377-1212",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Metronorte"
+ },
+ "41825798000198": {
+  "uf": "PI"
+ },
+ "39513779000184": {
+  "uf": "PR"
+ },
+ "88630413000796": {
+  "uf": "RS",
+  "municipio": "Porto Alegre",
+  "porte": "DEMAIS",
+  "cnae": "Atividades de atendimento hospitalar, exceto pronto-socorro e unidades para atendimento a urgências",
+  "telefone": "(05) 13320-3000",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Hospital Sao Lucas Da Pucrs"
+ },
+ "39415957000134": {
+  "uf": "CE"
+ },
+ "10695715000160": {
+  "uf": "RO"
+ },
+ "27284516000161": {
+  "uf": "BA"
+ },
+ "04709749000163": {
+  "uf": "MS"
+ },
+ "07047251000170": {
+  "uf": "CE"
+ },
+ "54123173000126": {
+  "uf": "PI"
+ },
+ "32709736000120": {
+  "uf": "GO"
+ },
+ "07263309000547": {
+  "uf": "PR"
+ },
+ "05326068000189": {
+  "uf": "SP"
+ },
+ "30125287000147": {
+  "uf": "MT"
+ },
+ "69106613000104": {
+  "uf": "MG"
+ },
+ "12721248000120": {
+  "uf": "MG"
+ },
+ "00091707000150": {
+  "uf": "SE"
+ },
+ "50155134000907": {
+  "uf": "SP"
+ },
+ "30948812000124": {
+  "uf": "PE"
+ },
+ "10272533000267": {
+  "uf": "DF"
+ },
+ "37676047000180": {
+  "uf": "TO"
+ },
+ "06323946000175": {
+  "uf": "PR"
+ },
+ "42748019000160": {
+  "uf": "PR"
+ },
+ "03926825000120": {
+  "uf": "BA"
+ },
+ "02213491000184": {
+  "uf": "PR"
+ },
+ "22834141000142": {
+  "uf": "SP"
+ },
+ "22271913000185": {
+  "uf": "PR"
+ },
+ "67699078000117": {
+  "uf": "MA"
+ },
+ "04614288000145": {
+  "uf": "PE"
+ },
+ "38318999000194": {
+  "uf": "PR"
+ },
+ "04989385000112": {
+  "uf": "SP"
+ },
+ "61185922000105": {
+  "uf": "SP"
+ },
+ "46531066000109": {
+  "uf": "RJ"
+ },
+ "38826316000100": {
+  "uf": "BA"
+ },
+ "05011479000185": {
+  "uf": "TO"
+ },
+ "53165106001507": {
+  "uf": "SP"
+ },
+ "36757764000173": {
+  "uf": "MG"
+ },
+ "14457815000109": {
+  "uf": "SP"
+ },
+ "56979775000105": {
+  "uf": "PR"
+ },
+ "02248312000144": {
+  "uf": "MG"
+ },
+ "27976907000147": {
+  "uf": "TO"
+ },
+ "52994933000145": {
+  "uf": "MG"
+ },
+ "39656220000103": {
+  "uf": "DF"
+ },
+ "41067882000190": {
+  "uf": "MG"
+ },
+ "19657875000199": {
+  "uf": "RN"
+ },
+ "50698784000141": {
+  "uf": "CE"
+ },
+ "40612761000119": {
+  "uf": "MG"
+ },
+ "07640617000110": {
+  "uf": "GO"
+ },
+ "37365559000125": {
+  "uf": "SC",
+  "municipio": "Rio Do Sul",
+  "porte": "DEMAIS",
+  "cnae": "Construção de edifícios",
+  "telefone": "(47) 8405-4723",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Empreiteira Alto Vale"
+ },
+ "36833624000137": {
+  "uf": "DF"
+ },
+ "31495962000273": {
+  "uf": "ES"
+ },
+ "05647178000142": {
+  "uf": "PR"
+ },
+ "61181051000151": {
+  "uf": "ES"
+ },
+ "36436068000165": {
+  "uf": "SP"
+ },
+ "40182949000174": {
+  "uf": "GO"
+ },
+ "25037196000110": {
+  "uf": "PR"
+ },
+ "39888402000100": {
+  "uf": "PE"
+ },
+ "50572239000104": {
+  "uf": "SP"
+ },
+ "58188819000104": {
+  "uf": "PI"
+ },
+ "47679821000160": {
+  "uf": "SP"
+ },
+ "60701190000104": {
+  "uf": "SP"
+ },
+ "32604051000119": {
+  "uf": "GO"
+ },
+ "07432517000107": {
+  "uf": "SP"
+ },
+ "90278565000128": {
+  "uf": "RS",
+  "municipio": "Sao Jeronimo",
+  "porte": "DEMAIS",
+  "cnae": "Fabricação de equipamentos e acessórios para segurança pessoal e profissional",
+  "telefone": "",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": ""
+ },
+ "12386373000121": {
+  "uf": "PB"
+ },
+ "05989042000110": {
+  "uf": "AC"
+ },
+ "03750786000152": {
+  "uf": "CE"
+ },
+ "59362324000112": {
+  "uf": "PR"
+ },
+ "37131927000251": {
+  "uf": "ES"
+ },
+ "20289354000105": {
+  "uf": "PR"
+ },
+ "18043742000160": {
+  "uf": "CE"
+ },
+ "31318565000145": {
+  "uf": "SP"
+ },
+ "47097030000121": {
+  "uf": "SP"
+ },
+ "56900452000184": {
+  "uf": "PA"
+ },
+ "26865120000145": {
+  "uf": "ES"
+ },
+ "11482039000109": {
+  "uf": "SC",
+  "municipio": "Balneario Camboriu",
+  "porte": "DEMAIS",
+  "cnae": "Serviços de diagnóstico por imagem sem uso de radiação ionizante, exceto ressonância magnética",
+  "telefone": "(47) 3361-0606",
+  "situacao": "ATIVA",
+  "mei": false,
+  "fantasia": "Ecoclinic"
+ },
+ "01689734000192": {
+  "uf": "SP"
+ },
+ "13373898000195": {
+  "uf": "SP"
  }
 }
