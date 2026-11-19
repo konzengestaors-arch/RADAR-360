@@ -118,3 +118,72 @@ test('offline e arquivos PWA mantêm formato estático e escopo privado',async({
  expect(value('/demo/observatorio.html','Cache-Control')).toMatch(/no-store/);
  expect(value('/api/(.*)','Cache-Control')).toMatch(/no-store/);
 });
+
+
+const currentDay=()=>new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+function feedQa({items=[],date=currentDay(),consultadoEm=new Date().toISOString(),funcionando=8,comFalha=0}={}){
+ return {schema:'radar-observatorio-feed/1',dataReferencia:date,consultadoEm,
+   items,radar7d:items,totais:{fontes:8,funcionando,comFalha,candidatos:items.length,publicacoesLidas:18,elegiveisPeloTema:items.length}};
+}
+test('sem notícia de hoje é diferente de erro de fonte',async({page})=>{
+ await page.route('**/api/noticias',r=>r.fulfill({
+  status:200,contentType:'application/json',body:JSON.stringify(feedQa({items:[]}))
+ }));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('#radarNewsFreshness')).toContainText('NENHUMA NOTÍCIA DE HOJE ENCONTRADA NOS FILTROS');
+ await expect(page.locator('#radarLiveNews')).toContainText('Nenhuma publicação de hoje');
+ await expect(page.locator('.news-live-card')).toHaveCount(0);
+ await page.unroute('**/api/noticias');
+ await page.route('**/api/noticias',r=>r.fulfill({status:503,contentType:'application/json',body:'{"erro":"Fonte indisponível"}'}));
+ await page.locator('#refreshNewsLive').click();
+ await expect(page.locator('#radarNewsFreshness')).toContainText('ERRO NA CONSULTA');
+ await expect(page.locator('#radarLiveNews')).not.toContainText('Nenhuma publicação de hoje');
+ await expect(page.locator('.news-live-card')).toHaveCount(0);
+});
+test('consulta de ontem não pode produzir manchete identificada como hoje',async({page})=>{
+ const old=new Date(Date.now()-86400000).toISOString();
+ const title='Notícia empresarial de um dia anterior';
+ await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(feedQa({
+  date:new Date(Date.now()-86400000).toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'}),
+  consultadoEm:old,items:[{titulo:title,fonte:'Fonte de teste',url:'https://example.org/yesterday',publicadoEm:currentDay()}]
+ }))}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('#radarNewsFreshness')).toContainText('CONTEÚDO ANTIGO OU INDISPONÍVEL');
+ await expect(page.locator('.news-live-card')).toHaveCount(0);
+ await expect(page.locator('#radarSevenDayList')).not.toContainText(title);
+ await expect(page.locator('#radarInvestmentSignals')).not.toContainText(title);
+});
+test('consulta vencida há uma hora não é tratada como atualização recente',async({page})=>{
+ const title='Investimento que não pode permanecer em vitrine vencida';
+ const stale=new Date(Date.now()-3600000).toISOString();
+ await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(feedQa({
+  consultadoEm:stale,items:[{titulo:title,fonte:'Fonte QA',url:'https://example.org/stale',publicadoEm:currentDay()}]
+ }))}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('#radarNewsFreshness')).toContainText('CONTEÚDO ANTIGO OU INDISPONÍVEL');
+ await expect(page.locator('.news-live-card')).toHaveCount(0);
+});
+test('notícia verificada traz fonte, publicação, hora da consulta e alerta de fonte parcial',async({page})=>{
+ const date=currentDay();
+ await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(feedQa({
+  funcionando:6,comFalha:2,items:[{titulo:'Empresa amplia fábrica nesta data',url:'https://example.org/today',fonte:'Fonte institucional QA',publicadoEm:date}]
+ }))}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('#radarNewsFreshness')).toContainText('NOTÍCIAS DE HOJE · RECEBIDAS COM SUCESSO');
+ await expect(page.locator('#radarNewsFreshness')).toContainText('COBERTURA PARCIAL: 2 fonte(s) falharam');
+ await expect(page.locator('#radarNewsFreshness')).toContainText('Consulta');
+ await expect(page.locator('.news-live-card')).toContainText('Fonte: Fonte institucional QA');
+ await expect(page.locator('.news-live-card time')).toHaveAttribute('datetime',date);
+ await expect(page.locator('.news-live-card')).toContainText('Publicado em '+date);
+});
+test('item antigo em lote atual fica fora do boletim diário',async({page})=>{
+ const old=new Date(Date.now()-86400000).toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+ const title='Relatório publicado ontem';
+ await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(feedQa({
+  items:[{titulo:title,fonte:'Fonte QA',url:'https://example.org/old',publicadoEm:old}]
+ }))}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('#radarNewsFreshness')).toContainText('NENHUMA NOTÍCIA DE HOJE ENCONTRADA NOS FILTROS');
+ await expect(page.locator('.news-live-card')).toHaveCount(0);
+ await expect(page.locator('#radarLiveNews')).not.toContainText(title);
+});
