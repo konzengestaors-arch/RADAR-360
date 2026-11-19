@@ -6,7 +6,8 @@ function makeCnpj(n){
  return root+a+digit(root+a,[6,5,4,3,2,9,8,7,6,5,4,3,2]);
 }
 const rows=Array.from({length:217},(_,i)=>({nome:'Empresa Fictícia Número '+String(i+1).padStart(3,'0'),cnpj:i<96?makeCnpj(i):'',conflito:i<8}));
-const FEED={schema:'radar-observatorio-feed/1',items:[{titulo:'Empresa Fictícia Número 011 anuncia fábrica',url:'https://example.org/news/011',fonte:'Fonte de teste',publicadoEm:'2026-11-16'}],totais:{fontes:1,funcionando:1,comFalha:0,candidatos:1}};
+const FEED_DATE=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+const FEED={schema:'radar-observatorio-feed/1',dataReferencia:FEED_DATE,consultadoEm:new Date().toISOString(),items:[{titulo:'Empresa Fictícia Número 011 anuncia fábrica',url:'https://example.org/news/011',fonte:'Fonte de teste',publicadoEm:FEED_DATE}],totais:{fontes:1,funcionando:1,comFalha:0,candidatos:1}};
 async function mock(page,body={schema:'observatorio-empresas/1',total:217,items:rows},code=200){
  let active=true;
  await page.route('**/api/sessao',r=>{
