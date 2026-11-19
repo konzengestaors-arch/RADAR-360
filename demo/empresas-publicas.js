@@ -5,7 +5,7 @@
 const KEY='radar_empresas_publicas_nome_cnpj_v1',MAX_BYTES=1024*1024,MAX_ROWS=500;
 const normalize=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').replace(/\s+/g,' ').trim();
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let entries=[],stateMessage='Verificando autenticação privada…',onUpdate=null,source='none',latestNews=[],sessionState='checking';
+let entries=[],stateMessage='Verificando autenticação privada…',onUpdate=null,source='none',latestNews=[],sessionState='checking',newsSnapshot=null;
 let diagnosticMessage='Sem verificação recente neste aparelho.',diagnosticBusy=false;
 function notifyStatus(){if(typeof onUpdate==='function')onUpdate()}
 function setStatus(message){stateMessage=message;notifyStatus()}
@@ -153,7 +153,7 @@ async function endPrivateSession(){
   if(!r.ok)throw Error('HTTP '+r.status);
   const v=await r.json();
   if(v.authenticated!==false)throw Error('Revogação não confirmada');
-  sessionState='closed';entries=[];source='none';latestNews=[];window.RadarReviewQA?.reset?.();diagnosticMessage='Sessão encerrada. Execute nova verificação após iniciar sessão privada.';
+  sessionState='closed';entries=[];source='none';latestNews=[];newsSnapshot=null;window.RadarReviewQA?.reset?.();diagnosticMessage='Sessão encerrada. Execute nova verificação após iniciar sessão privada.';
   setStatus('Sessão do Observatório revogada. A autenticação da Vercel pode permanecer ativa; empresas e dossiês continuam bloqueados até iniciar outra sessão.');
   showMatches([]);
  }catch(e){sessionState='error';entries=[];source='none';setStatus('Não foi possível confirmar a revogação. '+String(e.message||e).slice(0,80));}
@@ -312,7 +312,8 @@ function openDossier(index){
   '<p style="font-size:13px;color:#526b77"><strong>Situação:</strong> '+escape(status)+'</p>'+
   (motive?'<p style="font-size:13px;color:#945d16"><strong>Motivo:</strong> '+escape(motive)+'</p>':'')+
   '<hr style="border:0;border-top:1px solid #dce7e8;margin:20px 0">'+
-  '<h3 style="font-size:16px;margin:0 0 12px">Menções nas notícias consultadas</h3>'+
+  (sessionState==='open'&&window.ObsNewsEvidence?window.ObsNewsEvidence.forCompany(company,entries,newsSnapshot):'<p>Catálogo privado indisponível. Inicie a sessão.</p>')+
+  '<h3 style="font-size:16px;margin:0 0 12px">Menções documentais dos últimos sete dias · não são notícias de hoje</h3>'+
   (related.length?related.map(hit=>'<article style="padding:12px 0;border-bottom:1px solid #e1eded">'+
    '<a target="_blank" rel="noopener noreferrer" href="'+escape(hit.url)+'" style="color:#0a7369;font-weight:750">'+escape(hit.title)+'</a>'+
    '<p style="color:#647985;font-size:12px;margin:5px 0">'+escape(hit.fonte)+' · '+escape(hit.data)+'</p>'+
@@ -344,5 +345,5 @@ function openDossierByName(name){
  openDossier(exact[0].index);
  return true;
 }
-window.RadarCompanies={panel,showMatches,matchesFor,classifyNews,openDossierByName,importFile,read:()=>entries.map(x=>({...x})),getStatus:()=>({source,sessionState,total:source==='staging'?entries.length:null,pendentes:source==='staging'?entries.filter(x=>x.conflito).length:null}),setOnUpdate:fn=>{onUpdate=fn}};
+window.RadarCompanies={panel,showMatches,matchesFor,classifyNews,openDossierByName,importFile,read:()=>entries.map(x=>({...x})),getStatus:()=>({source,sessionState,total:source==='staging'?entries.length:null,pendentes:source==='staging'?entries.filter(x=>x.conflito).length:null}),setOnUpdate:fn=>{onUpdate=fn},setNewsSnapshot:snapshot=>{newsSnapshot=snapshot}};
 })();

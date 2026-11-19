@@ -21,7 +21,7 @@ function parseGoogleNewsRss(xml){
    if(!title||url.protocol!=='https:'||url.username||url.password||!url.hostname.endsWith('.google.com')&&url.hostname!=='news.google.com'||seen.has(url.href))return null;
    seen.add(url.href);
    const date=Date.parse(published);
-   return {title,link:url.href,source:'google-news-rss',publishedAt:Number.isFinite(date)?new Date(date).toISOString():null,verification:'unverified'};
+   return {title,link:url.href,publisher:value(item,'source').slice(0,120),source:'google-news-rss',publishedAt:Number.isFinite(date)?new Date(date).toISOString():null,verification:'unverified'};
  }).filter(Boolean);
 }
 module.exports={buildGoogleNewsUrl,parseGoogleNewsRss};

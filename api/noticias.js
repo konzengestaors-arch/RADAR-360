@@ -25,7 +25,7 @@ async function requestGoogleNews(feed,fetcher){
   const parsed=parseGoogleNewsRss(xml);const selected=[];
   for(const item of parsed){if(!item.publishedAt)continue;const classification=classify(feed,item.title);if(!classification)continue;
    const url=safeUrl(item.link);if(!url||new URL(url).hostname!=='news.google.com')continue;
-   selected.push({titulo:item.title.slice(0,260),url,publicadoEm:businessDate(item.publishedAt),fonte:feed.nome,territorio:classification.territorio,setor:classification.setor,resumo:'Sugestão do Google Notícias baseada em título e metadados RSS; não verificada documentalmente. Consulte a publicação original antes de associar a uma empresa.'});
+   selected.push({titulo:item.title.slice(0,260),url,publicadoEm:businessDate(item.publishedAt),publicadoEmISO:item.publishedAt,veiculo:item.publisher||feed.nome,fonte:feed.nome,territorio:classification.territorio,setor:classification.setor,resumo:'Sugestão do Google Notícias baseada em título e metadados RSS; não verificada documentalmente. Consulte a publicação original antes de associar a uma empresa.'});
   }
   selected.publicacoesLidas=parsed.length;
   return selected;
@@ -80,8 +80,8 @@ function parseFeed(feed,xml){if(!/<(?:rss|rdf:RDF|feed)\b/i.test(xml))throw Erro
   if(!titulo||!link)continue;
   const description=tag(chunk,'description')||tag(chunk,'summary')||'';
   const classification=classify(feed,titulo);if(!classification)continue;
-  const rawDate=tag(chunk,'pubDate')||tag(chunk,'published')||tag(chunk,'updated')||'';let date='';if(rawDate){const t=Date.parse(rawDate);if(Number.isFinite(t)&&t<=Date.now()+86400000)date=businessDate(t)}
-  list.push({titulo,url:link,publicadoEm:date,fonte:feed.nome,territorio:classification.territorio,setor:classification.setor,resumo:'Sugestão coletada do feed público. Leia a fonte original antes de vincular ou registrar qualquer avanço.'});
+  const rawDate=tag(chunk,'pubDate')||tag(chunk,'published')||tag(chunk,'updated')||'';let date='',dateISO='';if(rawDate){const t=Date.parse(rawDate);if(Number.isFinite(t)&&t<=Date.now()+86400000){date=businessDate(t);dateISO=new Date(t).toISOString()}}
+  list.push({titulo,url:link,publicadoEm:date,publicadoEmISO:dateISO,veiculo:feed.nome,fonte:feed.nome,territorio:classification.territorio,setor:classification.setor,resumo:'Sugestão coletada do feed público. Leia a fonte original antes de vincular ou registrar qualquer avanço.'});
   if(list.length>=25)break;
 }list.publicacoesLidas=entries.length;return list}
 function parseOfficialBndes(feed,body){
@@ -100,7 +100,7 @@ function parseOfficialBndes(feed,body){
   const timestamp=Number(entry.data);
   const published=Number.isFinite(timestamp)&&timestamp>946684800000&&timestamp<=Date.now()+86400000
     ?businessDate(timestamp):'';
-  list.push({titulo,url,publicadoEm:published,fonte:feed.nome,territorio:classification.territorio,
+  list.push({titulo,url,publicadoEm:published,publicadoEmISO:published?new Date(timestamp).toISOString():'',veiculo:feed.nome,fonte:feed.nome,territorio:classification.territorio,
     setor:classification.setor,resumo:'Comunicado oficial consultado. Uma aprovação ou anúncio não prova execução ou conclusão; consulte os documentos originais.'});
   seen.add(url);
   if(list.length>=25)break;
