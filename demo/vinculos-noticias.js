@@ -56,7 +56,7 @@ function evaluate(article,companies,feed,now=new Date()){
     (id.length===14&&(idCounts.get(id)||0)>1);
   const status=conflict?'ambigua':withId?'cnpj_mencionado':'nome_nao_verificado';
   const reason=conflict?'Identidade em conferência, homônimo ou identificador duplicado; não há vínculo confirmado.':
-   withId?'CNPJ válido do catálogo coincide literalmente com o CNPJ informado no título RSS. Publicação original não conferida: identificação mencionada não comprova o fato, contrato, resultado de licitação ou oportunidade comercial.':
+   withId?'CNPJ válido do catálogo coincide literalmente com o CNPJ informado no título RSS. Publicação original não conferida: identificação mencionada não comprova o fato, contrato ou resultado de licitação; não autoriza conclusão comercial.':
    'Nome encontrado literalmente no título RSS. Sem identificador oficial e sem conferência da publicação original, a identidade não foi confirmada.';
   found.push({company:name,status,reason,headline,source:String(article.veiculo||article.fonte||'Fonte não informada'),
    published:article.publicadoEm,publishedISO:article.publicadoEmISO||'',consulted:feed.consultadoEm,url:article.url,
