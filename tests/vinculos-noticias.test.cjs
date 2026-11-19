@@ -19,6 +19,7 @@ test('homônimos e registro em conflito ficam ambíguos',()=>{
  const a=article();let duplicates=[...rows,{...rows[0],cnpj:''}];
  assert.equal(e.evaluate(a,duplicates,feed([a]),now)[0].status,'ambigua');
  assert.equal(e.evaluate(a,[{...rows[0],conflito:true}],feed([a]),now)[0].status,'ambigua');
+ assert.equal(e.evaluate(a,[{...rows[0],cnpj:'00000000000000'}],feed([a]),now)[0].status,'ambigua');
 });
 test('setor, localização e substring não comprovam relação',()=>{
  const a=article('Indústria em Porto Alegre anuncia fábrica e empregos');

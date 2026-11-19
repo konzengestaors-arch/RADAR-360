@@ -21,6 +21,13 @@ function publishedToday(article,now=new Date()){
  }
  return true;
 }
+function validCNPJ(input){
+ const x=digits(input);
+ if(!/^\d{14}$/.test(x)||/^(\d)\1{13}$/.test(x))return false;
+ const check=(slice,weights)=>{const rest=weights.reduce((sum,w,i)=>sum+w*Number(x[i]),0)%11;return rest<2?0:11-rest;};
+ return check(12,[5,4,3,2,9,8,7,6,5,4,3,2])===Number(x[12])&&
+   check(13,[6,5,4,3,2,9,8,7,6,5,4,3,2])===Number(x[13]);
+}
 function headlineCNPJs(title){
  const hits=String(title||'').match(/(?:^|[^\d])(?:\d{2}[.\s]?\d{3}[.\s]?\d{3}[\/\s]?\d{4}[-\s]?\d{2})(?!\d)/g)||[];
  return new Set(hits.map(digits).filter(x=>x.length===14));
@@ -43,9 +50,9 @@ function evaluate(article,companies,feed,now=new Date()){
  const found=[];
  for(const company of companies){
   const name=String(company?.nome||''),normalized=norm(name),id=digits(company?.cnpj);
-  const withId=id.length===14&&ids.has(id),withName=exactName(headline,name);
+  const withId=id.length===14&&validCNPJ(id)&&ids.has(id),withName=exactName(headline,name);
   if(!withId&&!withName)continue;
-  const conflict=company.conflito===true||(nameCounts.get(normalized)||0)>1||
+  const conflict=company.conflito===true||(id.length===14&&!validCNPJ(id))||(nameCounts.get(normalized)||0)>1||
     (id.length===14&&(idCounts.get(id)||0)>1);
   const status=conflict?'ambigua':withId?'identificador_confirmado':'nome_nao_verificado';
   const reason=conflict?'Identidade em conferência, homônimo ou identificador duplicado; não há vínculo confirmado.':
