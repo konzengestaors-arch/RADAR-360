@@ -761,7 +761,7 @@ function visibleNewsSevenDays(){
 function renderInvestmentSignals(){
  const target=document.getElementById('radarInvestmentSignals');if(!target)return;
  if(!liveNewsCache){target.innerHTML='<p class="radar-invest-status">Consultando fontes públicas…</p>';return;}
- if(liveNewsCache.error){target.innerHTML='<p class="radar-invest-status">'+(liveNewsCache.state==='stale'?'Conteúdo antigo ou indisponível.':'Erro na consulta das fontes.')+' Atualize as notícias para obter pistas comerciais verificáveis.</p>';return;}
+ if(liveNewsCache.error||!isCurrentNewsSnapshot(liveNewsCache)){target.innerHTML='<p class="radar-invest-status">'+(!liveNewsCache.error||liveNewsCache.state==='stale'?'Conteúdo antigo ou indisponível.':'Erro na consulta das fontes.')+' Atualize as notícias para obter pistas comerciais verificáveis.</p>';return;}
  const signalFor=window.RadarInvestmentSources?.classifyTitle;
  const candidates=visibleNewsSevenDays().filter(x=>typeof signalFor==='function'&&signalFor(x.titulo)&&window.RadarEditorial?.classify(x).kind==='empresarial').slice(0,8);
  if(!candidates.length){target.innerHTML='<p class="radar-invest-status">Nenhuma pista de investimento identificada nos últimos sete dias nas fontes consultadas. Isso não comprova ausência de investimentos; consulte as fontes originais.</p>';return;}
@@ -839,6 +839,7 @@ async function fetchNewsNow(){if(newsLoading)return;newsLoading=true;const b=doc
 try{const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),23000);let response;try{response=await fetch('/api/noticias',{method:'GET',headers:{Accept:'application/json'},cache:'no-store',signal:controller.signal})}finally{clearTimeout(timeout)}
  let batch=await response.json().catch(()=>null);if(!batch||batch.schema!=='radar-observatorio-feed/1'||!Array.isArray(batch.items))throw Error('O servidor não retornou um lote RSS válido.');
  if(!response.ok)throw Error(response.status===503?'Nenhuma fonte RSS respondeu; a consulta não foi concluída. Dados anteriores preservados.':batch.erro||'HTTP '+response.status);
+ if(!isCurrentNewsSnapshot(batch))throw Error('A consulta não possui data, horário ou fontes atuais confirmados; lote rejeitado.');
  const total=batch.totais||{};
  if(!Number.isFinite(Number(total.funcionando))||Number(total.funcionando)<1)
    throw Error('Nenhuma fonte RSS acessível. Dados anteriores preservados.');
@@ -877,7 +878,7 @@ function renderSevenDay(){
  const target=document.getElementById('radarSevenDayList'),status=document.getElementById('radarSevenDayStatus');
  if(!target||!status)return;
  if(!liveNewsCache){status.textContent='Consultando fontes públicas…';target.innerHTML='<p>Consultando a rede. Nenhuma notícia anterior será reutilizada.</p>';return}
- if(liveNewsCache.error){status.textContent=liveNewsCache.state==='stale'?'Conteúdo antigo ou indisponível; o radar semanal foi suspenso.':'Erro na consulta às fontes; o radar semanal foi suspenso.';target.innerHTML='<p>Dados indisponíveis. Nenhuma notícia foi inventada.</p>';return}
+ if(liveNewsCache.error||!isCurrentNewsSnapshot(liveNewsCache)){status.textContent=!liveNewsCache.error||liveNewsCache.state==='stale'?'Conteúdo antigo ou indisponível; o radar semanal foi suspenso.':'Erro na consulta às fontes; o radar semanal foi suspenso.';target.innerHTML='<p>Dados indisponíveis. Nenhuma notícia foi inventada.</p>';return}
  const publications=visibleNewsSevenDays();
  const classified=window.RadarCompanies?.classifyNews(publications)||[];
  const ranked=window.RadarEditorial?.prioritize(publications,classified)||[];
@@ -919,7 +920,7 @@ function renderCoverBrief(){
  const list=document.getElementById('radarCoverTopics'),status=document.getElementById('radarCoverNewsStatus');
  if(!list||!status)return;
  if(!liveNewsCache){status.textContent='Consultando fontes públicas…';list.innerHTML='';return;}
- if(liveNewsCache.error){status.textContent=liveNewsCache.state==='stale'?'Consulta antiga: notícias do dia não verificadas':'Erro ao consultar as fontes de notícias';list.innerHTML='<li>Não foi possível atualizar os títulos.</li>';return;}
+ if(liveNewsCache.error||!isCurrentNewsSnapshot(liveNewsCache)){status.textContent=!liveNewsCache.error||liveNewsCache.state==='stale'?'Consulta antiga: notícias do dia não verificadas':'Erro ao consultar as fontes de notícias';list.innerHTML='<li>Não foi possível atualizar os títulos.</li>';return;}
  const news=visibleNewsToday(),total=liveNewsCache.totais||{};
  const time=liveNewsCache.consultadoEm?new Date(liveNewsCache.consultadoEm):null;
  const stamp=time&&Number.isFinite(time.getTime())?time.toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'Horário não informado';
