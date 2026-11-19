@@ -983,7 +983,7 @@ function renderLiveNews(){
  if(freshness)freshness.textContent=
   (state==='current'?'NOTÍCIAS DE HOJE · RECEBIDAS COM SUCESSO':'NENHUMA NOTÍCIA DE HOJE ENCONTRADA NOS FILTROS')+
   ' · Consulta '+time+' (Porto Alegre) · '+(totals.funcionando??'?')+'/'+(totals.fontes??'?')+
-  ' fontes acessíveis · '+items.length+' publicações do dia'+partial+' · Atualização sob demanda.';
+  ' fontes acessíveis · Publicações recebidas: '+(totals.publicacoesLidas??'não aferido')+' · Temas elegíveis: '+(totals.elegiveisPeloTema??'não aferido')+' · Publicadas hoje após filtros: '+items.length+partial+' · Atualização sob demanda.';
  if(state==='empty'){
   target.innerHTML='<p class="news-live-status">Nenhuma publicação de hoje passou pelos filtros das fontes acessíveis. Isso não comprova ausência de notícias no dia. Consulte as fontes originais ou atualize novamente.</p>';
   window.RadarCompanies.showMatches(newsForDossiers());
