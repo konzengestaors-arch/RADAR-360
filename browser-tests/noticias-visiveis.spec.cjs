@@ -23,7 +23,7 @@ test('noticias aparecem sem filtros no Panorama e links apontam à fonte',async(
 test('falha no RSS mostra erro visivel sem inventar noticias',async({page})=>{
  await page.route('**/api/noticias',r=>r.fulfill({status:503,contentType:'application/json',body:'{"erro":"indisponivel"}'}));
  await page.goto('/demo/observatorio.html');
- await expect(page.locator('#radarLiveNews')).toContainText('temporariamente indisponíveis');
+ await expect(page.locator('#radarLiveNews')).toContainText('Não foi possível consultar as fontes agora');
  await expect(page.locator('.news-live-card')).toHaveCount(0);
  await expect(page.locator('#refreshNewsLive')).toBeEnabled();
 });
