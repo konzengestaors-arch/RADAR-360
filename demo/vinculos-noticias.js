@@ -32,7 +32,8 @@ function exactName(title,name){
  return (' '+t+' ').includes(' '+n+' ');
 }
 function evaluate(article,companies,feed,now=new Date()){
- if(!fresh(feed,now)||!publishedToday(article,now)||!Array.isArray(companies)||!companies.length)return [];
+ if(!fresh(feed,now)||!publishedToday(article,now)||!Array.isArray(companies)||!companies.length||
+    !feed.items.some(item=>item.url===article.url&&item.publicadoEm===article.publicadoEm&&item.titulo===article.titulo))return [];
  const headline=String(article.titulo||''),ids=headlineCNPJs(headline),nameCounts=new Map(),idCounts=new Map();
  for(const c of companies){
   const name=norm(c?.nome),id=digits(c?.cnpj);
