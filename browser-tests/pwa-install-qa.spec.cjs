@@ -84,9 +84,12 @@ test('offline no Motorola emulado entrega somente tela estática, nunca dados pr
  await page.setViewportSize({width:390,height:844});
  await page.goto('/demo/observatorio.html');
  await page.evaluate(()=>navigator.serviceWorker.ready);
+ await page.waitForFunction(()=>navigator.serviceWorker.controller?.state==='activated',{timeout:15000});
  await page.reload();
+ await page.waitForFunction(()=>navigator.serviceWorker.controller?.state==='activated',{timeout:15000});
  await page.context().setOffline(true);
- const response=await page.goto('/demo/observatorio.html');
+ // Query-string isolates the test from the browser's HTTP document cache.
+ const response=await page.goto('/demo/observatorio.html?modo-aviao-qa='+Date.now());
  expect(response.status()).toBe(200);
  await expect(page.getByRole('heading',{name:'Sem conexão disponível'})).toBeVisible();
  await expect(page.locator('body')).toContainText('Nenhum conteúdo antigo');
@@ -188,4 +191,23 @@ test('item antigo em lote atual fica fora do boletim diário',async({page})=>{
  await expect(page.locator('#radarNewsFreshness')).toContainText('NENHUMA NOTÍCIA DE HOJE ENCONTRADA NOS FILTROS');
  await expect(page.locator('.news-live-card')).toHaveCount(0);
  await expect(page.locator('#radarLiveNews')).not.toContainText(title);
+});
+
+
+test('página já aberta oculta empresas e notícias ao perder conexão',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ const today=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+ await page.route('**/api/sessao',r=>r.fulfill({status:200,contentType:'application/json',body:'{"authenticated":false}'}));
+ await page.route('**/api/noticias',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({
+  schema:'radar-observatorio-feed/1',dataReferencia:today,consultadoEm:new Date().toISOString(),
+  items:[{titulo:'Notícia empresarial precisa ser ocultada offline',url:'https://example.org/teste',fonte:'Fonte QA',publicadoEm:today}],
+  radar7d:[],totais:{fontes:8,funcionando:8,comFalha:0,candidatos:1}
+ })}));
+ await page.goto('/demo/observatorio.html');
+ await expect(page.locator('.news-live-card')).toHaveCount(1);
+ await page.evaluate(()=>window.dispatchEvent(new Event('offline')));
+ await expect(page.getByRole('heading',{name:'Sem conexão disponível'})).toBeVisible();
+ await expect(page.locator('body')).not.toContainText('Notícia empresarial precisa ser ocultada offline');
+ await expect(page.locator('#radarCompanyDossier')).toHaveCount(0);
+ await expect(page.locator('.news-live-card')).toHaveCount(0);
 });
