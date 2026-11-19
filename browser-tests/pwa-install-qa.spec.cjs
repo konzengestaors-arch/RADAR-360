@@ -18,6 +18,7 @@ test('manifest tem ícones PNG reais, escopo isolado e janela standalone',async(
  await page.setViewportSize({width:390,height:844});
  await page.goto('/demo/observatorio.html');
  await expect(page.locator('link[rel="manifest"]')).toHaveAttribute('href','/demo/manifest.webmanifest');
+ await expect(page.locator('link[rel="manifest"]')).toHaveAttribute('crossorigin','use-credentials');
  const response=await page.request.get('/demo/manifest.webmanifest');
  expect(response.status()).toBe(200);
  expect((await response.json()).short_name).toBe('Observatório 360');
@@ -36,9 +37,21 @@ test('service worker registra somente demo, sem guardar notícias, catálogo ou 
  });
  expect(service.scope).toBe('/demo/');
  expect(service.active).toBe('activated');
- expect(service.caches.filter(k=>k.includes('obs360'))).toHaveLength(0);
+ expect(service.caches.filter(k=>k.startsWith('obs360-pwa-'))).toEqual(['obs360-pwa-offline-static-v2']);
+ const stored=await page.evaluate(async()=>{
+  const cache=await caches.open('obs360-pwa-offline-static-v2');
+  const entries=await cache.keys();
+  const html=await (await cache.match('/demo/offline.html')).text();
+  return {paths:entries.map(entry=>new URL(entry.url).pathname),html};
+ });
+ expect(stored.paths).toEqual(['/demo/offline.html']);
+ expect(stored.html).toContain('Sem conexão disponível');
+ expect(stored.html).not.toContain('obs360_session');
  const worker=await (await page.request.get('/demo/pwa-qa-sw.js')).text();
- expect(worker).not.toMatch(/caches\.open\(|cache\.put\(|localStorage/);
+ expect(worker).toContain("const CACHE='obs360-pwa-offline-static-v2'");
+ expect(worker).toContain("request.mode!=='navigate'");
+ expect(worker).not.toContain('cache.put(request');
+ expect(worker).not.toContain('localStorage');
  expect(worker).toContain("cache:'no-store'");
  const control=await page.evaluate(()=>!!navigator.serviceWorker.controller);
  expect(control).toBe(true);
@@ -63,4 +76,45 @@ test('botão de instalar depende da autorização do navegador e não interfere 
  }
  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2);
  expect(overflow).toBe(false);
+});
+
+
+test('offline no Motorola emulado entrega somente tela estática, nunca dados privados',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/demo/observatorio.html');
+ await page.evaluate(()=>navigator.serviceWorker.ready);
+ await page.reload();
+ await page.context().setOffline(true);
+ const response=await page.goto('/demo/observatorio.html');
+ expect(response.status()).toBe(200);
+ await expect(page.getByRole('heading',{name:'Sem conexão disponível'})).toBeVisible();
+ await expect(page.locator('body')).toContainText('Nenhum conteúdo antigo');
+ await expect(page.locator('#radarCompanyDossier')).toHaveCount(0);
+ await expect(page.locator('.news-live-card')).toHaveCount(0);
+ expect(await page.evaluate(async()=>{
+  const names=await caches.keys();
+  const values=[];
+  for(const name of names){
+   if(!name.startsWith('obs360-pwa-'))continue;
+   for(const req of await (await caches.open(name)).keys())values.push(new URL(req.url).pathname);
+  }
+  return values;
+ })).toEqual(['/demo/offline.html']);
+ await page.context().setOffline(false);
+});
+test('offline e arquivos PWA mantêm formato estático e escopo privado',async({page})=>{
+ const offline=await page.request.get('/demo/offline.html');
+ expect(offline.status()).toBe(200);
+ expect(offline.headers()['content-type']).toMatch(/text\/html/i);
+ expect(await offline.text()).toContain('<meta name="obs360-offline" content="static-only">');
+ const sw=await page.request.get('/demo/pwa-qa-sw.js');
+ expect(sw.status()).toBe(200);
+ expect(sw.headers()['content-type']).toMatch(/javascript/i);
+ const json=JSON.parse(readFileSync(join(__dirname,'../vercel.json'),'utf8'));
+ const rule=source=>json.headers.find(x=>x.source===source)?.headers||[];
+ const value=(source,key)=>rule(source).find(h=>h.key.toLowerCase()===key.toLowerCase())?.value;
+ expect(value('/demo/manifest.webmanifest','Content-Type')).toMatch(/manifest\+json/i);
+ expect(value('/demo/pwa-qa-sw.js','Service-Worker-Allowed')).toBe('/demo/');
+ expect(value('/demo/observatorio.html','Cache-Control')).toMatch(/no-store/);
+ expect(value('/api/(.*)','Cache-Control')).toMatch(/no-store/);
 });
