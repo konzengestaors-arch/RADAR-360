@@ -1,7 +1,8 @@
 const {test,expect}=require('@playwright/test');
-const fixture={schema:'radar-observatorio-feed/1',consultadoEm:'2026-11-07T10:00:00Z',items:[
- {titulo:'Empresa fictícia anuncia novo investimento',url:'https://example.org/noticia-1',publicadoEm:'2026-11-07',fonte:'Fonte pública de teste',setor:'Indústria'},
- {titulo:'Movimento econômico regional de teste',url:'https://example.org/noticia-2',publicadoEm:'2026-11-06',fonte:'Fonte regional de teste',territorio:'RS'}
+const TEST_TODAY=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'});
+const fixture={schema:'radar-observatorio-feed/1',dataReferencia:TEST_TODAY,consultadoEm:new Date().toISOString(),items:[
+ {titulo:'Empresa fictícia anuncia novo investimento',url:'https://example.org/noticia-1',publicadoEm:TEST_TODAY,fonte:'Fonte pública de teste',setor:'Indústria'},
+ {titulo:'Movimento econômico regional de teste',url:'https://example.org/noticia-2',publicadoEm:TEST_TODAY,fonte:'Fonte regional de teste',territorio:'RS'}
 ],totais:{fontes:1,funcionando:1,comFalha:0,candidatos:2},fontes:[]};
 
 test('noticias aparecem sem filtros no Panorama e links apontam à fonte',async({page})=>{
