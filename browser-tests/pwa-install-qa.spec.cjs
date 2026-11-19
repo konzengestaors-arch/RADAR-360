@@ -29,6 +29,7 @@ test('manifest tem ícones PNG reais, escopo isolado e janela standalone',async(
 });
 test('service worker registra somente demo, sem guardar notícias, catálogo ou apurações',async({page})=>{
  await page.goto('/demo/observatorio.html');
+ await page.waitForFunction(()=>!!navigator.serviceWorker.controller && navigator.serviceWorker.controller.state==='activated',null,{timeout:15000});
  const service=await page.evaluate(async()=>{
   const ready=await Promise.race([navigator.serviceWorker.ready,new Promise((_,reject)=>setTimeout(()=>reject(new Error('SW timeout')),15000))]);
   return {scope:new URL(ready.scope).pathname,active:ready.active?.state,
