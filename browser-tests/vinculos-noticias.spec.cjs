@@ -14,7 +14,10 @@ test('notícia de hoje com identificação literal é explicada no dossiê, sem 
  await expect(page.locator('.radar-company-count')).toHaveText('217');
  await page.locator('#radarCompanySearch').fill('Empresa Exemplo Industrial');
  await page.locator('[data-obs-company-index="0"]').click();
- await expect(page.locator('#radarCompanyDossier .obs-news-evidence')).toContainText('Confirmado por identificador publicado');
+ await expect(page.locator('#radarCompanyDossier .obs-news-evidence')).toContainText('CNPJ coincidente na manchete RSS');
+ await expect(page.locator('#radarCompanyDossier .obs-news-evidence')).toContainText('conteúdo do fato não verificado');
+ await expect(page.locator('#radarCompanyDossier')).toContainText('Menções textuais recentes — pendentes de verificação');
+ await expect(page.locator('#radarCompanyDossier')).not.toContainText('Menções documentais dos últimos sete dias');
  await expect(page.locator('#radarCompanyDossier .obs-news-evidence a')).toHaveAttribute('href','https://example.org/qa-hoje');
  await expect(page.locator('#radarCompanyDossier .obs-news-evidence')).not.toContainText('score');
 });

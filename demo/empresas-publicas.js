@@ -278,9 +278,9 @@ function showMatches(items){
  if(!entries.length){target.innerHTML='<div class="radar-company-empty">Entre na prévia protegida para consultar as empresas e suas menções.</div>';return;}
  const found=matchesFor(items);
  const count=found.length;
- target.innerHTML='<div class="radar-company-subtitle">'+(count?count+' notícia(s) com correspondência textual por nome':'Nenhuma correspondência textual por nome nas notícias atualmente disponíveis')+'</div>'+
+ target.innerHTML='<div class="radar-company-subtitle">'+(count?count+' notícia(s) com menção textual por nome — pendentes de verificação':'Nenhuma relação demonstrável por menção textual no lote atualmente disponível')+'</div>'+
  (found.length?'<div class="radar-company-results">'+found.slice(0,10).map(x=>
- '<article class="radar-company-hit"><span class="radar-company-tag">'+(x.empresas.length>1?'Múltiplas empresas citadas — revisar individualmente':'Menção textual — vínculo não confirmado')+'</span><strong>'+escape(x.empresas.slice(0,3).join(' · '))+(x.empresas.length>3?' · +'+(x.empresas.length-3)+' outras':'')+'</strong>'+
+ '<article class="radar-company-hit"><span class="radar-company-tag">'+(x.empresas.length>1?'Relação ambígua — requer conferência':'Menção nominal — identidade não confirmada')+'</span><strong>'+escape(x.empresas.slice(0,3).join(' · '))+(x.empresas.length>3?' · +'+(x.empresas.length-3)+' outras':'')+'</strong>'+
  '<a target="_blank" rel="noopener noreferrer" href="'+escape(x.url)+'">'+escape(x.title)+'</a><small>'+escape(x.fonte)+' · '+escape(x.data)+'</small></article>').join('')+'</div>':
  '<p class="radar-company-empty">As menções são avaliadas somente nos títulos consultados. Ausência de correspondência não significa ausência de notícias sobre a empresa.</p>');
 }
@@ -313,12 +313,12 @@ function openDossier(index){
   (motive?'<p style="font-size:13px;color:#945d16"><strong>Motivo:</strong> '+escape(motive)+'</p>':'')+
   '<hr style="border:0;border-top:1px solid #dce7e8;margin:20px 0">'+
   (sessionState==='open'&&window.ObsNewsEvidence?window.ObsNewsEvidence.forCompany(company,entries,newsSnapshot):'<p>Catálogo privado indisponível. Inicie a sessão.</p>')+
-  '<h3 style="font-size:16px;margin:0 0 12px">Menções documentais dos últimos sete dias · não são notícias de hoje</h3>'+
+  '<h3 style="font-size:16px;margin:0 0 12px">Menções textuais recentes — pendentes de verificação</h3>'+
   (related.length?related.map(hit=>'<article style="padding:12px 0;border-bottom:1px solid #e1eded">'+
    '<a target="_blank" rel="noopener noreferrer" href="'+escape(hit.url)+'" style="color:#0a7369;font-weight:750">'+escape(hit.title)+'</a>'+
    '<p style="color:#647985;font-size:12px;margin:5px 0">'+escape(hit.fonte)+' · '+escape(hit.data)+'</p>'+
    '</article>').join(''):'<p style="color:#647985;font-size:13px">Nenhuma menção textual elegível neste lote. Isso não significa ausência de notícias.</p>')+
-  '<p style="font-size:12px;color:#647985;margin-top:17px">As menções são indícios textuais, não confirmação de vínculo ou impacto. Fontes originais devem ser conferidas.</p></div>';
+  '<p style="font-size:12px;color:#647985;margin-top:17px">A triagem considera apenas títulos, sem conferir texto integral ou identidade cadastral na publicação. Menções históricas não são notícias de hoje nem comprovação de fato, vínculo ou impacto.</p></div>';
  if(typeof dialog.showModal==='function'){if(!dialog.open)dialog.showModal();}
  else dialog.setAttribute('open','');
 }

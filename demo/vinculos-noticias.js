@@ -54,17 +54,17 @@ function evaluate(article,companies,feed,now=new Date()){
   if(!withId&&!withName)continue;
   const conflict=company.conflito===true||(id.length===14&&!validCNPJ(id))||(nameCounts.get(normalized)||0)>1||
     (id.length===14&&(idCounts.get(id)||0)>1);
-  const status=conflict?'ambigua':withId?'identificador_confirmado':'nome_nao_verificado';
+  const status=conflict?'ambigua':withId?'cnpj_mencionado':'nome_nao_verificado';
   const reason=conflict?'Identidade em conferência, homônimo ou identificador duplicado; não há vínculo confirmado.':
-   withId?'CNPJ do catálogo coincide literalmente com identificador publicado na manchete; isso identifica a entidade, não comprova o fato noticiado.':
-   'Nome completo encontrado literalmente na manchete. Sem identificador oficial na publicação, a identidade continua não verificada.';
+   withId?'CNPJ válido do catálogo coincide literalmente com o CNPJ informado no título RSS. Publicação original não conferida: identificação mencionada não comprova o fato, contrato, resultado de licitação ou oportunidade comercial.':
+   'Nome encontrado literalmente no título RSS. Sem identificador oficial e sem conferência da publicação original, a identidade não foi confirmada.';
   found.push({company:name,status,reason,headline,source:String(article.veiculo||article.fonte||'Fonte não informada'),
    published:article.publicadoEm,publishedISO:article.publicadoEmISO||'',consulted:feed.consultadoEm,url:article.url,
-   evidence:withId?'CNPJ coincidente na manchete':'Menção nominal literal na manchete'});
+   evidence:withId?'CNPJ coincidente no título RSS recebido; página original não verificada':'Menção nominal literal no título RSS recebido; página original não verificada'});
  }
  return found;
 }
-const label={identificador_confirmado:'Confirmado por identificador publicado',nome_nao_verificado:'Correspondência nominal não verificada',ambigua:'Relação ambígua · revisão humana'};
+const label={cnpj_mencionado:'CNPJ coincidente na manchete RSS — identidade mencionada; conteúdo do fato não verificado',nome_nao_verificado:'Menção nominal — identidade não confirmada',ambigua:'Relação ambígua — requer conferência'};
 function stamp(date){
  const d=new Date(date);
  return Number.isFinite(d.getTime())?d.toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit',year:'numeric'}):'Horário não informado';
@@ -84,7 +84,7 @@ function forArticle(article,companies,feed,now=new Date()){
  if(!Array.isArray(companies)||!companies.length)return '<p class="obs-news-evidence-none">Relação empresarial não avaliada: catálogo privado não autenticado.</p>';
  const links=evaluate(article,companies,feed,now);
  return '<div class="obs-news-evidence" aria-label="Evidência de associação empresa e notícia">'+
- (links.length?links.map(articleCard).join(''):'<p class="obs-news-evidence-none">Sem relação demonstrável com empresas do catálogo. Não associar por setor, município ou semelhança.</p>')+'</div>';
+ (links.length?links.map(articleCard).join(''):'<p class="obs-news-evidence-none">Nenhuma relação demonstrável com empresas do catálogo. Não associar por setor, município ou semelhança.</p>')+'</div>';
 }
 function forCompany(company,companies,feed,now=new Date()){
  if(!fresh(feed,now))return '<section class="obs-news-evidence"><h3>Notícias de hoje · evidências</h3><p>Notícias atuais indisponíveis ou consulta vencida. Nenhum vínculo foi reutilizado.</p></section>';
@@ -94,7 +94,7 @@ function forCompany(company,companies,feed,now=new Date()){
  const count=links.length;
  return '<section class="obs-news-evidence" aria-label="Notícias de hoje associadas à empresa"><h3>Notícias de hoje · evidências</h3>'+
  '<p style="font-size:12px;color:#607880">Consulta: '+esc(stamp(feed.consultadoEm))+' (Porto Alegre). Correspondência não é comprovação do acontecimento.</p>'+
- (count?links.map(articleCard).join(''):'<p>Nenhuma notícia publicada hoje tem relação demonstrável com esta empresa no lote consultado. Isso não comprova ausência de notícias.</p>')+
+ (count?links.map(articleCard).join(''):'<p>Nenhuma relação demonstrável nesta consulta. Nenhuma notícia publicada hoje tem relação demonstrável com esta empresa no lote consultado; isso não comprova ausência de notícias.</p>')+
  '</section>';
 }
 const api=Object.freeze({today,fresh,publishedToday,evaluate,forArticle,forCompany});

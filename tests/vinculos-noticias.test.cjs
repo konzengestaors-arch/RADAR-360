@@ -8,7 +8,7 @@ const rows=[{nome:'Empresa Exemplo Industrial SA',cnpj:'11222333000181',conflito
 test('CNPJ literal e único na manchete fundamenta associação por identificador, não oportunidade',()=>{
  const a=article('Empresa Exemplo Industrial SA, CNPJ 11.222.333/0001-81, anuncia obra');
  const links=e.evaluate(a,rows,feed([a]),now);
- assert.equal(links[0].status,'identificador_confirmado');assert.match(links[0].reason,/não comprova o fato/);
+ assert.equal(links[0].status,'cnpj_mencionado');assert.match(links[0].reason,/não comprova o fato/);
  assert.doesNotMatch(JSON.stringify(links),/score|oportunidade|recomendação de seguro/i);
 });
 test('nome completo literal é hipótese nominal, não identidade confirmada',()=>{
@@ -41,9 +41,17 @@ test('publicação de ontem, hora incoerente ou URL sem HTTPS nunca entra em not
 });
 test('dossiê renderiza explicação e fonte, sem gravar armazenamento nem divulgar CNPJ em link externo',()=>{
  const a=article();const html=e.forCompany(rows[0],rows,feed([a]),now);
- assert.match(html,/Notícias de hoje/);assert.match(html,/Correspondência nominal não verificada/);
+ assert.match(html,/Notícias de hoje/);assert.match(html,/Menção nominal — identidade não confirmada/);
  assert.match(html,/https:\/\/example.org\/noticia/);
  assert.doesNotMatch(html,/11222333000181|localStorage|score/);
+});
+test('manchete RSS e CNPJ coincidente não provam a publicação original nem o fato comercial',()=>{
+ const a=article('Empresa Exemplo Industrial SA, CNPJ 11.222.333/0001-81, anuncia obra');
+ const html=e.forArticle(a,rows,feed([a]),now);
+ assert.match(html,/CNPJ coincidente na manchete RSS/);
+ assert.match(html,/conteúdo do fato não verificado/);
+ assert.match(html,/página original não verificada/);
+ assert.doesNotMatch(html,/Confirmado por identificador publicado/);
 });
 test('consulta sem catálogo não inventa empresa ou notícia vinculada',()=>{
  const a=article();const html=e.forArticle(a,[],feed([a]),now);
