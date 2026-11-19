@@ -36,7 +36,8 @@ test('service worker registra somente demo, sem guardar notícias, catálogo ou 
    caches:await caches.keys()};
  });
  expect(service.scope).toBe('/demo/');
- expect(service.active).toBe('activated');
+ await page.waitForFunction(()=>navigator.serviceWorker.controller?.state==='activated');
+ expect(['activating','activated']).toContain(service.active);
  expect(service.caches.filter(k=>k.startsWith('obs360-pwa-'))).toEqual(['obs360-pwa-offline-static-v2']);
  const stored=await page.evaluate(async()=>{
   const cache=await caches.open('obs360-pwa-offline-static-v2');
@@ -151,6 +152,7 @@ test('consulta de ontem não pode produzir manchete identificada como hoje',asyn
  await expect(page.locator('#radarNewsFreshness')).toContainText('CONTEÚDO ANTIGO OU INDISPONÍVEL');
  await expect(page.locator('.news-live-card')).toHaveCount(0);
  await expect(page.locator('#radarSevenDayList')).not.toContainText(title);
+ await page.locator('.sidebar [data-nav="investimentos"]').click();
  await expect(page.locator('#radarInvestmentSignals')).not.toContainText(title);
 });
 test('consulta vencida há uma hora não é tratada como atualização recente',async({page})=>{
